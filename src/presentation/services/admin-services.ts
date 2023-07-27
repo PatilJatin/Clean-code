@@ -33,33 +33,24 @@ export class AdminService {
 
   async createAdmin(req: Request, res: Response): Promise<void> {
     try {
-      // Extract admin data from the request body
-      const adminData: AdminModel = req.body;
       console.log(req.body);
 
-      console.log("data", adminData);
-
-      // Convert adminData from AdminModel to AdminEntity using AdminMapper
-      const adminEntity: AdminEntity = AdminMapper.toEntity(adminData,false);
-
-      console.log("adminEntity", adminEntity);
+      // Extract admin data from the request body and convert it to AdminModel
+      const adminData: AdminModel = AdminMapper.toModel(req.body);
 
       // Call the CreateAdminUsecase to create the admin
       const newAdmin: AdminEntity = await this.createAdminUsecase.execute(
-        adminEntity
+        adminData
       );
 
-      console.log("newAdmin",newAdmin);
-
-      // Convert newAdmin from AdminEntity to plain JSON object using AdminMapper
-      const responseData = AdminMapper.toModel(newAdmin);
-
-      console.log(responseData);
+      // Convert newAdmin from AdminEntity to the desired format using AdminMapper
+      const responseData = AdminMapper.toEntity(newAdmin, true);
 
       // Send the created admin as a JSON response
       res.json(responseData);
     } catch (error) {
       console.log(error);
+
       res.status(500).json({ error: "Failed to create admin." });
     }
   }
@@ -136,6 +127,8 @@ export class AdminService {
       // Send the updated admin as a JSON response
       res.json(responseData);
     } catch (error) {
+      console.log(error);
+
       res.status(500).json({ error: "Failed to update admin." });
     }
   }

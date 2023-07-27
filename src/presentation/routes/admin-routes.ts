@@ -1,6 +1,6 @@
 // Import necessary classes, interfaces, and dependencies
 import mongoose from "mongoose";
-import { Router, type Request, type Response } from "express"; // Correctly import Request and Response
+import { Router } from "express"; // Correctly import Request and Response
 import { AdminService } from "@presentation/services/admin-services";
 import { AdminDataSourceImpl } from "@data/admin/datasources/admin-data-source";
 import { AdminRepositoryImpl } from "@data/admin/repositories/admin-repository-impl";
@@ -51,29 +51,17 @@ const adminService = new AdminService(
 // Create an Express router
 export const adminRouter = Router();
 
-// Route to create a new admin
-adminRouter.post("/", async (req: Request, res: Response) => {
-  console.log(req.body);
+// Route handling for creating a new admin
+adminRouter.post("/", adminService.createAdmin.bind(adminService));
 
-  await adminService.createAdmin(req, res);
-});
+// Route handling for getting an admin by ID
+adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));
 
-// Route to get an admin by ID
-adminRouter.get("/:adminId", async (req: Request, res: Response) => {
-  await adminService.getAdminById(req, res);
-});
+// Route handling for updating an admin by ID
+adminRouter.put("/:adminId", adminService.updateAdmin.bind(adminService));
 
-// Route to update an admin by ID
-adminRouter.put("/:adminId", async (req: Request, res: Response) => {
-  await adminService.updateAdmin(req, res);
-});
+// Route handling for deleting an admin by ID
+adminRouter.delete("/:adminId", adminService.deleteAdmin.bind(adminService));
 
-// Route to delete an admin by ID
-adminRouter.delete("/:adminId", async (req: Request, res: Response) => {
-  await adminService.deleteAdmin(req, res);
-});
-
-// Route to get all admins
-adminRouter.get("/", async (req: Request, res: Response) => {
-  await adminService.getAllAdmins(req, res);
-});
+// Route handling for getting all admins
+adminRouter.get("/", adminService.getAllAdmins.bind(adminService));

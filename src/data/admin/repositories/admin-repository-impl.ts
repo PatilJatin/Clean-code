@@ -1,37 +1,3 @@
-// import { AdminModel, AdminEntity } from "@domain/admin/entities/admin";
-// import { AdminRepository } from "@domain/admin/repositories/admin-repository";
-// import { AdminDataSource } from "@data/admin/datasources/admin-data-source";
-
-// class AdminRepositoryImpl implements AdminRepository{
-
-//     private datasource: AdminDataSource
-
-//     constructor(datasource: AdminDataSource){
-//         this.datasource = datasource;
-//     }
-
-//     createAdmin(admin: AdminModel): Promise<AdminEntity> {
-//         throw new Error("Method not implemented.");
-//     }
-
-//     deleteAdmin(id: string): Promise<void> {
-//         throw new Error("Method not implemented.");
-//     }
-
-//     updateAdmin(id: string, data: AdminModel): Promise<AdminEntity> {
-//         throw new Error("Method not implemented.");
-//     }
-
-//     getAdmins(): Promise<AdminEntity[]> {
-//         throw new Error("Method not implemented.");
-//     }
-
-//     getAdminById(id: string): Promise<AdminEntity | null> {
-//         throw new Error("Method not implemented.");
-//     }
-
-// }
-
 import { AdminModel, AdminEntity } from "@domain/admin/entities/admin";
 import { AdminRepository } from "@domain/admin/repositories/admin-repository";
 import { AdminDataSource } from "@data/admin/datasources/admin-data-source";

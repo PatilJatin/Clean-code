@@ -1,7 +1,6 @@
 // Express API request populate the Admin Model
 export class AdminModel {
   constructor(
-    public id: string | undefined = undefined,
     public name: string = "",
     public email: string = "",
     public phone: number = 0,
@@ -78,6 +77,7 @@ export class AdminMapper {
     } else {
       // If existingAdmin is not provided, create a new AdminEntity using adminData
       const adminEntity: AdminEntity = {
+        id: includeId ? (adminData._id ? adminData._id.toString() : undefined) : undefined,
         name: adminData.name,
         email: adminData.email,
         phone: adminData.phone,
