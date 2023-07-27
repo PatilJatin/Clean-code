@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   AdminModel,
   AdminEntity,
@@ -9,6 +9,7 @@ import { DeleteAdminUsecase } from "@domain/admin/usecases/delete-admin";
 import { GetAdminByIdUsecase } from "@domain/admin/usecases/get-admin-by-id";
 import { UpdateAdminUsecase } from "@domain/admin/usecases/update-admin";
 import { GetAllAdminsUsecase } from "@domain/admin/usecases/get-all-admins";
+import ApiError from "@presentation/error-handling/api-error";
 
 export class AdminService {
   private readonly createAdminUsecase: CreateAdminUsecase;
@@ -33,7 +34,6 @@ export class AdminService {
 
   async createAdmin(req: Request, res: Response): Promise<void> {
     try {
-      console.log(req.body);
 
       // Extract admin data from the request body and convert it to AdminModel
       const adminData: AdminModel = AdminMapper.toModel(req.body);
@@ -48,10 +48,14 @@ export class AdminService {
 
       // Send the created admin as a JSON response
       res.json(responseData);
-    } catch (error) {
-      console.log(error);
 
-      res.status(500).json({ error: "Failed to create admin." });
+    } catch (error) {
+      if(error instanceof ApiError){
+       res.status(error.status).json({ error: error.message });
+      }
+
+         ApiError.internalError()
+      
     }
   }
 
@@ -65,7 +69,10 @@ export class AdminService {
       // Send a success message as a JSON response
       res.json({ message: "Admin deleted successfully." });
     } catch (error) {
-      res.status(500).json({ error: "Failed to delete admin." });
+      if(error instanceof ApiError){
+        res.status(error.status).json({ error: error.message });
+       }
+          ApiError.internalError()
     }
   }
 
@@ -86,10 +93,14 @@ export class AdminService {
         res.json(responseData);
       } else {
         // Send a not found message as a JSON response
-        res.status(404).json({ message: "Admin not found." });
+        ApiError.notFound()
       }
     } catch (error) {
-      res.status(500).json({ error: "Failed to get admin by ID." });
+      if(error instanceof ApiError){
+        res.status(error.status).json({ error: error.message });
+       }
+          ApiError.internalError()
+       
     }
   }
 
@@ -104,7 +115,7 @@ export class AdminService {
 
       if (!existingAdmin) {
         // If admin is not found, send a not found message as a JSON response
-        res.status(404).json({ message: "Admin not found." });
+        ApiError.notFound();
         return;
       }
 
@@ -128,12 +139,14 @@ export class AdminService {
       res.json(responseData);
     } catch (error) {
       console.log(error);
-
-      res.status(500).json({ error: "Failed to update admin." });
+      if(error instanceof ApiError){
+        res.status(error.status).json({ error: error.message });
+       }
+          ApiError.internalError()
     }
   }
 
-  async getAllAdmins(req: Request, res: Response): Promise<void> {
+  async getAllAdmins(req: Request, res: Response, next:NextFunction): Promise<void> {
     try {
       // Call the GetAllAdminsUsecase to get all admins
       const admins: AdminEntity[] = await this.getAllAdminsUsecase.execute();
@@ -144,7 +157,10 @@ export class AdminService {
       // Send the admins as a JSON response
       res.json(responseData);
     } catch (error) {
-      res.status(500).json({ error: "Failed to get all admins." });
+      if(error instanceof ApiError){
+        res.status(error.status).json({ error: error.message });
+       }
+          ApiError.internalError()
     }
   }
 }
