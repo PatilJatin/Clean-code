@@ -58,7 +58,11 @@ class ApiError extends ErrorClass {
   }
 
   static internalError(): ApiError {
-    return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.CONFLICT, "conflict");
+    return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.INTERNAL_SERVER_ERROR, "internalError");
+  }
+
+  static mongoError(): ApiError {
+    return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.UNDEFINE_MESSAGE, "undifined");
   }
 
  

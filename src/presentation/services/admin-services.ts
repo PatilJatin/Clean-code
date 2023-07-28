@@ -34,7 +34,6 @@ export class AdminService {
 
   async createAdmin(req: Request, res: Response): Promise<void> {
     try {
-
       // Extract admin data from the request body and convert it to AdminModel
       const adminData: AdminModel = AdminMapper.toModel(req.body);
 
