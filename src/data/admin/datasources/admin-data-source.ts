@@ -1,6 +1,7 @@
 import { AdminModel, AdminEntity } from "@domain/admin/entities/admin";
 import { Admin } from "../models/admin-model";
 import mongoose from "mongoose";
+import ApiError from "@presentation/error-handling/api-error";
 export interface AdminDataSource {
   create(admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
   update(id: string, admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
@@ -15,11 +16,13 @@ export class AdminDataSourceImpl implements AdminDataSource {
   async create(admin: AdminModel): Promise<any> {
     const existingAdmin = await Admin.findOne({ email: admin.email });
     if (existingAdmin) {
-      throw new Error("Email already exists.");
+      throw ApiError.emailExits()
     }
 
     const adminData = new Admin(admin);
+
     const createdAdmin = await adminData.save();
+    
     return createdAdmin.toObject();
   }
 
