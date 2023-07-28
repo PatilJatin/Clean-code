@@ -34,7 +34,7 @@ export class AdminService {
 
   async createAdmin(req: Request, res: Response): Promise<void> {
     try {
-
+      
       // Extract admin data from the request body and convert it to AdminModel
       const adminData: AdminModel = AdminMapper.toModel(req.body);
 
@@ -50,12 +50,12 @@ export class AdminService {
       res.json(responseData);
 
     } catch (error) {
+
       if(error instanceof ApiError){
        res.status(error.status).json({ error: error.message });
       }
 
          ApiError.internalError()
-      
     }
   }
 
@@ -138,6 +138,7 @@ export class AdminService {
       // Send the updated admin as a JSON response
       res.json(responseData);
     } catch (error) {
+
       console.log(error);
       if(error instanceof ApiError){
         res.status(error.status).json({ error: error.message });
