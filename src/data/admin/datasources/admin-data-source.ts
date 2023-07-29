@@ -6,8 +6,8 @@ export interface AdminDataSource {
   create(admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
   update(id: string, admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
   delete(id: string): Promise<void>;
-  read(id: string): Promise<any | null>; // Return type should be Promise of AdminEntity or null
-  getAllAdmins(): Promise<any[]>; // Return type should be Promise of an array of AdminEntity
+  read(id: string): Promise<AdminEntity | null>; // Return type should be Promise of AdminEntity or null
+  getAllAdmins(): Promise<AdminEntity[]>; // Return type should be Promise of an array of AdminEntity
 }
 
 export class AdminDataSourceImpl implements AdminDataSource {

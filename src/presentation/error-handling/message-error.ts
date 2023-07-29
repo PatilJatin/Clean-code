@@ -22,5 +22,9 @@ export const CONFLICT = "email already exits";
 
 export const INTERNAL_SERVER_ERROR = "something went wrong";
 
+export const UNDEFINE_MESSAGE = "mongourl or mongooptions are undefined";
+
+export const SERVER_RUNNING = "your server is running on port";
+
 
 
