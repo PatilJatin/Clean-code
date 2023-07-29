@@ -1,6 +1,6 @@
 import { SuperAdminModel, SuperAdminEntity } from "@domain/super-admin/entities/super-admin.entity";
-import { SuperAdminRepository } from "@domain/super-admin/repositories/super-admin-repository";
-import { SuperAdminDataSource } from "@data/super-admin/datasources/super-admin-data-source";
+import { SuperAdminRepository } from "@domain/super-admin/repositories/super-admin-repository"
+import { SuperAdminDataSource } from "types/db";
 
 export class SuperAdminRepositoryImpl implements SuperAdminRepository {
   private readonly dataSource: SuperAdminDataSource;

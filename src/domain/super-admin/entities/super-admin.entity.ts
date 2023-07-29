@@ -59,9 +59,8 @@ export class SuperAdminModel {
       }
     }
   
-    static toModel(superadmin: SuperAdminEntity): any {
+    static toModel(superadmin: SuperAdminEntity): SuperAdminModel {
       return {
-        id: superadmin.id,
         name: superadmin.name,
         email: superadmin.email,
         phone: superadmin.phone,

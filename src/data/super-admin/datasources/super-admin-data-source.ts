@@ -1,15 +1,10 @@
-import { SuperAdminModel } from "@domain/super-admin/entities/super-admin.entity";
+import { SuperAdminModel, SuperAdminEntity } from "@domain/super-admin/entities/super-admin.entity";
 import { Admin } from "@data/admin/models/admin-model";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
+import { SuperAdminDataSource } from "types/db";
 
-export interface SuperAdminDataSource {
-  create(superAdmin: SuperAdminModel): Promise<any>; // Return type should be Promise of AdminEntity
-  update(id: string, superadmin: SuperAdminModel): Promise<any>; // Return type should be Promise of AdminEntity
-  delete(id: string): Promise<void>;
-  read(id: string): Promise<any | null>; // Return type should be Promise of AdminEntity or null
-  getAllAdmins(): Promise<any[]>; // Return type should be Promise of an array of AdminEntity
-}
+
 
 export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
   constructor(private db: mongoose.Connection) {}
@@ -34,20 +29,20 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
     const updatedSuperAdmin = await Admin.findByIdAndUpdate(id, superAdmin, {
       new: true,
     }); // No need for conversion here
-    return updatedSuperAdmin ? updatedSuperAdmin.toObject() : null; // Convert to plain JavaScript object before returning
+    return updatedSuperAdmin ? updatedSuperAdmin.toObject() : null; 
   }
 
   async delete(id: string): Promise<void> {
     await Admin.findByIdAndDelete(id);
   }
 
-  async read(id: string): Promise<any | null> {
+  async read(id: string): Promise<SuperAdminEntity | null> {
     const superAdmin = await Admin.findById(id);
-    return superAdmin ? superAdmin.toObject() : null; // Convert to plain JavaScript object before returning
+    return superAdmin ? superAdmin.toObject() : null; 
   }
 
-  async getAllAdmins(): Promise<any[]> {
+  async getAllAdmins(): Promise<SuperAdminEntity[]> {
     const superAdmins = await Admin.find();
-    return superAdmins.map((superAdmin) => superAdmin.toObject()); // Convert to plain JavaScript objects before returning
+    return superAdmins.map((superAdmin) => superAdmin.toObject()); 
   }
 }
