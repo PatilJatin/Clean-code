@@ -34,7 +34,6 @@ export class AdminService {
 
   async createAdmin(req: Request, res: Response): Promise<void> {
     try {
-
       // Extract admin data from the request body and convert it to AdminModel
       const adminData: AdminModel = AdminMapper.toModel(req.body);
 
@@ -48,14 +47,12 @@ export class AdminService {
 
       // Send the created admin as a JSON response
       res.json(responseData);
-
     } catch (error) {
-
-      if(error instanceof ApiError){
-       res.status(error.status).json({ error: error.message });
+      if (error instanceof ApiError) {
+        res.status(error.status).json({ error: error.message });
       }
 
-         ApiError.internalError()
+      ApiError.internalError();
     }
   }
 
@@ -69,38 +66,40 @@ export class AdminService {
       // Send a success message as a JSON response
       res.json({ message: "Admin deleted successfully." });
     } catch (error) {
-      if(error instanceof ApiError){
+      if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
+      }
+      ApiError.internalError();
     }
   }
 
   async getAdminById(req: Request, res: Response): Promise<void> {
     try {
+    
+
       const adminId: string = req.params.adminId;
 
       // Call the GetAdminByIdUsecase to get the admin by ID
       const admin: AdminEntity | null = await this.getAdminByIdUsecase.execute(
         adminId
       );
+    
 
       if (admin) {
         // Convert admin from AdminEntity to plain JSON object using AdminMapper
         const responseData = AdminMapper.toModel(admin);
-
         // Send the admin as a JSON response
         res.json(responseData);
       } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound()
+        const err = ApiError.internalError();
+        res.status(err.status).json(err.message);
       }
     } catch (error) {
-      if(error instanceof ApiError){
+      if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-       
+      }
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -138,16 +137,18 @@ export class AdminService {
       // Send the updated admin as a JSON response
       res.json(responseData);
     } catch (error) {
-
-      console.log(error);
-      if(error instanceof ApiError){
+      if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
+      }
+      ApiError.internalError();
     }
   }
 
-  async getAllAdmins(req: Request, res: Response, next:NextFunction): Promise<void> {
+  async getAllAdmins(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       // Call the GetAllAdminsUsecase to get all admins
       const admins: AdminEntity[] = await this.getAllAdminsUsecase.execute();
@@ -158,10 +159,10 @@ export class AdminService {
       // Send the admins as a JSON response
       res.json(responseData);
     } catch (error) {
-      if(error instanceof ApiError){
+      if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
+      }
+      ApiError.internalError();
     }
   }
 }
