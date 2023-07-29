@@ -93,9 +93,8 @@ export class AdminMapper {
     }
   }
 
-  static toModel(admin: AdminEntity): any {
+  static toModel(admin: AdminEntity): AdminModel {
     return {
-      id: admin.id,
       name: admin.name,
       email: admin.email,
       phone: admin.phone,

@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+import { Model } from "mongoose";
+
+import { IAdminModel } from "types/db";
+
+
+
 const adminSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -49,4 +55,5 @@ const adminSchema = new mongoose.Schema({
     ref: "Outlet",
   },
 });
-export const Admin = mongoose.model("Admin", adminSchema);
+
+export const Admin: Model<IAdminModel> = mongoose.model<IAdminModel>("Admin", adminSchema);

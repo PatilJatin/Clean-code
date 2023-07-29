@@ -9,24 +9,8 @@ import { GetOutletById } from "@domain/outlet/usecases/get-outlet-by-id";
 import { GetAllOutlets } from "@domain/outlet/usecases/get-outlets";
 import { UpdateOutlet } from "@domain/outlet/usecases/update-outlet";
 import { DeleteOutlet } from "@domain/outlet/usecases/delete-outlet";
-import { SuspendOutlet} from "@domain/outlet/usecases/suspend-outlet";
-import { ReactivateOutlet} from "@domain/outlet/usecases/reactivate-outlet";
-
-const dbURL =
-  "mongodb+srv://jatinp8390:Kolhapur09@cluster0.rpywjyb.mongodb.net/?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
-
-// Set up the required options for the connection
-const dbOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  dbName: "myOutletDB", // Replace with the name of your database
-  // Other options like user and password can also be added if necessary
-};
-
-// Create the mongoose connection
-mongoose.connect(dbURL, dbOptions).then(() => {
-  console.log("Connected to MongoDB successfully!");
-});
+import { SuspendOutlet } from "@domain/outlet/usecases/suspend-outlet";
+import { ReactivateOutlet } from "@domain/outlet/usecases/reactivate-outlet";
 
 // Create an instance of the OutletDataSourceImpl and pass the mongoose connection
 const outletDataSource = new OutletDataSourceImpl(mongoose.connection);
@@ -50,7 +34,7 @@ const outletService = new OutletService(
   updateOutletUsecase,
   deleteOutletUsecase,
   suspendOutletUsecase,
-  reactivateOutletUsecase,
+  reactivateOutletUsecase
 );
 
 // Create an Express router
@@ -93,7 +77,3 @@ outletRouter.patch(
   "/outlet/reactivateOutlet/:outletId",
   outletService.reactivateOutlet.bind(outletService)
 );
-
-
-
-
