@@ -72,6 +72,3 @@ export class OutletDataSourceImpl implements OutletDataSource {
     return reactivatedOutlet.toObject();
   }
 }
-
-
-
