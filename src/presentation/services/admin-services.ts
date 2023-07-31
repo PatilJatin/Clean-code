@@ -61,7 +61,8 @@ export class AdminService {
         res.status(error.status).json({ error: error.message });
       }
 
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -78,7 +79,8 @@ export class AdminService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -120,8 +122,9 @@ export class AdminService {
 
       if (!existingAdmin) {
         // If admin is not found, send a not found message as a JSON response
-        ApiError.notFound();
-        return;
+
+        const err = ApiError.internalError();
+        res.status(err.status).json(err.message);
       }
 
       // Convert adminData from AdminModel to AdminEntity using AdminMapper
@@ -146,7 +149,8 @@ export class AdminService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -168,7 +172,8 @@ export class AdminService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 }

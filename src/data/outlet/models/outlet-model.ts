@@ -20,14 +20,14 @@
       lowercase: true,
     },
     phone: {
-      type: String,
+      type: Number,
       required: true,
       maxLength: [13, "Phone number should be under 13 Number"],
     },
 
     altPhone: {
       type: String,
-      maxLength: [10, " Alt. Phone number should be under 10 Number"],
+      maxLength: [13, " Alt. Phone number should be under 10 Number"],
     },
     address: {
       type: String,

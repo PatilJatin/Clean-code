@@ -42,38 +42,38 @@ export const outletRouter = Router();
 
 // Route handling for creating a new outlet
 outletRouter.post(
-  "/outlet/create",
+  "/create",
   outletService.createOutlet.bind(outletService)
 );
 
 //Route handling for getOutletById
 outletRouter.get(
-  "/outlet/getById/:outletId",
+  "/getById/:outletId",
   outletService.getOutletById.bind(outletService)
 );
 
 //Route hanndling for getOutlets
 outletRouter.get(
-  "/outlet/getAllOutlets",
+  "/getAllOutlets",
   outletService.getAllOutlets.bind(outletService)
 );
 
 outletRouter.put(
-  "/outlet/updateOutlet/:outletId",
+  "/updateOutlet/:outletId",
   outletService.updateOutlet.bind(outletService)
 );
 
 outletRouter.delete(
-  "/outlet/deleteOutlet/:outletId",
+  "/deleteOutlet/:outletId",
   outletService.deleteOutlet.bind(outletService)
 );
 
 outletRouter.patch(
-  "/outlet/suspendOutlet/:outletId",
+  "/suspendOutlet/:outletId",
   outletService.suspendOutlet.bind(outletService)
 );
 
 outletRouter.patch(
-  "/outlet/reactivateOutlet/:outletId",
+  "/reactivateOutlet/:outletId",
   outletService.reactivateOutlet.bind(outletService)
 );

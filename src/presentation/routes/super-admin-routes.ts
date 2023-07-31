@@ -43,16 +43,16 @@ const superAdminService = new SuperAdminService(
 export const superAdminRouter = Router();
 
 // Route handling for creating a new admin
-superAdminRouter.post("/superadmin/create", superAdminService.createSuperAdmin.bind(superAdminService));
+superAdminRouter.post("/create", superAdminService.createSuperAdmin.bind(superAdminService));
 
 // Route handling for getting an admin by ID
-superAdminRouter.get("/superadmin/get/:superAdminId", superAdminService.getSuperAdminById.bind(superAdminService));
+superAdminRouter.get("/getById/:superAdminId", superAdminService.getSuperAdminById.bind(superAdminService));
 
 // Route handling for updating an admin by ID
-superAdminRouter.put("/superadmin/update/:superAdminId", superAdminService.updateSuperAdmin.bind(superAdminService));
+superAdminRouter.put("/update/:superAdminId", superAdminService.updateSuperAdmin.bind(superAdminService));
 
 // Route handling for deleting an admin by ID
-superAdminRouter.delete("/superadmin/delete/:superAdminId", superAdminService.deleteSuperAdmin.bind(superAdminService));
+superAdminRouter.delete("/delete/:superAdminId", superAdminService.deleteSuperAdmin.bind(superAdminService));
 
 // Route handling for getting all admins
-superAdminRouter.get("/superadmin/getall", superAdminService.getAllSuperAdmins.bind(superAdminService));
+superAdminRouter.get("/getAll", superAdminService.getAllSuperAdmins.bind(superAdminService));
