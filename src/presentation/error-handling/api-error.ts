@@ -3,12 +3,13 @@ import * as  HttpStatus from './http-status'
 
 import * as  ErrorMessage from './message-error'
 
-class ErrorClass {
+export class ErrorClass extends Error {
   status: number;
   message: string;
   name: string;
 
   constructor(status: number, message: string, name: string) {
+    super();
     this.status = status;
     this.message = message;
     this.name = name;

@@ -21,7 +21,7 @@ export class AdminDataSourceImpl implements AdminDataSource {
 
     const adminData = new Admin(admin);
 
-    const createdAdmin = await adminData.save();
+    const createdAdmin: mongoose.Document = await adminData.save();
 
     return createdAdmin.toObject();
   }

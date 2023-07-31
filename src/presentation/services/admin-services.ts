@@ -9,7 +9,8 @@ import { DeleteAdminUsecase } from "@domain/admin/usecases/delete-admin";
 import { GetAdminByIdUsecase } from "@domain/admin/usecases/get-admin-by-id";
 import { UpdateAdminUsecase } from "@domain/admin/usecases/update-admin";
 import { GetAllAdminsUsecase } from "@domain/admin/usecases/get-all-admins";
-import ApiError from "@presentation/error-handling/api-error";
+import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 
 export class AdminService {
   private readonly createAdminUsecase: CreateAdminUsecase;
@@ -38,10 +39,18 @@ export class AdminService {
       const adminData: AdminModel = AdminMapper.toModel(req.body);
 
       // Call the CreateAdminUsecase to create the admin
-      const newAdmin: AdminEntity = await this.createAdminUsecase.execute(
-        adminData
-      );
+      const newAdmin: Either<ErrorClass, AdminEntity> =
+        await this.createAdminUsecase.execute(adminData);
 
+      //newAdmin.fold(ErrorClass E =>  ApiError.badRequest(), AdminEntity: A => X): X;
+      newAdmin.cata(
+        (error: ErrorClass) =>
+          res.status(error.status).json({ error: error.message }),
+        (result: AdminEntity) => {
+          const resData = AdminMapper.toEntity(result, true);
+          return res.json(resData);          
+        }
+      );
       // Convert newAdmin from AdminEntity to the desired format using AdminMapper
       const responseData = AdminMapper.toEntity(newAdmin, true);
 
@@ -75,15 +84,12 @@ export class AdminService {
 
   async getAdminById(req: Request, res: Response): Promise<void> {
     try {
-    
-
       const adminId: string = req.params.adminId;
 
       // Call the GetAdminByIdUsecase to get the admin by ID
       const admin: AdminEntity | null = await this.getAdminByIdUsecase.execute(
         adminId
       );
-    
 
       if (admin) {
         // Convert admin from AdminEntity to plain JSON object using AdminMapper
