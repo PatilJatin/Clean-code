@@ -168,6 +168,7 @@ export class OutletService {
       // Send a success message as a JSON response
       res.json({ message: "Outlet deleted successfully." });
     } catch (error) {
+      
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       } else {

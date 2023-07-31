@@ -52,7 +52,8 @@ export class AdminService {
         res.status(error.status).json({ error: error.message });
       }
 
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -69,21 +70,19 @@ export class AdminService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
   async getAdminById(req: Request, res: Response): Promise<void> {
     try {
-    
-
       const adminId: string = req.params.adminId;
 
       // Call the GetAdminByIdUsecase to get the admin by ID
       const admin: AdminEntity | null = await this.getAdminByIdUsecase.execute(
         adminId
       );
-    
 
       if (admin) {
         // Convert admin from AdminEntity to plain JSON object using AdminMapper
@@ -114,8 +113,9 @@ export class AdminService {
 
       if (!existingAdmin) {
         // If admin is not found, send a not found message as a JSON response
-        ApiError.notFound();
-        return;
+
+        const err = ApiError.internalError();
+        res.status(err.status).json(err.message);
       }
 
       // Convert adminData from AdminModel to AdminEntity using AdminMapper
@@ -140,7 +140,8 @@ export class AdminService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -162,7 +163,8 @@ export class AdminService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError();
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 }
