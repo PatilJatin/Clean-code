@@ -52,4 +52,4 @@ adminRouter.put("/update/:adminId", adminService.updateAdmin.bind(adminService))
 adminRouter.delete("/delete/:adminId", adminService.deleteAdmin.bind(adminService));
 
 // Route handling for getting all admins
-adminRouter.get("/getAll", adminService.getAllAdmins.bind(adminService));
+adminRouter.get("/  ", adminService.getAllAdmins.bind(adminService));
