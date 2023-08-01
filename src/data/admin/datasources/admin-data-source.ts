@@ -16,13 +16,13 @@ export class AdminDataSourceImpl implements AdminDataSource {
   async create(admin: AdminModel): Promise<any> {
     const existingAdmin = await Admin.findOne({ email: admin.email });
     if (existingAdmin) {
-      throw ApiError.emailExits()
+      throw ApiError.emailExits();
     }
 
     const adminData = new Admin(admin);
 
-    const createdAdmin = await adminData.save();
-    
+    const createdAdmin: mongoose.Document = await adminData.save();
+
     return createdAdmin.toObject();
   }
 
@@ -38,8 +38,12 @@ export class AdminDataSourceImpl implements AdminDataSource {
   }
 
   async read(id: string): Promise<any | null> {
-    const admin = await Admin.findById(id);
-    return admin ? admin.toObject() : null; // Convert to plain JavaScript object before returning
+    try {
+      const admin = await Admin.findById(id);
+      return admin ? admin.toObject() : null; // Convert to plain JavaScript object before returning
+    } catch (error) {
+      throw new Error("no such admin present");
+    }
   }
 
   async getAllAdmins(): Promise<any[]> {

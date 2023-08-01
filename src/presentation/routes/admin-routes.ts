@@ -40,16 +40,16 @@ const adminService = new AdminService(
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/", adminService.createAdmin.bind(adminService));
+adminRouter.post("/create", adminService.createAdmin.bind(adminService));
 
 // Route handling for getting an admin by ID
-adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));
+adminRouter.get("/getById/:adminId", adminService.getAdminById.bind(adminService));
 
 // Route handling for updating an admin by ID
-adminRouter.put("/:adminId", adminService.updateAdmin.bind(adminService));
+adminRouter.put("/update/:adminId", adminService.updateAdmin.bind(adminService));
 
 // Route handling for deleting an admin by ID
-adminRouter.delete("/:adminId", adminService.deleteAdmin.bind(adminService));
+adminRouter.delete("/delete/:adminId", adminService.deleteAdmin.bind(adminService));
 
 // Route handling for getting all admins
-adminRouter.get("/", adminService.getAllAdmins.bind(adminService));
+adminRouter.get("/getAll", adminService.getAllAdmins.bind(adminService));

@@ -37,7 +37,7 @@ export class AdminMapper {
   static toEntity(
     adminData: any,
     includeId?: boolean,
-    existingAdmin?: AdminEntity
+    existingAdmin?: AdminEntity | null
   ): AdminEntity {
     if (existingAdmin != null) {
       // If existingAdmin is provided, merge the data from adminData with the existingAdmin
