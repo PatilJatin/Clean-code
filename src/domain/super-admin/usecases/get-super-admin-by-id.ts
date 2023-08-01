@@ -1,8 +1,10 @@
 import { SuperAdminEntity } from "@domain/super-admin/entities/super-admin.entity";
 import { SuperAdminRepository } from "@domain/super-admin/repositories/super-admin-repository";
+import { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 
 export interface GetSuperAdminByIdUsecase {
-  execute: (superAdminId: string) => Promise<SuperAdminEntity | null>;
+  execute: (superAdminId: string) => Promise<Either<ErrorClass, SuperAdminEntity | null>>;
 }
 
 export class GetSuperAdminById implements GetSuperAdminByIdUsecase {
@@ -12,7 +14,7 @@ export class GetSuperAdminById implements GetSuperAdminByIdUsecase {
     this.superAdminRepository = superAdminRepository;
   }
 
-  async execute(superAdminId: string): Promise<SuperAdminEntity | null> {
+  async execute(superAdminId: string):Promise<Either<ErrorClass, SuperAdminEntity | null>> {
     return await this.superAdminRepository.getSuperAdminById(superAdminId)
   }
   

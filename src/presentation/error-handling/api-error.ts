@@ -36,6 +36,14 @@ class ApiError extends ErrorClass {
     );
   }
 
+  static delete(): ApiError {
+    return new ApiError(
+      HttpStatus.OK,
+      ErrorMessage.DELETED_SUCCESS,
+      "Deleted"
+    );
+  }
+
   static noContent(): ApiError {
     return new ApiError(
       HttpStatus.NO_CONTENT,

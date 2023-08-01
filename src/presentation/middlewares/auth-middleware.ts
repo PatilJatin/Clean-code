@@ -1,21 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
+const admin = require('@main/config/firebase-sdk/firebase-config');
+const { Admin } = require('../../models/models.index');
 
-import { Admin } from '@data/admin/models/admin-model';
-import { AdminModel } from '@domain/admin/entities/admin';
-
-
-const verifyFirebaseToken = async (req: Request, res: Response, next: NextFunction) => {
+/*
+  Middleware to verify Firebase token and set user in the request object
+*/
+const verifyFirebaseToken = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-2
+
     if (authorization) {
       const idToken = authorization.split('Bearer ')[1];
 
+      // Verify the Firebase token
+      const decodedToken = await admin.auth().verifyIdToken(idToken);
+
       // Find the user in the database using the decoded email
-      const user: AdminModel | null = await Admin.findOne({ email: idToken });
+      const user = await Admin.findOne({ email: decodedToken.email });
 
       req.user = user; // Set the user in the request object
-
     } else {
       return res.status(401).json({ message: 'You are unauthorized' });
     }
@@ -24,7 +26,7 @@ const verifyFirebaseToken = async (req: Request, res: Response, next: NextFuncti
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: (error as Error).message,
+      message: error.message,
     });
   }
 };
@@ -32,9 +34,9 @@ const verifyFirebaseToken = async (req: Request, res: Response, next: NextFuncti
 /*
   Middleware to verify token and authorization for superadmin
 */
-const verifyTokenAndAuthorizationToSuperAdmin = (req: Request, res: Response, next: NextFunction) => {
+const verifyTokenAndAuthorizationToSuperAdmin = (req, res, next) => {
   verifyFirebaseToken(req, res, () => {
-    if (req.user?.superAdmin) {
+    if (req.user.superAdmin) {
       next();
     } else {
       return res.status(403).json('You are not allowed to do that!');
@@ -45,9 +47,9 @@ const verifyTokenAndAuthorizationToSuperAdmin = (req: Request, res: Response, ne
 /*
   Middleware to verify token and authorization for admin
 */
-const verifyTokenAndAuthorizationToAdmin = (req: Request, res: Response, next: NextFunction) => {
+const verifyTokenAndAuthorizationToAdmin = (req, res, next) => {
   verifyFirebaseToken(req, res, () => {
-    if (req.user?.admin) {
+    if (req.user.admin) {
       next();
     } else {
       return res.status(403).json('You are not allowed to do that!');
@@ -58,9 +60,9 @@ const verifyTokenAndAuthorizationToAdmin = (req: Request, res: Response, next: N
 /*
   Middleware to verify token and authorization for admin or superadmin
 */
-const verifyTokenAndAuthorizationToAdminAndSuperAdmin = (req: Request, res: Response, next: NextFunction) => {
+const verifyTokenAndAuthorizationToAdminAndSuperAdmin = (req, res, next) => {
   verifyFirebaseToken(req, res, () => {
-    if (req.user?.admin || req.user?.superAdmin) {
+    if (req.user.admin || req.user.superAdmin) {
       next();
     } else {
       return res.status(403).json('You are not allowed to do that!');
@@ -71,9 +73,9 @@ const verifyTokenAndAuthorizationToAdminAndSuperAdmin = (req: Request, res: Resp
 /*
   Middleware to check admin's active status
 */
-const adminActiveStatus = (req: Request, res: Response, next: NextFunction) => {
+const adminActiveStatus = (req, res, next) => {
   verifyFirebaseToken(req, res, () => {
-    if (req.user?.admin) {
+    if (req.user.admin) {
       if (req.user.active) {
         next();
       } else {
@@ -85,7 +87,7 @@ const adminActiveStatus = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export {
+module.exports = {
   verifyFirebaseToken,
   verifyTokenAndAuthorizationToSuperAdmin,
   verifyTokenAndAuthorizationToAdmin,

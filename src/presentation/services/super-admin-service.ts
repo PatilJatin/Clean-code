@@ -12,7 +12,8 @@ import { GetSuperAdminByIdUsecase } from "@domain/super-admin/usecases/get-super
 import { UpdateSuperAdminUsecase } from "@domain/super-admin/usecases/update-super-admin";
 import { GetAllSuperAdminsUsecase } from "@domain/super-admin/usecases/get-all-super-admin";
 
-import ApiError from "@presentation/error-handling/api-error";
+import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either, Left, Right } from "monet";
 
 export class SuperAdminService {
     private readonly createSuperAdminUsecase: CreateSuperAdminUsecase;
@@ -21,6 +22,7 @@ export class SuperAdminService {
     private readonly updateSuperAdminUsecase: UpdateSuperAdminUsecase;
     private readonly getAllSuperAdminsUsecase: GetAllSuperAdminsUsecase;
     public internalError = ApiError.internalError()
+    public deleteSuccess = ApiError.delete()
 
     constructor(
         createSuperAdminUsecase: CreateSuperAdminUsecase,
@@ -39,86 +41,98 @@ export class SuperAdminService {
 
 
     async createSuperAdmin(req: Request, res: Response): Promise<void> {
-        try {
+        // try {
             // Extract admin data from the request body and convert it to AdminModel
             const superAdminData: SuperAdminModel = SuperAdminMapper.toModel(req.body);
 
             // Call the CreateAdminUsecase to create the admin
-            const newSuperAdmin: SuperAdminEntity = await this.createSuperAdminUsecase.execute(
-                superAdminData
-            );
+            const newSuperAdmin: Either<ErrorClass, SuperAdminEntity> = 
+            await this.createSuperAdminUsecase.execute(superAdminData);
 
-            // Convert newAdmin from AdminEntity to the desired format using AdminMapper
-            const responseData = SuperAdminMapper.toEntity(newSuperAdmin, true);
-
-            // Send the created admin as a JSON response
-            res.json(responseData);
-
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-            } else {
-                res.status(this.internalError.status).json(this.internalError.message)
+            newSuperAdmin.cata((error:ErrorClass) => 
+            res.status(error.status).json({error: error.message}),
+            (result: SuperAdminEntity) => {
+                const resData = SuperAdminMapper.toEntity(result, true);
+                return res.json(resData);
             }
-        }
+            )
+
+           
     }
 
     async deleteSuperAdmin(req: Request, res: Response): Promise<void> {
-        try {
+        // try {
             const superAdminId: string = req.params.superAdminId;
 
             // Call the DeleteAdminUsecase to delete the admin
-            await this.deleteSuperAdminUsecase.execute(superAdminId);
+           const deleteSuperAdmin =  await this.deleteSuperAdminUsecase.execute(superAdminId);
+
+           deleteSuperAdmin.cata((error:ErrorClass) => 
+           res.status(error.status).json({error: error.message}),
+           (result: void) => {
+               const resData = this.deleteSuccess
+               return res.json(resData);
+           }
+           )
 
             // Send a success message as a JSON response
-            res.json({ message: "SuperAdmin deleted successfully." });
+            // res.json({ message: "SuperAdmin deleted successfully." });
 
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-            } else {
-                res.status(this.internalError.status).json(this.internalError.message)
-            }
-        }
+        // } catch (error) {
+        //     if (error instanceof ApiError) {
+        //         res.status(error.status).json({ error: error.message });
+        //     } else {
+        //         res.status(this.internalError.status).json(this.internalError.message)
+        //     }
+        // }
     }
 
     async getSuperAdminById(req: Request, res: Response): Promise<void> {
-        try {
+        // try {
             const superAdminId: string = req.params.superAdminId;
 
             // Call the GetAdminByIdUsecase to get the admin by ID
-            const superAdmin: SuperAdminEntity | null = await this.getSuperAdminByIdUsecase.execute(
+            const superAdmin: Either<ErrorClass, SuperAdminEntity | null> = await this.getSuperAdminByIdUsecase.execute(
                 superAdminId
             );
 
-            if (superAdmin) {
-                // Convert admin from AdminEntity to plain JSON object using AdminMapper
-                const responseData = SuperAdminMapper.toModel(superAdmin);
+            superAdmin.cata((error:ErrorClass) =>
+             res.status(error.status).json({error: error.message}),
+             (result:  SuperAdminEntity | null) => {
+                const resData = SuperAdminMapper.toModel(result)
+                return res.json(resData);
+            } 
+             )
 
-                // Send the admin as a JSON response
-                res.json(responseData);
+            // if (superAdmin) {
+            //     // Convert admin from AdminEntity to plain JSON object using AdminMapper
+            //     const responseData = SuperAdminMapper.toModel(superAdmin);
 
-            } else {
-                // Send a not found message as a JSON response
-                throw ApiError.notFound()
-            }
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-            } else {
-                res.status(this.internalError.status).json(this.internalError.message)
-            }
+            //     // Send the admin as a JSON response
+            //     res.json(responseData);
 
-        }
+            // } else {
+            //     // Send a not found message as a JSON response
+            //     throw ApiError.notFound()
+            // }
+        // } catch (error) {
+        //     if (error instanceof ApiError) {
+        //         res.status(error.status).json({ error: error.message });
+        //     } else {
+        //         res.status(this.internalError.status).json(this.internalError.message)
+        //     }
+
+        // }
     }
 
     async updateSuperAdmin(req: Request, res: Response): Promise<void> {
         try {
+
             const superAdminId: string = req.params.superAdminId;
             const superAdminData: SuperAdminModel = req.body;
 
             // Get the existing admin by ID
-            const existingSuperAdmin: SuperAdminEntity | null =
+            const existingSuperAdmin: Either<ErrorClass, SuperAdminEntity | null> =
                 await this.getSuperAdminByIdUsecase.execute(superAdminId);
 
             if (!existingSuperAdmin) {

@@ -1,15 +1,17 @@
 import { SuperAdminEntity, SuperAdminModel } from "@domain/super-admin/entities/super-admin.entity";
 import { SuperAdminRepository } from "@domain/super-admin/repositories/super-admin-repository";
-import ApiError from "@presentation/error-handling/api-error";
+import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 
 export interface UpdateSuperAdminUsecase {
   execute: (
     superAdminId: string,
     superAdminData: Partial<SuperAdminModel>
-  ) => Promise<SuperAdminEntity>;
+  ) => Promise<Either<ErrorClass, SuperAdminEntity>> ;
 }
 
 export class UpdateSuperAdmin implements UpdateSuperAdminUsecase {
+
   private readonly SuperAdminRepository: SuperAdminRepository;
 
   constructor(SuperAdminRepository: SuperAdminRepository) {
@@ -19,8 +21,8 @@ export class UpdateSuperAdmin implements UpdateSuperAdminUsecase {
   async execute(
     superAdminId: string,
     superAdminData: Partial<SuperAdminModel>
-  ): Promise<SuperAdminEntity> {
-    const existingSuperAdmin: SuperAdminEntity | null =
+  ):Promise<Either<ErrorClass, SuperAdminEntity>>  {
+    const existingSuperAdmin:Either<ErrorClass, SuperAdminEntity | null> =
       await this.SuperAdminRepository.getSuperAdminById(superAdminId);
 
     if (!existingSuperAdmin) {
@@ -28,7 +30,7 @@ export class UpdateSuperAdmin implements UpdateSuperAdminUsecase {
     }
 
     // Perform the partial update by merging adminData with existingAdmin
-    const updatedSuperAdminData: SuperAdminModel = {
+    const updatedSuperAdminData:SuperAdminModel = {
       ...existingSuperAdmin,
       ...superAdminData,
     };
@@ -37,7 +39,7 @@ export class UpdateSuperAdmin implements UpdateSuperAdminUsecase {
     await this.SuperAdminRepository.updateSuperAdmin(superAdminId, updatedSuperAdminData);
 
     // Fetch the updated admin entity from the repository
-    const updatedSuperAdminEntity: SuperAdminEntity | null =
+    const updatedSuperAdminEntity:Either<ErrorClass, SuperAdminEntity | null>=
       await this.SuperAdminRepository.getSuperAdminById(superAdminId);
 
     if (!updatedSuperAdminEntity) {
