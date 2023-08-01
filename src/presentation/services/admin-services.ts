@@ -34,36 +34,28 @@ export class AdminService {
   }
 
   async createAdmin(req: Request, res: Response): Promise<void> {
-    try {
-      // Extract admin data from the request body and convert it to AdminModel
-      const adminData: AdminModel = AdminMapper.toModel(req.body);
+    // try {
+    // Extract admin data from the request body and convert it to AdminModel
+    const adminData: AdminModel = AdminMapper.toModel(req.body);
 
-      // Call the CreateAdminUsecase to create the admin
-      const newAdmin: Either<ErrorClass, AdminEntity> =
-        await this.createAdminUsecase.execute(adminData);
+    // Call the CreateAdminUsecase to create the admin
+    const newAdmin: Either<ErrorClass, AdminEntity> =
+      await this.createAdminUsecase.execute(adminData);
 
-      //newAdmin.fold(ErrorClass E =>  ApiError.badRequest(), AdminEntity: A => X): X;
-      newAdmin.cata(
-        (error: ErrorClass) =>
-          res.status(error.status).json({ error: error.message }),
-        (result: AdminEntity) => {
-          const resData = AdminMapper.toEntity(result, true);
-          return res.json(resData);          
-        }
-      );
-      // Convert newAdmin from AdminEntity to the desired format using AdminMapper
-      const responseData = AdminMapper.toEntity(newAdmin, true);
-
-      // Send the created admin as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    //newAdmin.fold(ErrorClass E =>  ApiError.badRequest(), AdminEntity: A => X): X;
+    newAdmin.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: AdminEntity) => {
+        const resData = AdminMapper.toEntity(result, true);
+        return res.json(resData);
       }
+    );
+    // Convert newAdmin from AdminEntity to the desired format using AdminMapper
+    // const responseData = AdminMapper.toEntity(newAdmin, true);
 
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    // const err = ApiError.internalError();
+    // res.status(err.status).json(err.message);
   }
 
   async deleteAdmin(req: Request, res: Response): Promise<void> {
