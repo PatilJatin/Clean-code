@@ -11,6 +11,7 @@ import { UpdateOutlet } from "@domain/outlet/usecases/update-outlet";
 import { DeleteOutlet } from "@domain/outlet/usecases/delete-outlet";
 import { SuspendOutlet } from "@domain/outlet/usecases/suspend-outlet";
 import { ReactivateOutlet } from "@domain/outlet/usecases/reactivate-outlet";
+// import { OutletMediaService } from "@presentation/services/mediadata-services";
 
 // Create an instance of the OutletDataSourceImpl and pass the mongoose connection
 const outletDataSource = new OutletDataSourceImpl(mongoose.connection);
@@ -77,3 +78,4 @@ outletRouter.patch(
   "/outlet/reactivateOutlet/:outletId",
   outletService.reactivateOutlet.bind(outletService)
 );
+
