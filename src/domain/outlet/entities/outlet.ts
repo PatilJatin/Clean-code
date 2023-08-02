@@ -1,4 +1,4 @@
-import { AdminModel } from "@domain/admin/entities/admin";
+
 
 // Express API request populate the Outlet Model
 export class OutletModel {

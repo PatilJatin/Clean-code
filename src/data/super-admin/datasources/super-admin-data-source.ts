@@ -12,7 +12,7 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
   async create(superAdmin: SuperAdminModel): Promise<any> {
     const existingSuperAdmin = await Admin.findOne({ email: superAdmin.email });
     if (existingSuperAdmin) {
-      throw ApiError.emailExits()
+      throw ApiError.emailExist()
     }
 
 

@@ -18,8 +18,8 @@ export class AdminRepositoryImpl implements AdminRepository {
       let i = await this.dataSource.create(admin);
       return Right<ErrorClass, AdminEntity>(i);
     } catch (e) {
-      if (typeof ApiError.emailExits) {
-        return Left<ErrorClass, AdminEntity>(ApiError.emailExits());
+      if (typeof ApiError.emailExist) {
+        return Left<ErrorClass, AdminEntity>(ApiError.emailExist());
       }
       return Left<ErrorClass, AdminEntity>(ApiError.badRequest());
     }

@@ -16,7 +16,7 @@ export class AdminDataSourceImpl implements AdminDataSource {
   async create(admin: AdminModel): Promise<any> {
     const existingAdmin = await Admin.findOne({ email: admin.email });
     if (existingAdmin) {
-      throw ApiError.emailExits();
+      throw ApiError.emailExist();
     }
 
     const adminData = new Admin(admin);

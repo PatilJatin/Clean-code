@@ -24,7 +24,7 @@ export class UpdateSuperAdmin implements UpdateSuperAdminUsecase {
       await this.SuperAdminRepository.getSuperAdminById(superAdminId);
 
     if (!existingSuperAdmin) {
-      throw ApiError.emailExits();
+      throw ApiError.emailExist();
     }
 
     // Perform the partial update by merging adminData with existingAdmin
