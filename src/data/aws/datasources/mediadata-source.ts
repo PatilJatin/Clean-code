@@ -5,6 +5,7 @@ dotenv.config();
 
 export interface OutletMediaDataSource {
   getPresignedUrl(objectKey: string): Promise<string>;
+  deleteBrandLogo(): Promise<string>;
 }
 
 export class OutletMediaDataSourceImpl implements OutletMediaDataSource {
@@ -26,5 +27,11 @@ export class OutletMediaDataSourceImpl implements OutletMediaDataSource {
     };
     
     return  await s3.getSignedUrlPromise("putObject", params);
+  }
+
+  async deleteBrandLogo(): Promise<string> {
+    const defaultLogoUrl: string = process.env.DEFAULT_PROFILE_IMAGE_URL || 
+        "https://gms-imageupload.s3.ap-south-1.amazonaws.com/outlets/default-brand-logo.jpg";
+    return defaultLogoUrl;
   }
 }
