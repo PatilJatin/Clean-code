@@ -37,7 +37,7 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
     await Admin.findByIdAndDelete(id);
   }
 
-  async read(id: string):Promise<SuperAdminEntity | null> {
+  async read(id: string):Promise<any> {
     const superAdmin = await Admin.findById(id);
     return superAdmin ? superAdmin.toObject() : null; 
   }

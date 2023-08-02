@@ -4,7 +4,7 @@ import { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either } from "monet";
 
 export interface GetSuperAdminByIdUsecase {
-  execute: (superAdminId: string) => Promise<Either<ErrorClass, SuperAdminEntity | null>>;
+  execute: (superAdminId: string) => Promise<Either<ErrorClass, SuperAdminEntity>>;
 }
 
 export class GetSuperAdminById implements GetSuperAdminByIdUsecase {
@@ -14,7 +14,7 @@ export class GetSuperAdminById implements GetSuperAdminByIdUsecase {
     this.superAdminRepository = superAdminRepository;
   }
 
-  async execute(superAdminId: string):Promise<Either<ErrorClass, SuperAdminEntity | null>> {
+  async execute(superAdminId: string):Promise<Either<ErrorClass, SuperAdminEntity>> {
     return await this.superAdminRepository.getSuperAdminById(superAdminId)
   }
   

@@ -35,9 +35,7 @@ export class SuperAdminRepositoryImpl implements SuperAdminRepository {
       
     } catch (error) {
       
-      // if(typeof ApiError.emailExits) {
-      //   return Left<ErrorClass, void>(ApiError.emailExits())
-      // }
+     
       return Left<ErrorClass, void>(ApiError.badRequest())
     }
    
@@ -51,27 +49,27 @@ export class SuperAdminRepositoryImpl implements SuperAdminRepository {
       return Right<ErrorClass, SuperAdminEntity>(i);
     } catch (error) {
 
-      if(typeof ApiError.emailExits) {
-        return Left<ErrorClass, SuperAdminEntity>(ApiError.emailExits())
-      }
       return Left<ErrorClass, SuperAdminEntity>(ApiError.badRequest())
     }
    
   }
 
-  async getSuperAdmins(): Promise<SuperAdminEntity[]> {
-    return await this.dataSource.getAllAdmins();
+  async getSuperAdmins(): Promise<Either<ErrorClass, SuperAdminEntity[]>> {
+    try {
+      const i =  await this.dataSource.getAllAdmins();
+    return Right<ErrorClass, SuperAdminEntity[]>(i);
+    } catch (error) {
+      return Left<ErrorClass, SuperAdminEntity[]>(ApiError.badRequest())
+    }
   }
 
-  async getSuperAdminById(id: string): Promise<Either<ErrorClass, SuperAdminEntity | null>> {
+
+  async getSuperAdminById(id: string): Promise<Either<ErrorClass, SuperAdminEntity>> {
       try {
         const i =  await this.dataSource.read(id);
-        return Right<ErrorClass, SuperAdminEntity | null>(i);
+        return Right<ErrorClass, SuperAdminEntity>(i);
       } catch (error) {
-      //   if(typeof ApiError.emailExits) {
-      //   return Left<ErrorClass, void>(ApiError.emailExits())
-      // }
-      return Left<ErrorClass, SuperAdminEntity | null>(ApiError.badRequest())
+      return Left<ErrorClass, SuperAdminEntity>(ApiError.badRequest())
       }
   }
 }

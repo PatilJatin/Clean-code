@@ -7,6 +7,6 @@ export interface SuperAdminRepository {
   createSuperAdmin(superadmin: SuperAdminModel):Promise<Either<ErrorClass,SuperAdminEntity>>;
   deleteSuperAdmin(id: string):Promise<Either<ErrorClass,void>>;
   updateSuperAdmin(id: string, data: SuperAdminModel):Promise<Either<ErrorClass, SuperAdminEntity>>;
-  getSuperAdmins(): Promise<SuperAdminEntity[]>;
-  getSuperAdminById(id: string): Promise<Either<ErrorClass, SuperAdminEntity | null>>;
+  getSuperAdmins(): Promise<Either<ErrorClass, SuperAdminEntity[]>>;
+  getSuperAdminById(id: string): Promise<Either<ErrorClass, SuperAdminEntity>>;
 }

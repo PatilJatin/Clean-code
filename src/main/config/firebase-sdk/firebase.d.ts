@@ -15,11 +15,11 @@ declare module 'firebase-admin' {
       universe_domain: string;
     }
 
-    interface AppOptions {
-      credential: admin.credential.Credential;
-    }
+    // interface AppOptions {
+    //   credential: admin.credential.Credential;
+    // }
 
-    function initializeApp(options?: AppOptions, name?: string): admin.app.App;
+    // function initializeApp(options?: AppOptions, name?: string): admin.app.App;
   }
 
   const admin: admin.app.App;
