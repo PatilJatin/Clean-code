@@ -15,6 +15,6 @@ export class OutletMediaRepositoryImpl implements MediaOutletRepository {
   async getPreSignedUrl(objectKey: string): Promise<string> {
     // Call the OutletMediaDataSource to get the signed URL
     const signedUrl = await this.outletMediaDataSource.getPresignedUrl(objectKey);
-    return signedUrl;
+     return signedUrl;
   }
 }

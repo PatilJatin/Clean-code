@@ -30,7 +30,7 @@ export class OutletMediaDataSourceImpl implements OutletMediaDataSource {
   }
   })
 
-    console.log(objectKey,"object key")
+
     const params = {
       Bucket: process.env.bucketName,
       Key: objectKey+".jpg",
@@ -39,7 +39,6 @@ export class OutletMediaDataSourceImpl implements OutletMediaDataSource {
     };
     
     const url  =  await s3.getSignedUrlPromise("getObject", params);
-    console.log(url);
     return url;
   }
 }

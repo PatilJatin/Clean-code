@@ -132,6 +132,10 @@ mediaRoutes.get(
   "/outlet/getpresignedurl/:outletId",
   outletMediaService.getPreSignedUrl.bind(outletMediaService)
 );
+// mediaRoutes.delete(
+//   "/outlet/deleteMedia/:outletId",
+//   outletMediaService.deletePreSignedUrl.bind(outletMediaService)
+// )
 
 
 
