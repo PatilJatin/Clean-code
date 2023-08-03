@@ -1,8 +1,12 @@
-import { OutletEntity } from "@domain/outlet/entities/outlet";
+import { OutletModel, OutletEntity } from "@domain/outlet/entities/outlet";
 import { OutletRepository } from "@domain/outlet/repositories/outlet-repository";
+import { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 
-export interface GetOutletByIdUsecase {
-  execute: (outletId: string) => Promise<OutletEntity | null>;
+export interface GetOutletByIdUsecase{
+  execute: (
+    outletData: string
+  ) => Promise<Either<ErrorClass, OutletEntity>>;
 }
 
 export class GetOutletById implements GetOutletByIdUsecase {
@@ -12,7 +16,10 @@ export class GetOutletById implements GetOutletByIdUsecase {
     this.outletRepository = outletRepository;
   }
 
-  async execute(outletId: string): Promise<OutletEntity | null> {
+  async execute(
+    outletId: string
+  ): Promise<Either<ErrorClass, OutletEntity>> {
+    
     return await this.outletRepository.getOutletById(outletId);
   }
 }

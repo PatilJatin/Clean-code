@@ -50,6 +50,7 @@ export class AdminService {
       );
     }
 
+
   async deleteAdmin(req: Request, res: Response): Promise<void> {
     const adminId: string = req.params.adminId;
 

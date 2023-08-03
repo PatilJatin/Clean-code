@@ -11,9 +11,12 @@ import { UpdateOutlet } from "@domain/outlet/usecases/update-outlet";
 import { DeleteOutlet } from "@domain/outlet/usecases/delete-outlet";
 import { SuspendOutlet } from "@domain/outlet/usecases/suspend-outlet";
 import { ReactivateOutlet } from "@domain/outlet/usecases/reactivate-outlet";
+import { validateOutletInputMiddleware } from "@presentation/middlewares/outlet/validation-outlet";
 
+
+const mongooseConnection = mongoose.connection;
 // Create an instance of the OutletDataSourceImpl and pass the mongoose connection
-const outletDataSource = new OutletDataSourceImpl(mongoose.connection);
+const outletDataSource = new OutletDataSourceImpl(mongooseConnection);
 
 // Create an instance of the OutletRepositoryImpl and pass the OutletDataSourceImpl
 const outletRepository = new OutletRepositoryImpl(outletDataSource);
@@ -43,37 +46,34 @@ export const outletRouter = Router();
 // Route handling for creating a new outlet
 outletRouter.post(
   "/create",
-  outletService.createOutlet.bind(outletService)
+  validateOutletInputMiddleware,outletService.createOutlet.bind(outletService)
 );
 
 //Route handling for getOutletById
 outletRouter.get(
-  "/getById/:outletId",
-  outletService.getOutletById.bind(outletService)
+  "/getById/:outletId",outletService.getOutletById.bind(outletService)
 );
 
 //Route hanndling for getOutlets
 outletRouter.get(
-  "/getAllOutlets",
-  outletService.getAllOutlets.bind(outletService)
+  "/getAllOutlets",outletService.getAllOutlets.bind(outletService)
 );
 
 outletRouter.put(
   "/updateOutlet/:outletId",
-  outletService.updateOutlet.bind(outletService)
+  validateOutletInputMiddleware,outletService.updateOutlet.bind(outletService)
 );
 
 outletRouter.delete(
-  "/deleteOutlet/:outletId",
-  outletService.deleteOutlet.bind(outletService)
+  "/deleteOutlet/:outletId",outletService.deleteOutlet.bind(outletService)
 );
 
 outletRouter.patch(
-  "/suspendOutlet/:outletId",
-  outletService.suspendOutlet.bind(outletService)
+  "/suspendOutlet/:outletId",outletService.suspendOutlet.bind(outletService)
 );
 
 outletRouter.patch(
-  "/reactivateOutlet/:outletId",
-  outletService.reactivateOutlet.bind(outletService)
+  "/reactivateOutlet/:outletId",outletService.reactivateOutlet.bind(
+    outletService
+  )
 );

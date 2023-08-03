@@ -71,5 +71,6 @@ export class UpdateAdmin implements UpdateAdminUsecase {
     adminData: AdminModel
   ): Promise<Either<ErrorClass, AdminEntity>> {
     return await this.adminRepository.updateAdmin(adminId, adminData);
+
   }
 }

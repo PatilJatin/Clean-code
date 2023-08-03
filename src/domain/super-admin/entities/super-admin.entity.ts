@@ -13,7 +13,7 @@ export class SuperAdminModel {
 
   export class SuperAdminEntity {
     constructor(
-      public id: string | undefined = undefined, // Set a default value for id
+      public id: string | undefined = undefined, 
       public name: string,
       public email: string,
       public phone: number,
@@ -31,7 +31,6 @@ export class SuperAdminModel {
       existingSuperAdmin?: SuperAdminEntity
     ): SuperAdminEntity {
       if (existingSuperAdmin != null) {
-        // If existingSuperAdmin is provided, merge the data from adminData with the existingSuperAdmin
         return {
           ...existingSuperAdmin,
           name:
@@ -46,7 +45,6 @@ export class SuperAdminModel {
               : existingSuperAdmin.superAdmin,
         };
       } else {
-        // If existingSuperAdmin is not provided, create a new AdminEntity using adminData
         const superAdminEntity: SuperAdminEntity = {
           id: includeId ? (superAdminData._id ? superAdminData._id.toString() : undefined) : undefined,
           name: superAdminData.name,

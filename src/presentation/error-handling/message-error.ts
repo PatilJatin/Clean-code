@@ -1,5 +1,3 @@
-
-
 export const NOT_FOUND =  "not found";
 
 export const FETCH_SUCCESS = "fetched successfully";
@@ -18,7 +16,7 @@ export const UNAUTHORIZED = "Your not authorized";
 
 export const SERVICE_UNAVAILABLE = "service unavailable";
 
-export const CONFLICT = "email already exits";
+export const CONFLICT = "email already exist";
 
 export const INTERNAL_SERVER_ERROR = "something went wrong";
 
