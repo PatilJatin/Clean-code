@@ -1,11 +1,12 @@
 import { AdminEntity, AdminModel } from "@domain/admin/entities/admin";
 import { AdminRepository } from "@domain/admin/repositories/admin-repository";
-
+import { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 export interface UpdateAdminUsecase {
   execute: (
     adminId: string,
-    adminData: Partial<AdminModel>
-  ) => Promise<AdminEntity>;
+    adminData: AdminModel
+  ) => Promise<Either<ErrorClass, AdminEntity>>;
 }
 
 export class UpdateAdmin implements UpdateAdminUsecase {
@@ -17,30 +18,9 @@ export class UpdateAdmin implements UpdateAdminUsecase {
 
   async execute(
     adminId: string,
-    adminData: Partial<AdminModel>
-  ): Promise<AdminEntity> {
-    const existingAdmin: AdminEntity | null =
-      await this.adminRepository.getAdminById(adminId);
+    adminData: AdminModel
+  ): Promise<Either<ErrorClass, AdminEntity>> {
+    return await this.adminRepository.updateAdmin(adminId, adminData);
 
-    if (!existingAdmin) {
-      throw new Error("Admin not found.");
-    }
-
-    const updatedAdminData: AdminModel = {
-      ...existingAdmin,
-      ...adminData,
-    };
-
-   
-    await this.adminRepository.updateAdmin(adminId, updatedAdminData);
-
-    const updatedAdminEntity: AdminEntity | null =
-      await this.adminRepository.getAdminById(adminId);
-
-    if (!updatedAdminEntity) {
-      throw new Error("Admin not found after update.");
-    }
-
-    return updatedAdminEntity;
   }
 }

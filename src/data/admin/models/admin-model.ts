@@ -63,6 +63,11 @@ const adminSchema = new mongoose.Schema({
     type: String,
     ref: "Outlet",
   },
+  fuid: {
+    type: String,
+    maxLenght: [28, "Fuid should be under 28 Characters"],
+    required: false,  //TODO: If required the change the boolean 
+  },
 });
 
 export const Admin: Model<IAdminModel> = mongoose.model<IAdminModel>("Admin", adminSchema);
