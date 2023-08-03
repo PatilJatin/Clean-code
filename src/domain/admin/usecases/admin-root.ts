@@ -4,7 +4,7 @@ import { GetAdminById } from "./get-admin-by-id";
 import { GetAllAdmins } from "./get-all-admins";
 import { UpdateAdmin } from "./update-admin";
 
-module.exports = {
+export = {
   CreateAdmin,
   DeleteAdmin,
   GetAdminById,
