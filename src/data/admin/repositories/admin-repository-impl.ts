@@ -17,10 +17,8 @@ export class AdminRepositoryImpl implements AdminRepository {
     try {
       let i = await this.dataSource.create(admin);
       return Right<ErrorClass, AdminEntity>(i);
-    } catch (e) {
-      console.log(typeof e, typeof ApiError.emailExits);
-
-      if (typeof e === typeof ApiError.emailExits) {
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 409) {
         return Left<ErrorClass, AdminEntity>(ApiError.emailExits());
       }
       return Left<ErrorClass, AdminEntity>(ApiError.badRequest());
@@ -53,7 +51,7 @@ export class AdminRepositoryImpl implements AdminRepository {
       const response = await this.dataSource.getAllAdmins();
       return Right<ErrorClass, AdminEntity[]>(response);
     } catch (error) {
-      if (typeof error === typeof ApiError.emailExits) {
+      if (error instanceof ApiError && error.status === 409) {
         return Left<ErrorClass, AdminEntity[]>(ApiError.emailExits());
       }
       return Left<ErrorClass, AdminEntity[]>(ApiError.badRequest());
@@ -64,8 +62,8 @@ export class AdminRepositoryImpl implements AdminRepository {
     try {
       let response = await this.dataSource.read(id);
       return Right<ErrorClass, AdminEntity>(response);
-    } catch (e) {
-      if (typeof e === typeof ApiError.notFound) {
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 404) {
         return Left<ErrorClass, AdminEntity>(ApiError.notFound());
       }
       return Left<ErrorClass, AdminEntity>(ApiError.badRequest());
