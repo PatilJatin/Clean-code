@@ -15,6 +15,7 @@ import {
 
 
 
+
 const mongooseConnection = mongoose.connection;
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
@@ -46,7 +47,7 @@ export const superAdminRouter = Router();
 superAdminRouter.post("/create", superAdminService.createSuperAdmin.bind(superAdminService));
 
 // Route handling for getting an admin by ID
-superAdminRouter.get("/getById/:superAdminId", superAdminService.getSuperAdminById.bind(superAdminService));
+superAdminRouter.get("/getbyid/:superAdminId", superAdminService.getSuperAdminById.bind(superAdminService));
 
 // Route handling for updating an admin by ID
 superAdminRouter.put("/update/:superAdminId", superAdminService.updateSuperAdmin.bind(superAdminService));

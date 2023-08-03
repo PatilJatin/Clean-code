@@ -36,6 +36,14 @@ class ApiError extends ErrorClass {
     );
   }
 
+  static delete(): ApiError {
+    return new ApiError(
+      HttpStatus.OK,
+      ErrorMessage.DELETED_SUCCESS,
+      "Deleted"
+    );
+  }
+
   static noContent(): ApiError {
     return new ApiError(
       HttpStatus.NO_CONTENT,
@@ -93,6 +101,14 @@ class ApiError extends ErrorClass {
       HttpStatus.INTERNAL_SERVER_ERROR,
       ErrorMessage.UNDEFINE_MESSAGE,
       "undifined"
+    );
+  }
+
+  static forbidden(): ApiError {
+    return new ApiError(
+      HttpStatus.FORBIDDEN,
+      ErrorMessage.FORBIDDEN,
+      "forbidden"
     );
   }
 }

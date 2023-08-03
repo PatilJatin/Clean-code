@@ -17,4 +17,5 @@ export class CreateAdmin implements CreateAdminUsecase {
   async execute(adminData: AdminModel): Promise<Either<ErrorClass,AdminEntity>> {
     return await this.adminRepository.createAdmin(adminData);
   }
+  
 }
