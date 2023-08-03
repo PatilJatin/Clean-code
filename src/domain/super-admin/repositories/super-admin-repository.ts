@@ -1,4 +1,3 @@
-
 import { SuperAdminModel, SuperAdminEntity } from "@domain/super-admin/entities/super-admin.entity";
 
 export interface SuperAdminRepository {

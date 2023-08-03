@@ -27,7 +27,6 @@ export class UpdateSuperAdmin implements UpdateSuperAdminUsecase {
       throw ApiError.emailExist();
     }
 
-    // Perform the partial update by merging adminData with existingAdmin
     const updatedSuperAdminData: SuperAdminModel = {
       ...existingSuperAdmin,
       ...superAdminData,

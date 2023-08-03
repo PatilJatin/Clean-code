@@ -67,7 +67,6 @@ const adminValidator = function (input: AdminInput): AdminInput {
       (value: ValidationErrorItem) => value.message
     );
 
-    // Throw a custom ApiError with the validation error messages
     throw new ApiError(
       ApiError.badRequest().status,
       validationErrors.join(", "),
@@ -104,21 +103,3 @@ export const validateAdminInputMiddleware = (
 };
 
 export default adminValidator;
-
-//  if (error) {
-//     // Create an array of validation error messages
-//     const validationErrors = error.details.map((err) => err.message
-//     );
-
-//     // Throw a custom ApiError with the validation error messages
-//     throw new ApiError(
-//       ApiError.badRequest().status,
-//       validationErrors.join("Validation Error"),
-
-//     );
-//   }
-
-//   return value;
-// };
-
-// export default adminValidator;

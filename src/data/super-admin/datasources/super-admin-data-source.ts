@@ -28,7 +28,7 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
   async update(id: string, superAdmin: SuperAdminModel): Promise<any> {
     const updatedSuperAdmin = await Admin.findByIdAndUpdate(id, superAdmin, {
       new: true,
-    }); // No need for conversion here
+    });
     return updatedSuperAdmin ? updatedSuperAdmin.toObject() : null; 
   }
 

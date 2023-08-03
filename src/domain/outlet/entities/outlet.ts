@@ -44,7 +44,6 @@ export class OutletMapper {
     existingOutlet?: OutletEntity
   ): OutletEntity {
     if (existingOutlet != null) {
-      // If existingOutlet is provided, merge the data from OutletData with the existingOutlet
       return {
         ...existingOutlet,
         brandLogo:
@@ -95,7 +94,7 @@ export class OutletMapper {
             : existingOutlet.admins,
       };
     } else {
-      // If existingOutlet is not provided, create a new OutletEntity using outletData
+  
       const outletEntity: OutletEntity = {
         id: includeId
           ? outletData._id

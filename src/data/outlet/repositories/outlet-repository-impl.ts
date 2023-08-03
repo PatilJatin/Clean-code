@@ -10,13 +10,7 @@ export class OutletRepositoryImpl implements OutletRepository {
   constructor(dataSource: OutletDataSource) {
     this.dataSource = dataSource;
   }
-  // getOutletById(id: string): Promise<Either<ErrorClass, OutletEntity>> {
-  //   throw new Error("Method not implemented.");
-  // }
-  // deleteOutlet(id: string): Promise<Either<ErrorClass, void>> {
-  //   throw new Error("Method not implemented.");
-  // }
-
+ 
   async createOutlet(
     outlet: OutletModel
   ): Promise<Either<ErrorClass, OutletEntity>> {
@@ -74,15 +68,10 @@ export class OutletRepositoryImpl implements OutletRepository {
       const i = await this.dataSource.delete(id);
       return Right<ErrorClass, void>(i);
     } catch (error) {
-      // if(typeof ApiError.emailExits) {
-      //   return Left<ErrorClass, void>(ApiError.emailExits())
-      // }
+     
       return Left<ErrorClass, void>(ApiError.badRequest());
     }
   }
-  // async deleteOutlet(id: string): Promise<Either<ErrorClass, void>>; {
-  //   await this.dataSource.delete(id);
-  // }
 
   async suspendOutlet(id: string): Promise<Either<ErrorClass, void>> {
     try{
@@ -104,7 +93,3 @@ export class OutletRepositoryImpl implements OutletRepository {
 }
 
 
-//   async reactivate(id: string): Promise<void> {
-//     await this.dataSource.reactivate(id);
-//   }
-// }
