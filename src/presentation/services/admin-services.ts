@@ -33,6 +33,7 @@ export class AdminService {
     this.getAllAdminsUsecase = getAllAdminsUsecase;
   }
 
+
     async createAdmin(req: Request, res: Response): Promise<void> {
       const adminData: AdminModel = AdminMapper.toModel(req.body);
 

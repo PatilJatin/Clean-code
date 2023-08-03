@@ -10,7 +10,8 @@ export class AdminModel {
     public admin: boolean = false,
     public permissions: number[] = [],
     public active: boolean = false,
-    public outlet: string = ""
+    public outlet: string = "",
+    public fuid: string = ""
   ) {}
 }
 
@@ -27,7 +28,8 @@ export class AdminEntity {
     public admin: boolean,
     public permissions: number[],
     public active: boolean,
-    public outlet: string
+    public outlet: string,
+    public fuid: string
   ) {}
 }
 
@@ -73,6 +75,10 @@ export class AdminMapper {
           adminData.outlet !== undefined
             ? adminData.outlet
             : existingAdmin.outlet,
+        fuid:
+          adminData.fuid !== undefined 
+            ? adminData.fuid 
+            : existingAdmin.fuid,
       };
     } else {
       // If existingAdmin is not provided, create a new AdminEntity using adminData
@@ -88,6 +94,7 @@ export class AdminMapper {
         permissions: adminData.permissions,
         active: adminData.active,
         outlet: adminData.outlet,
+        fuid: adminData.fuid,
       };
       return adminEntity;
     }
@@ -105,6 +112,7 @@ export class AdminMapper {
       permissions: admin.permissions,
       active: admin.active,
       outlet: admin.outlet,
+      fuid: admin.fuid,
     };
   }
 }
