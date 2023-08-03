@@ -62,7 +62,7 @@ superAdminRouter.get(
 superAdminRouter.put("/update/:superAdminId",validateSuperAdminInputMiddleware, superAdminService.updateSuperAdmin.bind(superAdminService));
 
 // Route handling for deleting an admin by ID
-superAdminRouter.delete("/delete/:superAdminId",validateSuperAdminInputMiddleware, superAdminService.deleteSuperAdmin.bind(superAdminService));
+superAdminRouter.delete("/delete/:superAdminId",superAdminService.deleteSuperAdmin.bind(superAdminService));
 
 // Route handling for getting all admins
 superAdminRouter.get(

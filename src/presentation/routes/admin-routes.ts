@@ -59,7 +59,6 @@ adminRouter.put(
 // Route handling for deleting an admin by ID
 adminRouter.delete(
   "/delete/:adminId",
-  validateAdminInputMiddleware,
   adminService.deleteAdmin.bind(adminService)
 );
 

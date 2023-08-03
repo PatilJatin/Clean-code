@@ -65,18 +65,15 @@ outletRouter.put(
 );
 
 outletRouter.delete(
-  "/deleteOutlet/:outletId",
-  validateOutletInputMiddleware,outletService.deleteOutlet.bind(outletService)
+  "/deleteOutlet/:outletId",outletService.deleteOutlet.bind(outletService)
 );
 
 outletRouter.patch(
-  "/suspendOutlet/:outletId",
- validateOutletInputMiddleware,outletService.suspendOutlet.bind(outletService)
+  "/suspendOutlet/:outletId",outletService.suspendOutlet.bind(outletService)
 );
 
 outletRouter.patch(
-  "/reactivateOutlet/:outletId",
-  validateOutletInputMiddleware,outletService.reactivateOutlet.bind(
+  "/reactivateOutlet/:outletId",outletService.reactivateOutlet.bind(
     outletService
   )
 );
