@@ -12,7 +12,7 @@ import {
     GetAllSuperAdmins,
     UpdateSuperAdmin 
 } from "@domain/super-admin/usecases/super-admin.root";
-import { verifyFirebaseToken } from "@presentation/middlewares/auth-middleware";
+
 
 
 
@@ -44,7 +44,7 @@ const superAdminService = new SuperAdminService(
 export const superAdminRouter = Router();
 
 // Route handling for creating a new admin
-superAdminRouter.post("/create", verifyFirebaseToken, superAdminService.createSuperAdmin.bind(superAdminService));
+superAdminRouter.post("/create", superAdminService.createSuperAdmin.bind(superAdminService));
 
 // Route handling for getting an admin by ID
 superAdminRouter.get("/getbyid/:superAdminId", superAdminService.getSuperAdminById.bind(superAdminService));

@@ -18,14 +18,6 @@ export class UpdateSuperAdmin implements UpdateSuperAdminUsecase {
     this.SuperAdminRepository = SuperAdminRepository;
   }
 
-  // async execute(
-  //   superAdminId: string,
-  //   superAdminData: SuperAdminModel
-  // ):Promise<Either<ErrorClass, SuperAdminEntity>>  {
-  //   const existingSuperAdmin:Either<ErrorClass, SuperAdminEntity | null> =
-  //     await this.SuperAdminRepository.getSuperAdminById(superAdminId);
-  // }
-
   async execute(
     superAdminId: string,
     superAdminData: SuperAdminModel

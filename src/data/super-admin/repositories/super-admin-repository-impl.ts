@@ -34,8 +34,7 @@ export class SuperAdminRepositoryImpl implements SuperAdminRepository {
       return Right<ErrorClass, void>(i);
       
     } catch (error) {
-      
-     
+    
       return Left<ErrorClass, void>(ApiError.badRequest())
     }
    

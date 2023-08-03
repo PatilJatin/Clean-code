@@ -103,6 +103,14 @@ class ApiError extends ErrorClass {
       "undifined"
     );
   }
+
+  static forbidden(): ApiError {
+    return new ApiError(
+      HttpStatus.FORBIDDEN,
+      ErrorMessage.FORBIDDEN,
+      "forbidden"
+    );
+  }
 }
 
 export default ApiError;

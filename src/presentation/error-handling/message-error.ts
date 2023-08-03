@@ -26,5 +26,7 @@ export const UNDEFINE_MESSAGE = "mongourl or mongooptions are undefined";
 
 export const SERVER_RUNNING = "your server is running on port";
 
+export const FORBIDDEN = "You are not authorized to do that!"
+
 
 

@@ -1,40 +1,40 @@
 import admin from '@main/config/firebase-sdk/firebase-config';
 import { Admin } from '@data/admin/models/admin-model';
 import { Request, Response, NextFunction } from 'express';
+import ApiError, { ErrorClass } from '@presentation/error-handling/api-error';
+
 
 
 /*
   Middleware to verify Firebase token and set user in the request object
 */
-const verifyFirebaseToken = async (req: Request, res: Response, next: NextFunction) => {
+const verifyFirebaseToken = async (req: Request, res: Response, next: NextFunction): Promise<void>  => {
   try {
-    const { authorization } = req.headers;
-
-    
-    
+   const { authorization } = req.headers;
 
     if (authorization) {
-      const idToken = authorization.split('Bearer ')[1];
+
+      const idToken:string = authorization.split('Bearer ')[1];
+
       // Verify the Firebase token
       const decodedToken = await admin.auth().verifyIdToken(idToken);
 
-      console.log(decodedToken);
 
       // Find the user in the database using the decoded email
       const user = await Admin.findOne({ email: decodedToken.email });
 
+       
+      req.user = user; // Set the user in the request objec
       
-      req.user = user; // Set the user in the request object
     } else {
-      return res.status(401).json({ message: 'You are unauthorized' });
+      const unAuthorized = ApiError.unAuthorized()
+       res.status(unAuthorized.status).json({ message: unAuthorized.message  });    
     }
 
     next();
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "No error"
-    });
+     const internalError = ApiError.internalError();
+     res.status(internalError.status).json({ message: internalError.message  }); 
   }
 };
 
@@ -46,7 +46,8 @@ const verifyTokenAndAuthorizationToSuperAdmin = (req: Request, res: Response, ne
     if (req.user && req.user.superAdmin) {
       next();
     } else {
-      return res.status(403).json('You are not allowed to do that!');
+      const forbidden = ApiError.forbidden()
+       res.status(forbidden.status).json({message: forbidden.message});
     }
   });
 };
@@ -59,7 +60,8 @@ const verifyTokenAndAuthorizationToAdmin = (req: Request, res: Response, next: N
     if (req.user && req.user.admin) {
       next();
     } else {
-      return res.status(403).json('You are not allowed to do that!');
+      const forbidden = ApiError.forbidden()
+       res.status(forbidden.status).json({message: forbidden.message});
     }
   });
 };
@@ -72,10 +74,12 @@ const verifyTokenAndAuthorizationToAdminAndSuperAdmin = (req: Request, res: Resp
     if (req.user && (req.user.admin || req.user.superAdmin)) {
       next();
     } else {
-      return res.status(403).json('You are not allowed to do that!');
+      const forbidden = ApiError.forbidden()
+       res.status(forbidden.status).json({message: forbidden.message});
     }
   });
 };
+
 
 /*
   Middleware to check admin's active status
@@ -86,10 +90,12 @@ const adminActiveStatus = (req: Request, res: Response, next: NextFunction) => {
       if (req.user.active) {
         next();
       } else {
-        return res.status(403).json('Your account is suspended!');
+        const forbidden = ApiError.forbidden()
+       res.status(forbidden.status).json({message: forbidden.message});
       }
     } else {
-      return res.status(403).json('You are not allowed to do that!');
+      const forbidden = ApiError.forbidden()
+      res.status(forbidden.status).json({message: forbidden.message});
     }
   });
 };
