@@ -16,6 +16,7 @@ import { validateSuperAdminInputMiddleware } from "@presentation/middlewares/sup
 
 
 
+
 const mongooseConnection = mongoose.connection;
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
@@ -52,6 +53,7 @@ superAdminRouter.post(
 );
 
 // Route handling for getting an admin by ID
+
 superAdminRouter.get(
   "/getById/:superAdminId",superAdminService.getSuperAdminById.bind(
     superAdminService

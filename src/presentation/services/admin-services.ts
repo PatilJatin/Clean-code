@@ -9,7 +9,7 @@ import { DeleteAdminUsecase } from "@domain/admin/usecases/delete-admin";
 import { GetAdminByIdUsecase } from "@domain/admin/usecases/get-admin-by-id";
 import { UpdateAdminUsecase } from "@domain/admin/usecases/update-admin";
 import { GetAllAdminsUsecase } from "@domain/admin/usecases/get-all-admins";
-import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
+import  { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either } from "monet";
 
 export class AdminService {
@@ -33,15 +33,48 @@ export class AdminService {
     this.getAllAdminsUsecase = getAllAdminsUsecase;
   }
 
-  async createAdmin(req: Request, res: Response): Promise<void> {
-    // Extract admin data from the request body and convert it to AdminModel
-    const adminData: AdminModel = AdminMapper.toModel(req.body);
 
-    // Call the CreateAdminUsecase to create the admin
-    const newAdmin: Either<ErrorClass, AdminEntity> =
-      await this.createAdminUsecase.execute(adminData);
+    async createAdmin(req: Request, res: Response): Promise<void> {
+      const adminData: AdminModel = AdminMapper.toModel(req.body);
 
-    newAdmin.cata(
+      const newAdmin: Either<ErrorClass, AdminEntity> =
+        await this.createAdminUsecase.execute(adminData);
+
+      newAdmin.cata(
+        (error: ErrorClass) =>
+          res.status(error.status).json({ error: error.message }),
+        (result: AdminEntity) => {
+          const resData = AdminMapper.toEntity(result, true);
+          return res.json(resData);
+        }
+      );
+    }
+
+
+  async deleteAdmin(req: Request, res: Response): Promise<void> {
+    const adminId: string = req.params.adminId;
+
+    // Call the DeleteAdminUsecase to delete the admin
+    const response: Either<ErrorClass, void> =
+      await this.deleteAdminUsecase.execute(adminId);
+
+    (await response).cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: void) => {
+        return res.json({ message: "Admin deleted successfully." });
+      }
+    );
+  }
+
+
+  async getAdminById(req: Request, res: Response): Promise<void> {
+    const adminId: string = req.params.adminId;
+    // Call the GetAdminByIdUsecase to get the admin by ID
+    const admin: Either<ErrorClass, AdminEntity> =
+      await this.getAdminByIdUsecase.execute(adminId);
+
+    admin.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (result: AdminEntity) => {
@@ -49,95 +82,44 @@ export class AdminService {
         return res.json(resData);
       }
     );
-  
   }
-
-  async deleteAdmin(req: Request, res: Response): Promise<void> {
-    try {
-      const adminId: string = req.params.adminId;
-
-      // Call the DeleteAdminUsecase to delete the admin
-      await this.deleteAdminUsecase.execute(adminId);
-
-      // Send a success message as a JSON response
-      res.json({ message: "Admin deleted successfully." });
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
-  }
-
-  async getAdminById(req: Request, res: Response): Promise<void> {
-    try {
-      const adminId: string = req.params.adminId;
-
-      // Call the GetAdminByIdUsecase to get the admin by ID
-      const admin: AdminEntity | null = await this.getAdminByIdUsecase.execute(
-        adminId
-      );
-
-      if (admin) {
-        // Convert admin from AdminEntity to plain JSON object using AdminMapper
-        const responseData = AdminMapper.toModel(admin);
-        // Send the admin as a JSON response
-        res.json(responseData);
-      } else {
-        const err = ApiError.internalError();
-        res.status(err.status).json(err.message);
-      }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
-  }
-
   async updateAdmin(req: Request, res: Response): Promise<void> {
-    try {
-      const adminId: string = req.params.adminId;
-      const adminData: AdminModel = req.body;
+    const adminId: string = req.params.adminId;
+    const adminData: AdminModel = req.body;
+    // Get the existing admin by ID
+    const existingAdmin: Either<ErrorClass, AdminEntity> =
+      await this.getAdminByIdUsecase.execute(adminId);
 
-      // Get the existing admin by ID
-      const existingAdmin: AdminEntity | null =
-        await this.getAdminByIdUsecase.execute(adminId);
-
-      if (!existingAdmin) {
-        // If admin is not found, send a not found message as a JSON response
-
-        const err = ApiError.internalError();
-        res.status(err.status).json(err.message);
-      }
-
-      // Convert adminData from AdminModel to AdminEntity using AdminMapper
-      const updatedAdminEntity: AdminEntity = AdminMapper.toEntity(
-        adminData,
-        true,
-        existingAdmin
-      );
-
-      // Call the UpdateAdminUsecase to update the admin
-      const updatedAdmin: AdminEntity = await this.updateAdminUsecase.execute(
-        adminId,
-        updatedAdminEntity
-      );
-
-      // Convert updatedAdmin from AdminEntity to plain JSON object using AdminMapper
-      const responseData = AdminMapper.toModel(updatedAdmin);
-
-      // Send the updated admin as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
+    existingAdmin.cata(
+      (error: ErrorClass) => {
         res.status(error.status).json({ error: error.message });
+      },
+      async (result: AdminEntity) => {
+        const resData = AdminMapper.toEntity(result, true);
+        const updatedAdminEntity: AdminEntity = AdminMapper.toEntity(
+          adminData,
+          true,
+          resData
+        );
+
+        // Call the UpdateAdminUsecase to update the admin
+        const updatedAdmin: Either<ErrorClass, AdminEntity> =
+          await this.updateAdminUsecase.execute(adminId, updatedAdminEntity);
+
+        updatedAdmin.cata(
+          (error: ErrorClass) => {
+            res.status(error.status).json({ error: error.message });
+          },
+          (response: AdminEntity) => {
+            // Convert updatedAdmin from AdminEntity to plain JSON object using AdminMapper
+            const responseData = AdminMapper.toModel(response);
+
+            // Send the updated admin as a JSON response
+            res.json(responseData);
+          }
+        );
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async getAllAdmins(
@@ -145,21 +127,19 @@ export class AdminService {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    try {
-      // Call the GetAllAdminsUsecase to get all admins
-      const admins: AdminEntity[] = await this.getAllAdminsUsecase.execute();
+    // Call the GetAllAdminsUsecase to get all admins
+    const admins: Either<ErrorClass, AdminEntity[]> =
+      await this.getAllAdminsUsecase.execute();
 
-      // Convert admins from an array of AdminEntity to an array of plain JSON objects using AdminMapper
-      const responseData = admins.map((admin) => AdminMapper.toModel(admin));
-
-      // Send the admins as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    admins.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (admins: AdminEntity[]) => {
+        const resData = admins.map((admin) => AdminMapper.toModel(admin));
+        return res.json(resData);
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 }
+
+
