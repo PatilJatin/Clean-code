@@ -63,9 +63,7 @@ adminRouter.delete(
 );
 
 // Route handling for getting all admins
-
 adminRouter.get(
   "/getAll",
   adminService.getAllAdmins.bind(adminService)
 );
-

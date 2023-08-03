@@ -16,12 +16,12 @@ export class AdminRepositoryImpl implements AdminRepository {
   ): Promise<Either<ErrorClass, AdminEntity>> {
     try {
       let i = await this.dataSource.create(admin);
-      return Right<ErrorClass, AdminEntity>(i);
+      
 
+      return Right<ErrorClass, AdminEntity>(i);
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
-        return Left<ErrorClass, AdminEntity>(ApiError.emailExits());
-
+        return Left<ErrorClass, AdminEntity>(ApiError.emailExist());
       }
       return Left<ErrorClass, AdminEntity>(ApiError.badRequest());
     }
@@ -54,7 +54,7 @@ export class AdminRepositoryImpl implements AdminRepository {
       return Right<ErrorClass, AdminEntity[]>(response);
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
-        return Left<ErrorClass, AdminEntity[]>(ApiError.emailExits());
+        return Left<ErrorClass, AdminEntity[]>(ApiError.emailExist());
       }
       return Left<ErrorClass, AdminEntity[]>(ApiError.badRequest());
     }

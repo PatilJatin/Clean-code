@@ -66,7 +66,7 @@ const adminSchema = new mongoose.Schema({
   fuid: {
     type: String,
     maxLenght: [28, "Fuid should be under 28 Characters"],
-    required: true,
+    required: false,  //TODO: If required the change the boolean 
   },
 });
 

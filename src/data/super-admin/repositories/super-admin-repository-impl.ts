@@ -18,9 +18,11 @@ export class SuperAdminRepositoryImpl implements SuperAdminRepository {
       const i =  await this.dataSource.create(superAdmin);
       return Right<ErrorClass, SuperAdminEntity>(i);
     } catch (error) {
+      
+      
 
-      if(typeof ApiError.emailExits) {
-        return Left<ErrorClass, SuperAdminEntity>(ApiError.emailExits())
+      if(typeof ApiError.emailExist) {
+        return Left<ErrorClass, SuperAdminEntity>(ApiError.emailExist())
       }
       return Left<ErrorClass, SuperAdminEntity>(ApiError.badRequest())
       
