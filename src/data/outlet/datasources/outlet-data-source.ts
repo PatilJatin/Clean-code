@@ -6,7 +6,7 @@ import { Admin } from "@data/admin/models/admin-model";
 
 export interface OutletDataSource {
   create(outlet: OutletModel): Promise<any>;
-  read(id: string): Promise<any | null>;
+  getById(id: string): Promise<any | null>;
   getAllOutlets(): Promise<any[]>;
   update(id: string, outlet: OutletModel): Promise<any>;
   delete(id: string): Promise<void>;
@@ -20,7 +20,7 @@ export class OutletDataSourceImpl implements OutletDataSource {
   async create(outlet: OutletModel): Promise<any> {
     const existingOutlet = await Outlet.findOne({ email: outlet.email });
     if (existingOutlet) {
-      throw ApiError.emailExits();
+      throw ApiError.emailExist();
     }
 
     const outletData = new Outlet(outlet);
@@ -30,7 +30,7 @@ export class OutletDataSourceImpl implements OutletDataSource {
     return createdOutlet.toObject();
   }
 
-  async read(id: string): Promise<any | null> {
+  async getById(id: string): Promise<any | null> {
     const outlet = await Outlet.findById(id).populate("admins");
     return outlet ? outlet.toObject() : null;
   }
@@ -72,6 +72,3 @@ export class OutletDataSourceImpl implements OutletDataSource {
     return reactivatedOutlet.toObject();
   }
 }
-
-
-

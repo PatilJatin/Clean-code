@@ -9,14 +9,12 @@ import { DeleteAdmin } from "@domain/admin/usecases/delete-admin";
 import { GetAdminById } from "@domain/admin/usecases/get-admin-by-id";
 import { GetAllAdmins } from "@domain/admin/usecases/get-all-admins";
 import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
-
-
+import { validateAdminInputMiddleware } from "@presentation/middlewares/admin/validation-admin";
 
 const mongooseConnection = mongoose.connection;
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
 const adminDataSource = new AdminDataSourceImpl(mongooseConnection);
-
 // Create an instance of the AdminRepositoryImpl and pass the AdminDataSourceImpl
 const adminRepository = new AdminRepositoryImpl(adminDataSource);
 
@@ -40,16 +38,32 @@ const adminService = new AdminService(
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/", adminService.createAdmin.bind(adminService));
+adminRouter.post(
+  "/create",
+  validateAdminInputMiddleware,
+  adminService.createAdmin.bind(adminService)
+);
 
 // Route handling for getting an admin by ID
-adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));
+adminRouter.get(
+  "/getById/:adminId",adminService.getAdminById.bind(adminService)
+);
 
 // Route handling for updating an admin by ID
-adminRouter.put("/:adminId", adminService.updateAdmin.bind(adminService));
+adminRouter.put(
+  "/update/:adminId",
+  validateAdminInputMiddleware,
+  adminService.updateAdmin.bind(adminService)
+);
 
 // Route handling for deleting an admin by ID
-adminRouter.delete("/:adminId", adminService.deleteAdmin.bind(adminService));
+adminRouter.delete(
+  "/delete/:adminId",
+  adminService.deleteAdmin.bind(adminService)
+);
 
 // Route handling for getting all admins
-adminRouter.get("/", adminService.getAllAdmins.bind(adminService));
+adminRouter.get(
+  "/getAll",
+  adminService.getAllAdmins.bind(adminService)
+);

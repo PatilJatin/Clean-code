@@ -12,7 +12,7 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
   async create(superAdmin: SuperAdminModel): Promise<any> {
     const existingSuperAdmin = await Admin.findOne({ email: superAdmin.email });
     if (existingSuperAdmin) {
-      throw ApiError.emailExits()
+      throw ApiError.emailExist()
     }
 
 
@@ -21,6 +21,7 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
     const superAdminData = new Admin(superAdmin);
 
     const createdSuperAdmin = await superAdminData.save();
+
     
     return createdSuperAdmin.toObject();
   }
@@ -28,7 +29,7 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
   async update(id: string, superAdmin: SuperAdminModel): Promise<any> {
     const updatedSuperAdmin = await Admin.findByIdAndUpdate(id, superAdmin, {
       new: true,
-    }); // No need for conversion here
+    });
     return updatedSuperAdmin ? updatedSuperAdmin.toObject() : null; 
   }
 
@@ -36,7 +37,7 @@ export class SuperAdminDataSourceImpl implements SuperAdminDataSource {
     await Admin.findByIdAndDelete(id);
   }
 
-  async read(id: string): Promise<SuperAdminEntity | null> {
+  async read(id: string):Promise<any> {
     const superAdmin = await Admin.findById(id);
     return superAdmin ? superAdmin.toObject() : null; 
   }

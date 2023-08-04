@@ -12,10 +12,10 @@ export default (app: Express): void => {
     res.status(200).json({ message: "ok",});
   });
  
-  app.use(adminRouter);
-  app.use(outletRouter);
+  app.use("/api/v1/admin", adminRouter);
+  app.use("/api/v1/outlet", outletRouter);
   app.use(router);
   app.use(mediaRoutes)
 
-  app.use("/api/v1", superAdminRouter);
+  app.use("/api/v1/superadmin", superAdminRouter);
 };

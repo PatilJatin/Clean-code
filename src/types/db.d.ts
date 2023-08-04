@@ -18,6 +18,6 @@ export interface SuperAdminDataSource {
     create(superAdmin: SuperAdminModel): Promise<any>; 
     update(id: string, superadmin: SuperAdminModel): Promise<any>; 
     delete(id: string): Promise<void>;
-    read(id: string): Promise<SuperAdminEntity | null>; 
+    read(id: string): Promise<SuperAdminEntity>; 
     getAllAdmins(): Promise<SuperAdminEntity[]>; // 
   }

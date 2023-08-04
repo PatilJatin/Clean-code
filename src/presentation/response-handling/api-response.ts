@@ -21,7 +21,6 @@ class ApiResponse {
       if (this.data !== null) {
         json.data = this.data;
       }
-  
       return json;
     }
   }

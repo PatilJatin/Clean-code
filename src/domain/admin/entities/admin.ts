@@ -10,14 +10,15 @@ export class AdminModel {
     public admin: boolean = false,
     public permissions: number[] = [],
     public active: boolean = false,
-    public outlet: string = ""
+    public outlet: string = "",
+    public fuid: string = ""
   ) {}
 }
 
 // Admin Entity provided by Admin Repository is converted to Express API Response
 export class AdminEntity {
   constructor(
-    public id: string | undefined = undefined, // Set a default value for id
+    public id: string | undefined = undefined, 
     public name: string,
     public email: string,
     public phone: number,
@@ -27,7 +28,8 @@ export class AdminEntity {
     public admin: boolean,
     public permissions: number[],
     public active: boolean,
-    public outlet: string
+    public outlet: string,
+    public fuid: string
   ) {}
 }
 
@@ -37,10 +39,10 @@ export class AdminMapper {
   static toEntity(
     adminData: any,
     includeId?: boolean,
-    existingAdmin?: AdminEntity
+    existingAdmin?: AdminEntity | null
   ): AdminEntity {
     if (existingAdmin != null) {
-      // If existingAdmin is provided, merge the data from adminData with the existingAdmin
+      
       return {
         ...existingAdmin,
         name:
@@ -73,9 +75,13 @@ export class AdminMapper {
           adminData.outlet !== undefined
             ? adminData.outlet
             : existingAdmin.outlet,
+        fuid:
+          adminData.fuid !== undefined 
+            ? adminData.fuid 
+            : existingAdmin.fuid,
       };
     } else {
-      // If existingAdmin is not provided, create a new AdminEntity using adminData
+      
       const adminEntity: AdminEntity = {
         id: includeId ? (adminData._id ? adminData._id.toString() : undefined) : undefined,
         name: adminData.name,
@@ -88,6 +94,7 @@ export class AdminMapper {
         permissions: adminData.permissions,
         active: adminData.active,
         outlet: adminData.outlet,
+        fuid: adminData.fuid,
       };
       return adminEntity;
     }
@@ -105,6 +112,7 @@ export class AdminMapper {
       permissions: admin.permissions,
       active: admin.active,
       outlet: admin.outlet,
+      fuid: admin.fuid,
     };
   }
 }
