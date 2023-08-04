@@ -1,4 +1,3 @@
-
 import { SuperAdminModel, SuperAdminEntity } from "@domain/super-admin/entities/super-admin.entity";
 import { ErrorClass } from "@presentation/error-handling/api-error";
 import {Either} from "monet";

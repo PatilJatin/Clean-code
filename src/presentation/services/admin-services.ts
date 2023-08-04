@@ -9,7 +9,7 @@ import { DeleteAdminUsecase } from "@domain/admin/usecases/delete-admin";
 import { GetAdminByIdUsecase } from "@domain/admin/usecases/get-admin-by-id";
 import { UpdateAdminUsecase } from "@domain/admin/usecases/update-admin";
 import { GetAllAdminsUsecase } from "@domain/admin/usecases/get-all-admins";
-import  { ErrorClass } from "@presentation/error-handling/api-error";
+import { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either } from "monet";
 
 export class AdminService {
@@ -33,22 +33,21 @@ export class AdminService {
     this.getAllAdminsUsecase = getAllAdminsUsecase;
   }
 
+  async createAdmin(req: Request, res: Response): Promise<void> {
+    const adminData: AdminModel = AdminMapper.toModel(req.body);
 
-    async createAdmin(req: Request, res: Response): Promise<void> {
-      const adminData: AdminModel = AdminMapper.toModel(req.body);
+    const newAdmin: Either<ErrorClass, AdminEntity> =
+      await this.createAdminUsecase.execute(adminData);
 
-      const newAdmin: Either<ErrorClass, AdminEntity> =
-        await this.createAdminUsecase.execute(adminData);
-
-      newAdmin.cata(
-        (error: ErrorClass) =>
-          res.status(error.status).json({ error: error.message }),
-        (result: AdminEntity) => {
-          const resData = AdminMapper.toEntity(result, true);
-          return res.json(resData);
-        }
-      );
-    }
+    newAdmin.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: AdminEntity) => {
+        const resData = AdminMapper.toEntity(result, true);
+        return res.json(resData);
+      }
+    );
+  }
 
   async deleteAdmin(req: Request, res: Response): Promise<void> {
     const adminId: string = req.params.adminId;
@@ -65,7 +64,6 @@ export class AdminService {
       }
     );
   }
-
 
   async getAdminById(req: Request, res: Response): Promise<void> {
     const adminId: string = req.params.adminId;
@@ -140,5 +138,3 @@ export class AdminService {
     );
   }
 }
-
-

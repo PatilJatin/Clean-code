@@ -18,7 +18,7 @@ export class AdminModel {
 // Admin Entity provided by Admin Repository is converted to Express API Response
 export class AdminEntity {
   constructor(
-    public id: string | undefined = undefined, // Set a default value for id
+    public id: string | undefined = undefined, 
     public name: string,
     public email: string,
     public phone: number,
@@ -42,7 +42,7 @@ export class AdminMapper {
     existingAdmin?: AdminEntity | null
   ): AdminEntity {
     if (existingAdmin != null) {
-      // If existingAdmin is provided, merge the data from adminData with the existingAdmin
+      
       return {
         ...existingAdmin,
         name:
@@ -81,7 +81,7 @@ export class AdminMapper {
             : existingAdmin.fuid,
       };
     } else {
-      // If existingAdmin is not provided, create a new AdminEntity using adminData
+      
       const adminEntity: AdminEntity = {
         id: includeId ? (adminData._id ? adminData._id.toString() : undefined) : undefined,
         name: adminData.name,

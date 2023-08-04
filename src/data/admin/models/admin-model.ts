@@ -5,6 +5,10 @@ import { Model } from "mongoose";
 import { IAdminModel } from "types/db";
 
 
+const validateEmail = function (email: string) {
+  var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return re.test(email);
+};
 
 const adminSchema = new mongoose.Schema({
   name: {
@@ -19,6 +23,11 @@ const adminSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
+    validate: [validateEmail, "Please fill a valid email address"],
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      "Please fill a valid email address",
+    ],
   },
   phone: {
     type: Number,
@@ -28,7 +37,7 @@ const adminSchema = new mongoose.Schema({
   brand: {
     type: String,
     maxLength: [30, "Brand name should be under 30 Characters"],
-    trim: true
+    trim: true,
   },
   jobTitle: {
     type: String,
@@ -57,7 +66,7 @@ const adminSchema = new mongoose.Schema({
   fuid: {
     type: String,
     maxLenght: [28, "Fuid should be under 28 Characters"],
-    required: true,
+    required: false,  //TODO: If required the change the boolean 
   },
 });
 

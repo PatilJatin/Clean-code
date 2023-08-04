@@ -1,7 +1,9 @@
-import { OutletRepository } from "@domain/outlet/repositories/outlet-repository";
+import { type OutletRepository } from "@domain/outlet/repositories/outlet-repository";
+import { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 
 export interface SuspendOutletUsecase {
-  execute: (outletId: string) => Promise<void>;
+  execute: (outletId: string) => Promise<Either<ErrorClass, void>>;
 }
 
 export class SuspendOutlet implements SuspendOutletUsecase {
@@ -11,7 +13,7 @@ export class SuspendOutlet implements SuspendOutletUsecase {
     this.outletRepository = outletRepository;
   }
 
-  async execute(outletId: string): Promise<void> {
-    await this.outletRepository.suspend(outletId);
+  async execute(outletId: string): Promise<Either<ErrorClass, void>> {
+    return await this.outletRepository.suspendOutlet(outletId);
   }
 }

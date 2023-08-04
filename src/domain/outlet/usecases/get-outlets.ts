@@ -1,8 +1,9 @@
 import { OutletEntity } from "@domain/outlet/entities/outlet";
 import { OutletRepository } from "@domain/outlet/repositories/outlet-repository";
-
+import { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 export interface GetAllOutletsUsecase {
-  execute: () => Promise<OutletEntity[]>;
+  execute: () => Promise<Either<ErrorClass, OutletEntity[]>>;
 }
 
 export class GetAllOutlets implements GetAllOutletsUsecase {
@@ -12,7 +13,7 @@ export class GetAllOutlets implements GetAllOutletsUsecase {
     this.outletRepository = outletRepository;
   }
 
-  async execute(): Promise<OutletEntity[]> {
+  async execute(): Promise<Either<ErrorClass, OutletEntity[]>> {
     return await this.outletRepository.getOutlets();
   }
 }

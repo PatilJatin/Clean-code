@@ -1,5 +1,3 @@
-
-
 export const NOT_FOUND =  "not found";
 
 export const FETCH_SUCCESS = "fetched successfully";
@@ -18,7 +16,7 @@ export const UNAUTHORIZED = "Your not authorized";
 
 export const SERVICE_UNAVAILABLE = "service unavailable";
 
-export const CONFLICT = "email already exits";
+export const CONFLICT = "email already exist";
 
 export const INTERNAL_SERVER_ERROR = "something went wrong";
 
@@ -28,5 +26,8 @@ export const SERVER_RUNNING = "your server is running on port";
 
 export const FORBIDDEN = "You are not authorized to do that!"
 
+export const AWS_PRESIGN_ERROR = "unable to create presigned URL";
+
+export const BRAND_LOGO_DELETION_ERROR = "unable to delete brand logo";
 
 
