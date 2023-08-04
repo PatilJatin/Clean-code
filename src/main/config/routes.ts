@@ -1,4 +1,6 @@
 import { adminRouter } from "@presentation/routes/admin-routes";
+import { mediaRoutes } from "@presentation/routes/outlet-mediasource-routes";
+// import outletMediaRouter from "@presentation/routes/outlet-mediasource-routes";
 import { outletRouter } from "@presentation/routes/outlet-routes";
 import { superAdminRouter } from "@presentation/routes/super-admin-routes";
 
@@ -13,5 +15,7 @@ export default (app: Express): void => {
   app.use("/api/v1/admin", adminRouter);
   app.use("/api/v1/outlet", outletRouter);
   app.use(router);
+  app.use(mediaRoutes)
+
   app.use("/api/v1/superadmin", superAdminRouter);
 };

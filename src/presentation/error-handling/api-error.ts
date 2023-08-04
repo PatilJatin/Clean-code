@@ -1,5 +1,6 @@
 import * as HttpStatus from "./http-status";
 
+import { executionAsyncId } from 'async_hooks';
 import * as ErrorMessage from "./message-error";
 
 export class ErrorClass extends Error {
@@ -104,12 +105,18 @@ class ApiError extends ErrorClass {
     );
   }
 
-  static forbidden(): ApiError {
+  static awsPresigningError(): ApiError {
+    return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.AWS_PRESIGN_ERROR, "awsPresigningError");
+  }
+ static forbidden(): ApiError {
     return new ApiError(
       HttpStatus.FORBIDDEN,
       ErrorMessage.FORBIDDEN,
       "forbidden"
     );
+  }
+  static brandLogoDeletionError(): ApiError {
+    return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.BRAND_LOGO_DELETION_ERROR, "brandLogoDeletionError");
   }
 }
 

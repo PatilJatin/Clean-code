@@ -7,13 +7,11 @@ import * as  Message from '@presentation/error-handling/message-error'
 
 const app = setupApp();
 
-
+// console.log()
 // MongoDB connection function 
 async function connectToDatabase() {
   const dbURL = env.mongoUrl
   const dbOptions = env.dbOptions
-
- 
 
   try {
 
@@ -22,6 +20,7 @@ async function connectToDatabase() {
       }
 
     await mongoose.connect(dbURL, dbOptions);
+    console.log(dbURL,dbOptions);
 
     app.listen(env.port, () => {
         console.log(`${Message.SERVER_RUNNING} ${env.port}`);

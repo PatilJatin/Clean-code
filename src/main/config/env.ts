@@ -8,4 +8,6 @@ export default {
     useUnifiedTopology: true,
     dbName: "GMS",
   },
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "XXXXXXXXXXXXXXXXXXXX",
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 };
