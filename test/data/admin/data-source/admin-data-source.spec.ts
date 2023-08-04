@@ -6,9 +6,7 @@ import { AdminModel, AdminEntity } from '@domain/admin/entities/admin';
 import { Admin } from '@data/admin/models/admin-model'; // Adjust the path based on your file structure
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import ApiError from '@presentation/error-handling/api-error';
-import dotenv from 'dotenv'
 
-dotenv.config();
 
 // Declare variables to be used in tests
 let adminDataSource: AdminDataSourceImpl;

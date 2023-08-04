@@ -16,7 +16,7 @@ export class ErrorClass extends Error {
   }
 }
 
-class ApiError extends ErrorClass {
+ class ApiError extends ErrorClass {
   constructor(status: number, message: string, name: string = "ApiError") {
     super(status, message, name);
   }

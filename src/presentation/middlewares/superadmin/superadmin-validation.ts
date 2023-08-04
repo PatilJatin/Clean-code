@@ -32,7 +32,7 @@ const superAdminValidator = function (input: SuperAdminInput): SuperAdminInput {
       "number.max": "Phone number should be under 13 digits",
       "any.required": "Phone number is required",
     }),
-    superAdmin: Joi.boolean().required(),
+    superAdmin: Joi.boolean(),
     permissions: Joi.array().items(Joi.number()).default([]),
   });
 
