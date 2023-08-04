@@ -8,6 +8,8 @@ import ApiError from "@presentation/error-handling/api-error";
 import { GetPreSignedUrlUsecase } from "@domain/outlet/usecases/get-presignedurl";
 import { DeleteBrandLogoUsecase } from "@domain/outlet/usecases/delete-brandlogo";
 
+import { Either } from "monet";
+import { ErrorClass } from "@presentation/error-handling/api-error";
 
 export class MediaOutletService {
 
@@ -26,39 +28,31 @@ export class MediaOutletService {
     req: Request,
     res: Response,
     ){
-      try {
         
-        const outletId: string = req.params.outletId;
-        const presignedurl=await this.createOutletMediaUsecase.execute(outletId);
-        res.json(presignedurl);
+      const outletId: string = req.params.outletId;
+      const presignedurl: Either<ErrorClass, string> =await this.createOutletMediaUsecase.execute(outletId);
 
-      } catch (error) {        
-        if (error instanceof ApiError) {
+      presignedurl.cata(
+        (error: ErrorClass) => {
           res.status(error.status).json({ error: error.message });
-        } else {
-          const error = ApiError.internalError();
-          res.status(error.status).json({ error: error.message });
+        },
+        async (result: string) => {
+          res.status(200).json({ "presignedurl": result});
         }
-        
-      }
-    }
+      )  
+  }
   
   async deletePreSignedUrl(req: Request, res: Response) {
-    try {
-        const outletId: string = req.params.outletId;
-        const deletedBrandLogo=await this.deleteBrandLogoUsecase.execute();
 
-      res.status(200).json({
-        message: "deleted outlet Brand logo.",
-        defaultProfile: deletedBrandLogo,
-      });
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      } else {
-        const error = ApiError.internalError();
-        res.status(error.status).json({ error: error.message });
+    const deletedBrandLogo: Either<ErrorClass, string>=await this.deleteBrandLogoUsecase.execute();
+
+    deletedBrandLogo.cata(
+      (error: ErrorClass) => { 
+        res.status(error.status).json({error: error.message});
+      },
+      async (result: string) => {
+        res.status(200).json(result);
       }
-    }
+    )
   }
 }

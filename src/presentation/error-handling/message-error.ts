@@ -26,5 +26,8 @@ export const UNDEFINE_MESSAGE = "mongourl or mongooptions are undefined";
 
 export const SERVER_RUNNING = "your server is running on port";
 
+export const AWS_PRESIGN_ERROR = "unable to create presigned URL";
+
+export const BRAND_LOGO_DELETION_ERROR = "unable to delete brand logo";
 
 

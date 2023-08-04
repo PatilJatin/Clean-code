@@ -1,5 +1,7 @@
+import ApiError from "@presentation/error-handling/api-error";
 import AWS from "aws-sdk";
 import dotenv from "dotenv";
+import env from "../../../main/config/env";
 
 dotenv.config();
 
@@ -11,27 +13,35 @@ export interface OutletMediaDataSource {
 export class OutletMediaDataSourceImpl implements OutletMediaDataSource {
 
   async getPresignedUrl(objectKey: string): Promise<string> {
+    try {
+      const s3=new AWS.S3({
+        region: "ap-south-1",
+        credentials:{
+          accessKeyId: env.accessKeyId,
+          secretAccessKey: env.secretAccessKey,
+        }
+      })
 
-    const s3=new AWS.S3({
-      region: "ap-south-1",
-      credentials:{
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID || "AKIAVYM223P6QG4EDW6V",
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "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",
-      }
-  })
+      const params = {
+        Bucket: "gms-imageupload",
+        Key: `outlets/${objectKey}/brand-image/image-path`+".jpg",
+        Expires: 3600,
+      };
+      return  await s3.getSignedUrlPromise("putObject", params);
 
-    const params = {
-      Bucket: "gms-imageupload",
-      Key: `outlets/${objectKey}/brand-image/image-path`+".jpg",
-      Expires: 3600,
-    };
-    
-    return  await s3.getSignedUrlPromise("putObject", params);
+    } catch (error) {
+      throw ApiError.awsPresigningError()
+    }
+
   }
 
   async deleteBrandLogo(): Promise<string> {
-    const defaultLogoUrl: string = process.env.DEFAULT_PROFILE_IMAGE_URL || 
-        "https://gms-imageupload.s3.ap-south-1.amazonaws.com/outlets/default-brand-logo.jpg";
-    return defaultLogoUrl;
+    try {
+      const defaultLogoUrl: string = process.env.DEFAULT_PROFILE_IMAGE_URL || 
+          "https://gms-imageupload.s3.ap-south-1.amazonaws.com/outlets/default-brand-logo.jpg";
+      return defaultLogoUrl;
+    } catch (error) {
+      throw ApiError.brandLogoDeletionError();
+    }
   }
 }

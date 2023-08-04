@@ -1,7 +1,9 @@
 // import { OutletMediaDataSource } from "@data/outlet/datasources/outlet-media-data-source";
-
+import { Either, Left, Right } from "monet";
+import { GetPresignedUrlEntity, outletMediaEntity} from "@domain/outlet/entities/outlet-media";
 import { MediaOutletRepository } from "@domain/outlet/repositories/media-outlet-repository";
 import { OutletMediaDataSource } from "../datasources/mediadata-source";
+import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
 
 // Define the OutletMediaRepository interface
 export interface OutletMediaRepository {
@@ -13,15 +15,24 @@ export interface OutletMediaRepository {
 export class OutletMediaRepositoryImpl implements MediaOutletRepository {
   constructor(private readonly outletMediaDataSource: OutletMediaDataSource) {}
 
-  async getPreSignedUrl(objectKey: string): Promise<string> {
+  async getPreSignedUrl(objectKey: string): Promise<Either<ErrorClass, string>> {
     // Call the OutletMediaDataSource to get the signed URL
-    const signedUrl = await this.outletMediaDataSource.getPresignedUrl(objectKey);
-     return signedUrl;
+    try {
+      const signedUrl = await this.outletMediaDataSource.getPresignedUrl(objectKey);
+      return Right<ErrorClass, string>(signedUrl);
+    } catch (error) {
+      return Left<ErrorClass, string>(ApiError.badRequest());
+    }
   }
 
-  async deleteBrandLogo(): Promise<string> {
-    // Call the OutletMediaDataSource to delete the brand logo
-    const deleteBrandLogo = await this.outletMediaDataSource.deleteBrandLogo();
-    return deleteBrandLogo;
+  async deleteBrandLogo(): Promise<Either<ErrorClass, string>> {
+    try {
+
+      // Call the OutletMediaDataSource to delete the brand logo
+      const deleteBrandLogo = await this.outletMediaDataSource.deleteBrandLogo();
+      return Right<ErrorClass, string>(deleteBrandLogo);
+    } catch (error) {
+        return Left<ErrorClass, string>(ApiError.badRequest());
+    }
   }
 }
