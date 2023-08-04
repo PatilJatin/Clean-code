@@ -54,11 +54,7 @@ export class AdminRepositoryImpl implements AdminRepository {
       return Right<ErrorClass, AdminEntity[]>(response);
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
-<<<<<<< HEAD
-        return Left<ErrorClass, AdminEntity[]>(ApiError.emailExits(  ));
-=======
         return Left<ErrorClass, AdminEntity[]>(ApiError.emailExist());
->>>>>>> 5ddab0e3cb05ef65717f6c796479387ea2c3d901
       }
       return Left<ErrorClass, AdminEntity[]>(ApiError.badRequest());
     }
