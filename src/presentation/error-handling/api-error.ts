@@ -3,9 +3,6 @@ import * as HttpStatus from "./http-status";
 import { executionAsyncId } from 'async_hooks';
 import * as ErrorMessage from "./message-error";
 
-import * as  ErrorMessage from './message-error'
-
-export class ErrorClass {
 export class ErrorClass extends Error {
   status: number;
   message: string;
