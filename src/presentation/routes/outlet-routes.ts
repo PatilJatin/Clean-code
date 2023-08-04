@@ -13,6 +13,7 @@ import { SuspendOutlet } from "@domain/outlet/usecases/suspend-outlet";
 import { ReactivateOutlet } from "@domain/outlet/usecases/reactivate-outlet";
 import { validateOutletInputMiddleware } from "@presentation/middlewares/outlet/validation-outlet";
 
+// import { OutletMediaService } from "@presentation/services/mediadata-services";
 
 const mongooseConnection = mongoose.connection;
 // Create an instance of the OutletDataSourceImpl and pass the mongoose connection
@@ -77,3 +78,4 @@ outletRouter.patch(
     outletService
   )
 );
+
