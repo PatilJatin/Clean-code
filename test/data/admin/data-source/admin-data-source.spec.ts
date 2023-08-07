@@ -4,7 +4,6 @@ import { AdminDataSourceImpl } from '@data/admin/datasources/admin-data-source';
 import mongoose from 'mongoose';
 import { AdminModel, AdminEntity } from '@domain/admin/entities/admin';
 import { Admin } from '@data/admin/models/admin-model'; // Adjust the path based on your file structure
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import ApiError from '@presentation/error-handling/api-error';
 import dotenv from 'dotenv'
 
@@ -12,7 +11,7 @@ dotenv.config();
 
 // Declare variables to be used in tests
 let adminDataSource: AdminDataSourceImpl;
-let mongod: MongoMemoryServer;
+
 let connection: mongoose.Connection;
 
 const dbUrl = "mongodb+srv://jatinp8390:Kolhapur09@cluster0.rpywjyb.mongodb.net/?retryWrites=true&w=majority"
@@ -26,7 +25,7 @@ beforeAll(async () => {
 afterAll(async () => {
   // Disconnect from the actual MongoDB server
   await mongoose.disconnect();
-}, 10000);
+}, 30000);
 
 
 
@@ -95,12 +94,12 @@ describe('AdminDataSourceImpl', () => {
 
     await expect(adminDataSource.create(duplicateAdmin)).rejects.toThrow(ApiError.emailExist());
   });
+})
 
   // Add more test cases for create method based on invalid data
 
   // Test Cases for update Method
   // Write test cases similar to create method but for the update method
-  describe('AdminDataSource', () => {
     it('should update an admin', async () => {
       const adminData: AdminModel = {
         name: 'John Doe',
@@ -155,6 +154,8 @@ describe('AdminDataSourceImpl', () => {
       expect(updatedAdmin).toBeNull();
     });
 
+
+
     it('should throw ApiError when updating admin with duplicate email', async () => {
       // Create two admins with same email
       const admin1: AdminModel = {
@@ -173,7 +174,7 @@ describe('AdminDataSourceImpl', () => {
       };
       const admin2: AdminModel = {
         name: 'Jatin Patil',
-        email: 'john.doe@example.com',
+        email: 'jatin.patil@example.com',
         phone: 1234567890,
         brand: 'ABC Corp',
         jobTitle: 'Manager',
@@ -189,21 +190,87 @@ describe('AdminDataSourceImpl', () => {
 
       // Try to update admin2's email to match admin1's email
       const duplicateEmailUpdate: AdminModel = {
-        email: admin1.email,
-        // ... other admin data ...
+        name: 'Jatin Patil',
+        email: 'john.doe@example.com',
+        phone: 1234567890,
+        brand: 'ABC Corp',
+        jobTitle: 'Manager',
+        superAdmin: true,
+        admin: true,
+        permissions: [1, 2, 3],
+        active: true,
+        outlet: 'Outlet 1',
+        fuid: 'some-firebase-user-id'
+
       };
 
       await expect(adminDataSource.update(admin2Id, duplicateEmailUpdate)).rejects.toThrow(ApiError.emailExist());
-    });
+ 
+   });        
 
+ 
 
+   //     it('should throw ApiError.emailExist() while updating an admin with duplicate email', async () => {
+//     // Create an admin with a specific email in the database
+//       const admin1: AdminModel = {
+//         name: 'John Doe',
+//         email: 'john.doe@example.com',
+//         phone: 1234567890,
+//         brand: 'ABC Corp',
+//         jobTitle: 'Manager',
+//         superAdmin: true,
+//         admin: true,
+//         permissions: [1, 2, 3],
+//         active: true,
+//         outlet: 'Outlet 1',
+//         fuid: 'some-firebase-user-id',
+//       };
+//     // const existingAdmin: AdminModel = { 
+//     //   name: 'John Doe',
+//     //   email: 'john.doe@example.com',
+//     //   phone: 1234567890,
+//     //   brand: 'ABC Corp',
+//     //   jobTitle: 'Manager',
+//     //   superAdmin: true,
+//     //   admin: true,
+//     //   permissions: [1, 2, 3],
+//     //   active: true,
+//     //   outlet: 'Outlet 1',
+//     //   fuid: 'some-firebase-user-id',
+//     //  };
+//     await adminDataSource.create(admin1);
 
+//     // Try to update another admin with the same email
+//      const admin2: AdminModel = {
+//         name: 'Jatin Patil',
+//         email: 'john.doe@example.com',
+//         phone: 1234567890,
+//         brand: 'ABC Corp',
+//         jobTitle: 'Manager',
+//         superAdmin: true,
+//         admin: true,
+//         permissions: [1, 2, 3],
+//         active: true,
+//         outlet: 'Outlet 1',
+//         fuid: 'some-firebase-user-id',
+//       };
+//     // const duplicateEmailUpdate: AdminModel = { 
+//     //     name: 'Jatin Patil',
+//     //     email: 'john.doe@example.com',
+//     //     phone: 1234567890,
+//     //     brand: 'ABC Corp',
+//     //     jobTitle: 'Manager',
+//     //     superAdmin: true,
+//     //     admin: true,
+//     //     permissions: [1, 2, 3],
+//     //     active: true,
+//     //     outlet: 'Outlet 1',
+//     //     fuid: 'some-firebase-user-id',
+//     //  };
 
-
-
-
-    })
-
+//     // await expect(adminDataSource.update(admin2Id,duplicateAdmin)).rejects.toThrow(ApiError.emailExist());
+//         await expect(adminDataSource.update(admin2)).rejects.toThrow(ApiError.emailExist());
+// });
 
   // Test Cases for delete Method
   // Write test cases for delete method to test successful deletion and deletion of a non-existent admin
