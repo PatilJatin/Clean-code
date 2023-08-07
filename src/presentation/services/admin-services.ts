@@ -34,6 +34,7 @@ export class AdminService {
   }
 
   async createAdmin(req: Request, res: Response): Promise<void> {
+  
     const adminData: AdminModel = AdminMapper.toModel(req.body);
 
     const newAdmin: Either<ErrorClass, AdminEntity> =
@@ -66,6 +67,8 @@ export class AdminService {
   }
 
   async getAdminById(req: Request, res: Response): Promise<void> {
+    console.log(req.user);
+
     const adminId: string = req.params.adminId;
     // Call the GetAdminByIdUsecase to get the admin by ID
     const admin: Either<ErrorClass, AdminEntity> =

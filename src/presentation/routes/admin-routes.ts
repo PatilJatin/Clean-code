@@ -10,6 +10,9 @@ import { GetAdminById } from "@domain/admin/usecases/get-admin-by-id";
 import { GetAllAdmins } from "@domain/admin/usecases/get-all-admins";
 import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
 import { validateAdminInputMiddleware } from "@presentation/middlewares/admin/validation-admin";
+import { authorziedUser } from "@presentation/middlewares/auth-middleware";
+import adminView from "@presentation/Auth/admin-auth";
+
 
 const mongooseConnection = mongoose.connection;
 
@@ -46,7 +49,10 @@ adminRouter.post(
 
 // Route handling for getting an admin by ID
 adminRouter.get(
-  "/getById/:adminId",adminService.getAdminById.bind(adminService)
+  "/getById/:adminId",
+  authorziedUser,
+  adminView,
+  adminService.getAdminById.bind(adminService)
 );
 
 // Route handling for updating an admin by ID
@@ -63,7 +69,4 @@ adminRouter.delete(
 );
 
 // Route handling for getting all admins
-adminRouter.get(
-  "/getAll",
-  adminService.getAllAdmins.bind(adminService)
-);
+adminRouter.get("/getAll", adminService.getAllAdmins.bind(adminService));
