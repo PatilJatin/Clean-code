@@ -1,9 +1,9 @@
-import { AdminModel, AdminEntity } from "@domain/admin/entities/admin";
+import { AdminModel, AdminEntity, AdminMapper } from "@domain/admin/entities/admin";
 import { Admin } from "../models/admin-model";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
 export interface AdminDataSource {
-  create(admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
+  create(admin: AdminModel, includeId: boolean): Promise<any>; // Return type should be Promise of AdminEntity
   update(id: string, admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
   delete(id: string): Promise<void>;
   read(id: string): Promise<AdminEntity>; // Return type should be Promise of AdminEntity or null
@@ -13,7 +13,7 @@ export interface AdminDataSource {
 export class AdminDataSourceImpl implements AdminDataSource {
   constructor(private db: mongoose.Connection) {}
 
-  async create(admin: AdminModel): Promise<any> {
+  async create(admin: AdminModel, includeId: boolean = false): Promise<any> {
     const existingAdmin = await Admin.findOne({ email: admin.email });
     if (existingAdmin) {
       throw ApiError.emailExist();
@@ -23,7 +23,7 @@ export class AdminDataSourceImpl implements AdminDataSource {
 
     const createdAdmin: mongoose.Document = await adminData.save();
 
-    return createdAdmin.toObject();
+    return AdminMapper.toEntity(createdAdmin.toObject(),includeId=includeId);
   }
 
   async update(id: string, admin: AdminModel): Promise<any> {

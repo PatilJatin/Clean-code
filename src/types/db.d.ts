@@ -15,9 +15,9 @@ export interface IAdminModel extends Document {
 }
 
 export interface SuperAdminDataSource {
-    create(superAdmin: SuperAdminModel): Promise<any>; 
-    update(id: string, superadmin: SuperAdminModel): Promise<any>; 
+    create(superAdmin: SuperAdminModel, includeId: boolean = false): Promise<any>; 
+    update(id: string, superadmin: SuperAdminModel, includeId: boolean = false): Promise<any>; 
     delete(id: string): Promise<void>;
-    read(id: string): Promise<SuperAdminEntity>; 
+    read(id: string, includeId: boolean = false): Promise<SuperAdminEntity>; 
     getAllAdmins(): Promise<SuperAdminEntity[]>; // 
   }

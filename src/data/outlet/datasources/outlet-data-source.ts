@@ -1,11 +1,11 @@
-import { OutletModel, OutletEntity } from "@domain/outlet/entities/outlet";
+import { OutletModel, OutletEntity , OutletMapper} from "@domain/outlet/entities/outlet";
 import { Outlet } from "../models/outlet-model";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
 import { Admin } from "@data/admin/models/admin-model";
 
 export interface OutletDataSource {
-  create(outlet: OutletModel): Promise<any>;
+  create(outlet: OutletModel, includeId: boolean): Promise<any>;
   getById(id: string): Promise<any | null>;
   getAllOutlets(): Promise<any[]>;
   update(id: string, outlet: OutletModel): Promise<any>;
@@ -17,7 +17,7 @@ export interface OutletDataSource {
 export class OutletDataSourceImpl implements OutletDataSource {
   constructor(private db: mongoose.Connection) {}
 
-  async create(outlet: OutletModel): Promise<any> {
+  async create(outlet: OutletModel, includeId: boolean = false): Promise<any> {
     const existingOutlet = await Outlet.findOne({ email: outlet.email });
     if (existingOutlet) {
       throw ApiError.emailExist();
@@ -27,7 +27,7 @@ export class OutletDataSourceImpl implements OutletDataSource {
 
     const createdOutlet = await outletData.save();
 
-    return createdOutlet.toObject();
+    return OutletMapper.toEntity(createdOutlet.toObject(), includeId);
   }
 
   async getById(id: string): Promise<any | null> {
