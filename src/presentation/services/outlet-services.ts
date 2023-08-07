@@ -7,7 +7,7 @@ import {
 } from "@domain/outlet/entities/outlet";
 import { CreateOutletUsecase } from "@domain/outlet/usecases/create-outlet";
 import { GetOutletByIdUsecase } from "@domain/outlet/usecases/get-outlet-by-id";
-import  { ErrorClass } from "@presentation/error-handling/api-error";
+import { ErrorClass } from "@presentation/error-handling/api-error";
 import { GetAllOutletsUsecase } from "@domain/outlet/usecases/get-outlets";
 import { UpdateOutletUsecase } from "@domain/outlet/usecases/update-outlet";
 import { DeleteOutletUsecase } from "@domain/outlet/usecases/delete-outlet";
@@ -87,7 +87,9 @@ export class OutletService {
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (outlets: OutletEntity[]) => {
-        const resData = outlets.map((outlet) => OutletMapper.toModel(outlet));
+        const resData = outlets.map((outlet) =>
+          OutletMapper.toEntity(outlet, true)
+        );
         return res.json(resData);
       }
     );

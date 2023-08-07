@@ -135,7 +135,7 @@ export class AdminService {
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (admins: AdminEntity[]) => {
-        const resData = admins.map((admin) => AdminMapper.toModel(admin));
+        const resData = admins.map((admin) => AdminMapper.toEntity(admin));
         return res.json(resData);
       }
     );
