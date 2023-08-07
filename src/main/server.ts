@@ -20,7 +20,7 @@ async function connectToDatabase() {
       }
 
     await mongoose.connect(dbURL, dbOptions);
-    console.log(dbURL,dbOptions);
+   
 
     app.listen(env.port, () => {
         console.log(`${Message.SERVER_RUNNING} ${env.port}`);
