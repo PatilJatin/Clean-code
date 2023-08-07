@@ -44,7 +44,7 @@ describe('CreateAdmin', () => {
     });
 
     // Mock the createAdmin method of the repository
-    mockAdminRepository.createAdmin.mockResolvedValueOnce(mockedResult);
+    // mockAdminRepository.createAdmin.mockResolvedValueOnce(mockedResult);
 
     // Call the execute method with the mock data
     const result: Either<ErrorClass, AdminEntity> = await createAdmin.execute(adminData);
@@ -80,7 +80,7 @@ describe('CreateAdmin', () => {
     });
 
     // Mock the createAdmin method of the repository to throw an error
-    mockAdminRepository.createAdmin.mockRejectedValueOnce(mockedError);
+    // mockAdminRepository.createAdmin.mockRejectedValueOnce(mockedError);
 
     // Call the execute method with the mock data
     const result: Either<ErrorClass, AdminEntity> = await createAdmin.execute(adminData);

@@ -14,15 +14,15 @@ import { Either } from "monet";
 
 export class AdminService {
   private readonly createAdminUsecase: CreateAdminUsecase;
-  private readonly deleteAdminUsecase: DeleteAdminUsecase;
   private readonly getAdminByIdUsecase: GetAdminByIdUsecase;
+  private readonly deleteAdminUsecase: DeleteAdminUsecase;
   private readonly updateAdminUsecase: UpdateAdminUsecase;
   private readonly getAllAdminsUsecase: GetAllAdminsUsecase;
 
   constructor(
     createAdminUsecase: CreateAdminUsecase,
-    deleteAdminUsecase: DeleteAdminUsecase,
     getAdminByIdUsecase: GetAdminByIdUsecase,
+    deleteAdminUsecase: DeleteAdminUsecase,
     updateAdminUsecase: UpdateAdminUsecase,
     getAllAdminsUsecase: GetAllAdminsUsecase
   ) {

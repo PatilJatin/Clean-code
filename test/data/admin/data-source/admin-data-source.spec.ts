@@ -52,11 +52,11 @@ describe('AdminDataSourceImpl', () => {
       fuid: 'some-firebase-user-id',
     };
 
+
     const createdAdmin: AdminEntity = await adminDataSource.create(adminData);
 
     expect(createdAdmin).toBeTruthy();
-    expect(createdAdmin).toHaveProperty('_id');
-    // Add more specific assertions based on your requirements and data
+    expect(createdAdmin).toMatchObject(adminData);
   });
 
   it('should throw ApiError.emailExist() when creating an admin with duplicate email', async () => {
@@ -95,9 +95,113 @@ describe('AdminDataSourceImpl', () => {
   });
 
   // Add more test cases for create method based on invalid data
+  it('should update an admin', async () => {
+    const adminData: AdminModel = {
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phone: 1234567890,
+      brand: 'ABC Corp',
+      jobTitle: 'Manager',
+      superAdmin: true,
+      admin: true,
+      permissions: [1, 2, 3],
+      active: true,
+      outlet: 'Outlet 1',
+      fuid: 'some-firebase-user-id',
+    };
+    const createdAdmin = await adminDataSource.create(adminData);
+    const updatedAdminData: AdminModel = {
+      name: 'John Doe Denver',
+      email: 'john.doe@example.com',
+      phone: 1234567890,
+      brand: 'XYZ Corp',
+      jobTitle: 'Manager',
+      superAdmin: true,
+      admin: true,
+      permissions: [1, 2, 3],
+      active: true,
+      outlet: 'Outlet 1',
+      fuid: 'some-firebase-user-id',
+    };
 
-  // Test Cases for update Method
-  // Write test cases similar to create method but for the update method
+    const updatedAdmin = await adminDataSource.update(createdAdmin._id, updatedAdminData);
+    expect(updatedAdmin).toMatchObject(updatedAdminData);
+  });
+  it('should return null when updating a non-existent admin', async () => {
+    const nonExistentAdminId = 'some-non-existent-id';
+    const updatedAdminData: AdminModel = {
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phone: 1234567890,
+      brand: 'ABC Corp',
+      jobTitle: 'Manager',
+      superAdmin: true,
+      admin: true,
+      permissions: [1, 2, 3],
+      active: true,
+      outlet: 'Outlet 1',
+      fuid: 'some-firebase-user-id',
+     
+    };
+
+    const updatedAdmin = await adminDataSource.update(nonExistentAdminId, updatedAdminData);
+
+    expect(updatedAdmin).toBeNull();
+  });
+
+
+
+  it('should throw ApiError when updating admin with duplicate email', async () => {
+    // Create two admins with same email
+    const admin1: AdminModel = {
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phone: 1234567890,
+      brand: 'ABC Corp',
+      jobTitle: 'Manager',
+      superAdmin: true,
+      admin: true,
+      permissions: [1, 2, 3],
+      active: true,
+      outlet: 'Outlet 1',
+      fuid: 'some-firebase-user-id',
+      
+    };
+    const admin2: AdminModel = {
+      name: 'Jatin Patil',
+      email: 'jatin.patil@example.com',
+      phone: 1234567890,
+      brand: 'ABC Corp',
+      jobTitle: 'Manager',
+      superAdmin: true,
+      admin: true,
+      permissions: [1, 2, 3],
+      active: true,
+      outlet: 'Outlet 1',
+      fuid: 'some-firebase-user-id',
+    };
+    await adminDataSource.create(admin1);
+    const admin2Id = (await adminDataSource.create(admin2))._id;
+
+    // Try to update admin2's email to match admin1's email
+    const duplicateEmailUpdate: AdminModel = {
+      name: 'Jatin Patil',
+      email: 'john.doe@example.com',
+      phone: 1234567890,
+      brand: 'ABC Corp',
+      jobTitle: 'Manager',
+      superAdmin: true,
+      admin: true,
+      permissions: [1, 2, 3],
+      active: true,
+      outlet: 'Outlet 1',
+      fuid: 'some-firebase-user-id'
+
+    };
+
+    await expect(adminDataSource.update(admin2Id, duplicateEmailUpdate)).rejects.toThrow(ApiError.emailExist());
+
+ }); 
 
   // Test Cases for delete Method
   // Write test cases for delete method to test successful deletion and deletion of a non-existent admin
