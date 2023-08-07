@@ -7,8 +7,8 @@ import {
 } from "@domain/outlet/entities/outlet";
 import { CreateOutletUsecase } from "@domain/outlet/usecases/create-outlet";
 import { GetOutletByIdUsecase } from "@domain/outlet/usecases/get-outlet-by-id";
-import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
-import { GetAllOutlets } from "@domain/outlet/usecases/get-outlets";
+import  { ErrorClass } from "@presentation/error-handling/api-error";
+import { GetAllOutletsUsecase } from "@domain/outlet/usecases/get-outlets";
 import { UpdateOutletUsecase } from "@domain/outlet/usecases/update-outlet";
 import { DeleteOutletUsecase } from "@domain/outlet/usecases/delete-outlet";
 import { SuspendOutletUsecase } from "@domain/outlet/usecases/suspend-outlet";
@@ -18,7 +18,7 @@ import { Either } from "monet";
 export class OutletService {
   private readonly createOutletUsecase: CreateOutletUsecase;
   private readonly getOutletByIdUsecase: GetOutletByIdUsecase;
-  private readonly getAllOutletsUsecase: GetAllOutlets;
+  private readonly getAllOutletsUsecase: GetAllOutletsUsecase;
   private readonly updateOutletUsecase: UpdateOutletUsecase;
   private readonly deleteOutletUsecase: DeleteOutletUsecase;
   private readonly suspendOutletUsecase: SuspendOutletUsecase;
@@ -27,7 +27,7 @@ export class OutletService {
   constructor(
     createOutletUsecase: CreateOutletUsecase,
     getOutletByIdUsecase: GetOutletByIdUsecase,
-    getAllOutletsUsecase: GetAllOutlets,
+    getAllOutletsUsecase: GetAllOutletsUsecase,
     updateOutletUsecase: UpdateOutletUsecase,
     deleteOutletUsecase: DeleteOutletUsecase,
     suspendOutletUsecase: SuspendOutletUsecase,
@@ -50,7 +50,6 @@ export class OutletService {
 
     newOutlet.cata(
       (error: ErrorClass) =>
-      
         res.status(error.status).json({ error: error.message }),
       (result: OutletEntity) => {
         const resData = OutletMapper.toEntity(result, true);
