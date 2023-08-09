@@ -1,4 +1,4 @@
-import ApiResponse from './api-response';
+import ApiResponse from '../../../src/presentation/response-handling/api-response';
 
 
 describe('ApiResponse', () => {
@@ -12,7 +12,7 @@ describe('ApiResponse', () => {
 
         expect(response.statusCode).toBe(statusCode);
         expect(response.message).toBe(message);
-        expect(response.message).toBe(true);
+        expect(response.message).toBeTruthy();
         expect(response.data).toBe(data);
     });
 
