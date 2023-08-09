@@ -107,15 +107,8 @@ describe("OutletDataSourceImpl", () => {
 
     it("should throw casting error on invalid ID when deleting.", async () => {
 
-        // const outlet1: OutletEntity = await outletDataSource.create(outletModel1, true);
-        // const outlet2: OutletEntity = await outletDataSource.create(outletModel2, true);
-        // const outlet3: OutletEntity = await outletDataSource.create(outletModel3, true);
-        // const beforeDeletion: OutletEntity[] = await outletDataSource.getAllOutlets();
-        // expect(beforeDeletion.length).toEqual(3);
         const invalidID = "64d0cdcec399332ecc6";
 
-        // const outletdeletion = await outletDataSource.delete(invalidID);
-        // console.log(outletdeletion);
         await expect(outletDataSource.delete(invalidID)).rejects.toThrow(mongoose.Error.CastError);
     });
 
@@ -123,4 +116,4 @@ describe("OutletDataSourceImpl", () => {
         const validID = "64d101b9932c18da20288d77";
         expect(outletDataSource.delete(validID)).rejects.toThrow();
     });
-  });
+});

@@ -29,8 +29,6 @@ afterAll(async () => {
 }, 10000);
 
 
-
-
 beforeEach(async () => {
   // Clear the database before each test
   await Admin.deleteMany({});
