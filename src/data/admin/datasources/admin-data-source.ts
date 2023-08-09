@@ -2,6 +2,7 @@ import { AdminModel, AdminEntity } from "@domain/admin/entities/admin";
 import { Admin } from "../models/admin-model";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
+import { Outlet } from "@data/outlet/models/outlet-model";
 export interface AdminDataSource {
   create(admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
   update(id: string, admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
@@ -20,9 +21,20 @@ export class AdminDataSourceImpl implements AdminDataSource {
     }
 
     const adminData = new Admin(admin);
-
+    
     const createdAdmin: mongoose.Document = await adminData.save();
+    
+    const outletId = admin.outlet;
 
+    if (outletId === null) {
+      throw ApiError.notFound();
+    }
+ const outlet = await Outlet.findById(outletId);
+
+ if (outlet) {
+   outlet.admins.push(createdAdmin._id);
+   await outlet.save()
+ }
     return createdAdmin.toObject();
   }
 

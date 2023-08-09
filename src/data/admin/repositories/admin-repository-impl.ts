@@ -17,7 +17,6 @@ export class AdminRepositoryImpl implements AdminRepository {
     try {
       let i = await this.dataSource.create(admin);
       
-
       return Right<ErrorClass, AdminEntity>(i);
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {

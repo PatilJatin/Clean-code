@@ -7,7 +7,7 @@ import * as  Message from '@presentation/error-handling/message-error'
 
 const app = setupApp();
 
-// console.log()
+
 // MongoDB connection function 
 async function connectToDatabase() {
   const dbURL = env.mongoUrl
