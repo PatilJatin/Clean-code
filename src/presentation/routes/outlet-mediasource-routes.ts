@@ -1,10 +1,5 @@
 
-import mongoose from "mongoose";
 import { Router } from "express"; // Correctly import Request and Response
-
-import { OutletDataSourceImpl } from "@data/outlet/datasources/outlet-data-source";
-import { OutletRepositoryImpl } from "@data/outlet/repositories/outlet-repository-impl";
-
 import { MediaOutletService,} from "@presentation/services/mediadata-services";
 import { GetPreSignedUrl } from "@domain/outlet/usecases/get-presignedurl";
 import { DeleteBrandLogo } from "@domain/outlet/usecases/delete-brandlogo";
@@ -33,11 +28,11 @@ export const mediaRoutes = Router();
 
 
 mediaRoutes.get(
-  "/outlet/getpresignedurl/:outletId",
+  "/getpresignedurl/:outletId",
   outletMediaService.getPreSignedUrl.bind(outletMediaService)
 );
 mediaRoutes.delete(
-  "/outlet/deleteMedia/",
+  "/deleteMedia/",
   outletMediaService.deletePreSignedUrl.bind(outletMediaService)
 )
 

@@ -1,13 +1,13 @@
 import Joi, { ValidationErrorItem } from "joi";
-import  ApiError  from "@presentation/error-handling/api-error";
+import ApiError from "@presentation/error-handling/api-error";
 import { Request, Response, NextFunction } from "express";
 
 interface OutletInput {
   brandLogo: string;
   outletName: string;
   email: string;
-  phone: string;
-  altPhone?: string;
+  phone: number;
+  altPhone?: number;
   address: string;
   city: string;
   state: string;
