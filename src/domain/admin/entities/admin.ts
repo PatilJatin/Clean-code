@@ -18,7 +18,7 @@ export class AdminModel {
 // Admin Entity provided by Admin Repository is converted to Express API Response
 export class AdminEntity {
   constructor(
-    public id: string | undefined = undefined, 
+    public id: string | undefined = undefined,
     public name: string,
     public email: string,
     public phone: number,
@@ -33,8 +33,6 @@ export class AdminEntity {
   ) {}
 }
 
-
-
 export class AdminMapper {
   static toEntity(
     adminData: any,
@@ -42,7 +40,6 @@ export class AdminMapper {
     existingAdmin?: AdminEntity | null
   ): AdminEntity {
     if (existingAdmin != null) {
-      
       return {
         ...existingAdmin,
         name:
@@ -76,14 +73,15 @@ export class AdminMapper {
             ? adminData.outlet
             : existingAdmin.outlet,
         fuid:
-          adminData.fuid !== undefined 
-            ? adminData.fuid 
-            : existingAdmin.fuid,
+          adminData.fuid !== undefined ? adminData.fuid : existingAdmin.fuid,
       };
     } else {
-      
       const adminEntity: AdminEntity = {
-        id: includeId ? (adminData._id ? adminData._id.toString() : undefined) : undefined,
+        id: includeId
+          ? adminData._id
+            ? adminData._id.toString()
+            : undefined
+          : undefined,
         name: adminData.name,
         email: adminData.email,
         phone: adminData.phone,

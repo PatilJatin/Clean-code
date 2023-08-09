@@ -10,7 +10,7 @@ export class OutletRepositoryImpl implements OutletRepository {
   constructor(dataSource: OutletDataSource) {
     this.dataSource = dataSource;
   }
- 
+
   async createOutlet(
     outlet: OutletModel
   ): Promise<Either<ErrorClass, OutletEntity>> {
@@ -61,23 +61,22 @@ export class OutletRepositoryImpl implements OutletRepository {
         return Left<ErrorClass, OutletEntity>(ApiError.notFound());
       }
       return Left<ErrorClass, OutletEntity>(ApiError.internalError());
-    }
+    }   
   }
   async deleteOutlet(id: string): Promise<Either<ErrorClass, void>> {
     try {
       const i = await this.dataSource.delete(id);
       return Right<ErrorClass, void>(i);
     } catch (error) {
-     
       return Left<ErrorClass, void>(ApiError.badRequest());
     }
   }
 
   async suspendOutlet(id: string): Promise<Either<ErrorClass, void>> {
-    try{
+    try {
       const i = await this.dataSource.suspend(id);
       return Right<ErrorClass, void>(i);
-    } catch (error){
+    } catch (error) {
       return Left<ErrorClass, void>(ApiError.badRequest());
     }
   }
@@ -91,5 +90,3 @@ export class OutletRepositoryImpl implements OutletRepository {
     }
   }
 }
-
-

@@ -6,10 +6,10 @@ export default {
   dbOptions: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: "GMS",
+    dbName: "ADMINPANEL",
   },
-  accessKeyId: process.env.AWS_ACCESS_KEY_id ?? "XXXXXXXXXXXXXXXXXXXX",
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "XXXXXXXXXXXXXXXXXXXX",
   secretAccessKey:
-    process.env.AWS_SECRET_ACCESS_key ??
+    process.env.AWS_SECRET_ACCESS_KEY ??
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 };
