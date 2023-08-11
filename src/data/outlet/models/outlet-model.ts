@@ -59,6 +59,14 @@ const outletSchema = new mongoose.Schema({
     required: true,
     default: true,
   },
+  // admins: [
+  //   {
+  //     // Define properties for each admin
+  //     adminName: {
+  //       type: String
+  //     },
+  //   }
+  //   ]
   admins: [
     {
       type: String,

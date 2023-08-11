@@ -82,14 +82,12 @@ export class OutletService {
     // Call the GetAllOutletsUsecase to get all outlets
     const outlets: Either<ErrorClass, OutletEntity[]> =
       await this.getAllOutletsUsecase.execute();
-
+    console.log(outlets);
     outlets.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (outlets: OutletEntity[]) => {
-        const resData = outlets.map((outlet) =>
-          OutletMapper.toEntity(outlet, true)
-        );
+        const resData = outlets.map((outlet) => OutletMapper.toEntity(outlet));
         return res.json(resData);
       }
     );
