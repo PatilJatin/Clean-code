@@ -36,7 +36,8 @@ export class OutletDataSourceImpl implements OutletDataSource {
   }
 
   async getAllOutlets(): Promise<any[]> {
-    const outlets = await Outlet.find();
+    //change by jatin
+    const outlets = await Outlet.find().populate("admins");;
     return outlets.map((outlet) => outlet.toObject());
   }
 
