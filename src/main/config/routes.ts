@@ -4,6 +4,7 @@ import { outletRouter } from "@presentation/routes/outlet-routes";
 import { roomRouter } from "@presentation/routes/room-routes";
 import { seatingAreaRouter } from "@presentation/routes/seating-area-routes";
 import { superAdminRouter } from "@presentation/routes/super-admin-routes";
+import { tableRouter } from "@presentation/routes/table-routes";
 
 import { type Express, Router } from "express";
 
@@ -22,4 +23,5 @@ export default (app: Express): void => {
   app.use("/api/v1/superadmin", superAdminRouter);
   app.use("/api/v1/room", roomRouter);
   app.use("/api/v1/seatingarea", seatingAreaRouter);
+  app.use("/api/v1/table", tableRouter);
 };
