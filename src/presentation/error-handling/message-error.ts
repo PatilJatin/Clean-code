@@ -30,4 +30,5 @@ export const AWS_PRESIGN_ERROR = "unable to create presigned URL";
 
 export const BRAND_LOGO_DELETION_ERROR = "unable to delete brand logo";
 
+export const NAME_EXIST="name already exists";
 
