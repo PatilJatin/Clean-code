@@ -97,7 +97,7 @@ export class ClientServices {
                 res.status(error.status).json({ error: error.message }),
             (result: ClientEntity[]) => {
                 const responseData = result.map((client) =>
-                    ClientMapper.toModel(client)
+                    ClientMapper.toEntity(client)
                 );
                 return res.json(responseData);
             }
