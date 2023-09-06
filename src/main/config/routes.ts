@@ -1,6 +1,7 @@
 import { adminRouter } from "@presentation/routes/admin-routes";
 import { mediaRoutes } from "@presentation/routes/outlet-mediasource-routes";
 import { outletRouter } from "@presentation/routes/outlet-routes";
+import { reservationStatusRouter } from "@presentation/routes/reservation-status-routes";
 import { roomRouter } from "@presentation/routes/room-routes";
 import { seatingAreaRouter } from "@presentation/routes/seating-area-routes";
 import { superAdminRouter } from "@presentation/routes/super-admin-routes";
@@ -24,4 +25,5 @@ export default (app: Express): void => {
   app.use("/api/v1/room", roomRouter);
   app.use("/api/v1/seatingarea", seatingAreaRouter);
   app.use("/api/v1/table", tableRouter);
+  app.use("/api/v1/reservation/status", reservationStatusRouter);
 };
