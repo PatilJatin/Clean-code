@@ -1,7 +1,20 @@
 
 
+import mongoose from 'mongoose';
 import { Schema, Model, model } from 'mongoose';
 import { IShiftProperty } from 'types/availibility/schema-type';
+
+
+const durationAverageTurnTimeSchema = new mongoose.Schema({
+  partySize: {
+    type: Number,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
+}, { _id: false }); 
 
 
 
@@ -29,7 +42,7 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     type: [String],
     enum: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     default: [],
-  },
+  },  
   firstSeating: {
     type: Date,
     required: true,
@@ -78,16 +91,7 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     default: false,
   },
   durationAverageTurnTimeBasedOnPartySize: [
-    {
-      partySize: {
-        type: Number,
-        required: true,
-      },
-      duration: {
-        type: Number,
-        required: true,
-      },
-    },
+   durationAverageTurnTimeSchema
   ],
   pacing: {
     type: Number,
@@ -113,6 +117,10 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
   bookingPolicy: {
     type: String,
     enum: ['Default Booking Policy', 'Custom Policy'],
+  },
+  policyDescription: {
+    type: String,
+    required: false  
   },
   addSelectableUpgrades: {
     type: Boolean,

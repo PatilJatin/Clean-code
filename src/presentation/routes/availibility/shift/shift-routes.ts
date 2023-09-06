@@ -9,6 +9,7 @@ import { UpdateShift } from "@domain/availibility/usecases/shift-usecase/update-
 import { GetShiftById } from "@domain/availibility/usecases/shift-usecase/get-shift-by-id.usecase";
 import { DeleteShift } from "@domain/availibility/usecases/shift-usecase/delete-usecase";
 import { GetAllShifts } from "@domain/availibility/usecases/shift-usecase/getall-shifts-usecase";
+import { validateShiftInputMiddleware } from "@presentation/middlewares/avaibility/shift/shift-validation";
 
 
 
@@ -39,7 +40,7 @@ const shiftService = new ShiftService(
 export const shiftRouter = Router();
 
 // Route handling for creating a new admin
-shiftRouter.post("/create",shiftService.createShift.bind(shiftService));
+shiftRouter.post("/create", validateShiftInputMiddleware, shiftService.createShift.bind(shiftService));
 
 // Route handling for updating an shift by ID
 shiftRouter.put("/update/:shiftId",shiftService.updateShift.bind(shiftService));

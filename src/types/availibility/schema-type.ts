@@ -32,6 +32,7 @@ export interface IShiftProperty extends Document {
     modifyBookingNotification: 'At Any Time' | 'Never' | 'Up Until Cut-off Time';
     timeBeforeCutOff: number;
     bookingPolicy: 'Default Booking Policy' | 'Custom Policy';
+    policyDescription: string,
     addSelectableUpgrades: boolean;
   }
 
@@ -58,6 +59,7 @@ export interface IShiftProperty extends Document {
     modifyBookingNotification: 'At Any Time' | 'Never' | 'Up Until Cut-off Time';
     timeBeforeCutOff: number;
     bookingPolicy: 'Default Booking Policy' | 'Custom Policy';
+    policyDescription: string,
     addSelectableUpgrades: boolean;
   }
 

@@ -4,7 +4,7 @@ import ApiError from "@presentation/error-handling/api-error";
 import { ShiftModel } from "@domain/availibility/entities/shift-entity";
 import Shift from "../models/shift-model";
 
-export interface ShiftDataSource {
+export interface AccessRuleDataSource {
   create(shift: ShiftModel): Promise<any>;
   update(id: string, shiftData: ShiftModel): Promise<any>;
   read(id: string): Promise<any>;
@@ -12,7 +12,7 @@ export interface ShiftDataSource {
   getAll() : Promise<any[]>;
 }
 
-export class ShiftDataSourceImpl implements ShiftDataSource {
+export class AccessRuleDataSourceImpl implements AccessRuleDataSource {
   constructor(private db: mongoose.Connection) {}
 
   async create(shift: ShiftModel): Promise<any> {

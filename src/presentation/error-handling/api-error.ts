@@ -118,6 +118,10 @@ class ApiError extends ErrorClass {
   static brandLogoDeletionError(): ApiError {
     return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.BRAND_LOGO_DELETION_ERROR, "brandLogoDeletionError");
   }
+
+  static overlappingShift(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.OVERLAPPING_SHIFT, "Overlapping");
+  }
 }
 
 export default ApiError;

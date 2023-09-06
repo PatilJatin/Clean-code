@@ -1,11 +1,12 @@
 
-import { ShiftRepository } from "@domain/availibility/repositories/shift-repository";
+
 import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either, Left, Right } from "monet";
 import { ShiftDataSource } from "../datasource/shift-datasource";
 import { ShiftEntity, ShiftModel } from "@domain/availibility/entities/shift-entity";
+import { AccessRuleRepository } from "@domain/availibility/repositories/access-rule-repository";
 
-export class ShiftRepositoryImpl implements ShiftRepository {
+export class AccessRuleRepositoryImpl implements AccessRuleRepository{
   private readonly dataSource: ShiftDataSource;
 
   constructor(dataSource: ShiftDataSource) {
