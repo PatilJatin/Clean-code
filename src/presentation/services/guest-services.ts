@@ -65,9 +65,9 @@ export class GuestServices {
             (error: ErrorClass) =>
                 res.status(error.status).json({ error: error.message }),
             (result: void) => {
-                if (result == undefined) {
-                    return res.json({ message: "Data Not Found" });
-                }
+                // if (result == undefined) {
+                //     return res.json({ message: "Data Not Found" });
+                // }
                 return res.json({ message: "Guest deleted successfully." });
             }
         );
@@ -107,7 +107,7 @@ export class GuestServices {
             (result: GuestEntity[]) => {
                 // Convert compnays from an array of guestsEntity to an array of plain JSON objects using CompanyMapper
                 const responseData = result.map((guest) =>
-                    GuestMapper.toModel(guest)
+                    GuestMapper.toEntity(guest)
                 );
                 // Send the admins as a JSON response
                 return res.json(responseData);

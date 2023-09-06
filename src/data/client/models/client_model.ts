@@ -86,7 +86,7 @@ const clientSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    postalCode: {
+    pincode: {
         type: String,
     },
     country: {
