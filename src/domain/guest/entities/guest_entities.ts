@@ -93,7 +93,7 @@ export class GuestMapper {
           ? guestData._id
             ? guestData._id.toString()
             : undefined
-          : undefined,
+          : guestData._id.toString(),
         firstName: guestData.firstName,
         lastName: guestData.lastName,
         email: guestData.email,

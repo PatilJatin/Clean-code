@@ -19,7 +19,7 @@ export default (app: Express): void => {
   app.use("/api/v1/outlet/media", mediaRoutes);
 
   app.use("/api/v1/superadmin", superAdminRouter);
-  app.use("/api/v1/guest", guestRouter);
-  app.use("/api/v1/client", clientRouter);
+  app.use("/api/v1/guests", guestRouter);
+  app.use("/api/v1/clients", clientRouter);
   app.use(router);
 };

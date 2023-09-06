@@ -86,7 +86,7 @@ export class ClientMapper {
       };
     } else {
       const clientEntity: ClientEntity = {
-        id: includeId ? (clientData._id ? clientData._id.toString() : undefined) : undefined,
+        id: includeId ? (clientData._id ? clientData._id.toString() : undefined) : clientData._id.toString(),
         name: clientData.name,
         salution: clientData.salution,
         jobTitle: clientData.jobTitle,
