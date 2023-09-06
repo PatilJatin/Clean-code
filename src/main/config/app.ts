@@ -1,6 +1,6 @@
 import express, { type Express } from "express";
 import setupRoutes from "@main/config/routes";
-import cors from "cors"
+import cors from "cors";
 
 export default (): Express => {
   const app = express();
