@@ -3,6 +3,7 @@ import { mediaRoutes } from "@presentation/routes/outlet-mediasource-routes";
 import { outletRouter } from "@presentation/routes/outlet-routes";
 import { superAdminRouter } from "@presentation/routes/super-admin-routes";
 import { guestRouter } from "@presentation/routes/guest-route";
+import { clientRouter } from "@presentation/routes/client-route";
 
 import { type Express, Router } from "express";
 
@@ -19,5 +20,6 @@ export default (app: Express): void => {
 
   app.use("/api/v1/superadmin", superAdminRouter);
   app.use("/api/v1/guest", guestRouter);
+  app.use("/api/v1/client", clientRouter);
   app.use(router);
 };
