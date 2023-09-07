@@ -13,6 +13,7 @@ const reservationStatusSchema = new mongoose.Schema({
   iconInitials: {
     type: String,
     trim: true,
+    required: [true, "Reservation icon is required"],
   },
   // Color code for the status
   color: {

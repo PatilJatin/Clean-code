@@ -9,6 +9,7 @@ import { GetReservationStatusById } from "@domain/reservation-status/usecases/ge
 import { GetAllReservationStatus } from "@domain/reservation-status/usecases/get-reservation-status";
 import { UpdateReservationStatus } from "@domain/reservation-status/usecases/update-reservation-status";
 import { DeleteReservationStatus } from "@domain/reservation-status/usecases/delete-reservation-status";
+import { validateReservationStatusInputMiddleware } from "@presentation/middlewares/reservationStatus/validation-reservation-status";
 
 const mongooseConnection = mongoose.connection;
 // Create an instance of the RoomDataSourceImpl and pass the mongoose connection
@@ -53,6 +54,7 @@ export const reservationStatusRouter = Router();
 // Route handling for creating a new Room
 reservationStatusRouter.post(
   "/create",
+  validateReservationStatusInputMiddleware(false),
   reservationStatusService.createReservationStatus.bind(
     reservationStatusService
   )
@@ -76,7 +78,7 @@ reservationStatusRouter.get(
 
 reservationStatusRouter.put(
   "/updateReservationStatus/:reservationStatusId",
-  //   validateRoomInputMiddleware,
+  validateReservationStatusInputMiddleware(true),
   reservationStatusService.updateReservationStatus.bind(
     reservationStatusService
   )
