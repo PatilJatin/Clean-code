@@ -63,9 +63,7 @@ export const validateSeatingAreaInputMiddleware = (
 ) => {
   try {
     // Extract the request body
-    const { body } = req;
-    console.log(body,"bidy is this");
-    
+    const { body } = req; 
 
     // Validate the room input using the roomValidator
     const validatedInput: SeatingAreaInput = seatingAreaValidator(body);
