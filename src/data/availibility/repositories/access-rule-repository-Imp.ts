@@ -2,60 +2,60 @@
 
 import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either, Left, Right } from "monet";
-import { ShiftDataSource } from "../datasource/shift-datasource";
-import { ShiftEntity, ShiftModel } from "@domain/availibility/entities/shift-entity";
 import { AccessRuleRepository } from "@domain/availibility/repositories/access-rule-repository";
+import { AccessRuleDataSource } from "../datasource/access-rule-datasource";
+import { AccessRuleEntity, AccessRuleModel } from "@domain/availibility/entities/access-rule-entity";
 
 export class AccessRuleRepositoryImpl implements AccessRuleRepository{
-  private readonly dataSource: ShiftDataSource;
+  private readonly dataSource: AccessRuleDataSource;
 
-  constructor(dataSource: ShiftDataSource) {
+  constructor(dataSource: AccessRuleDataSource) {
     this.dataSource = dataSource;
   }
 
-  async createShift(
-    shift: ShiftModel
-  ): Promise<Either<ErrorClass, ShiftEntity>> {
+  async createAccessRule(
+    accessRule: AccessRuleModel
+  ): Promise<Either<ErrorClass, AccessRuleEntity>> {
     try {
-      let i = await this.dataSource.create(shift);
+      let accessRuleData = await this.dataSource.create(accessRule);
       
-      return Right<ErrorClass, ShiftEntity>(i);
+      return Right<ErrorClass, AccessRuleEntity>(accessRuleData);
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
-        return Left<ErrorClass, ShiftEntity>(ApiError.overlappingShift());
+        return Left<ErrorClass, AccessRuleEntity>(ApiError.overlappingShift());
       }
-      return Left<ErrorClass, ShiftEntity>(ApiError.badRequest());
+      return Left<ErrorClass, AccessRuleEntity>(ApiError.badRequest());
     }
   }
 
 
-  async updateShift(
+  async updateAccessRule(
     id: string,
-    shiftData: ShiftModel
-  ): Promise<Either<ErrorClass, ShiftEntity>> {
+    accessRuleData: AccessRuleModel
+  ): Promise<Either<ErrorClass, AccessRuleEntity>> {
     try {
-      const response = await this.dataSource.update(id, shiftData);
-      return Right<ErrorClass, ShiftEntity>(response);
+      const response = await this.dataSource.update(id, accessRuleData);
+      return Right<ErrorClass, AccessRuleEntity>(response);
     } catch (error) {
-      return Left<ErrorClass, ShiftEntity>(ApiError.badRequest());
+      return Left<ErrorClass, AccessRuleEntity>(ApiError.badRequest());
     }
   }
 
 
 
-  async getShiftById(id: string ): Promise<Either<ErrorClass, ShiftEntity>> {
+  async getAccessRuleById(id: string ): Promise<Either<ErrorClass, AccessRuleEntity>> {
     try {
       let response = await this.dataSource.read(id);
-      return Right<ErrorClass, ShiftEntity>(response);
+      return Right<ErrorClass, AccessRuleEntity>(response);
     } catch (error) {
       if (error instanceof ApiError && error.status === 404) {
-        return Left<ErrorClass, ShiftEntity>(ApiError.notFound());
+        return Left<ErrorClass, AccessRuleEntity>(ApiError.notFound());
       }
-      return Left<ErrorClass, ShiftEntity>(ApiError.badRequest());
+      return Left<ErrorClass, AccessRuleEntity>(ApiError.badRequest());
     }
   }
 
-async deleteShift(id: string): Promise<Either<ErrorClass, void>> {
+async deleteAccessRule(id: string): Promise<Either<ErrorClass, void>> {
     try {
       const res = await this.dataSource.delete(id);
       return Right<ErrorClass, void>(res);
@@ -64,15 +64,15 @@ async deleteShift(id: string): Promise<Either<ErrorClass, void>> {
     }
   }
 
-    async getAllShifts(): Promise<Either<ErrorClass, ShiftEntity[]>> {
+    async getAllAccessRule(): Promise<Either<ErrorClass, AccessRuleEntity[]>> {
     try {
       const response = await this.dataSource.getAll();
-      return Right<ErrorClass, ShiftEntity[]>(response);
+      return Right<ErrorClass, AccessRuleEntity[]>(response);
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
-        return Left<ErrorClass, ShiftEntity[]>(ApiError.emailExist());
+        return Left<ErrorClass, AccessRuleEntity[]>(ApiError.emailExist());
       }
-      return Left<ErrorClass, ShiftEntity[]>(ApiError.badRequest());
+      return Left<ErrorClass, AccessRuleEntity[]>(ApiError.badRequest());
     }
   }
 }

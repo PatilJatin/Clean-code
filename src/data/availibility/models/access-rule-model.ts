@@ -191,6 +191,6 @@ const accessRuleSchema: Schema<IAccessRuleDocument> = new Schema({
 });
 
 // Define the AccessRule model using the schema
-const AccessRuleModel: Model<IAccessRuleDocument> = mongoose.model('AccessRule', accessRuleSchema);
+const AccessRule: Model<IAccessRuleDocument> = mongoose.model('AccessRule', accessRuleSchema);
 
-export default AccessRuleModel;
+export default AccessRule;

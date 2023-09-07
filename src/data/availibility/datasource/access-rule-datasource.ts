@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
 import { ShiftModel } from "@domain/availibility/entities/shift-entity";
 import Shift from "../models/shift-model";
+import AccessRule from "../models/access-rule-model";
+import { AccessRuleModel } from "@domain/availibility/entities/access-rule-entity";
 
 export interface AccessRuleDataSource {
-  create(shift: ShiftModel): Promise<any>;
-  update(id: string, shiftData: ShiftModel): Promise<any>;
+  create(accessRule: AccessRuleModel): Promise<any>;
+  update(id: string, accessRuleData: AccessRuleModel): Promise<any>;
   read(id: string): Promise<any>;
   delete(id: string): Promise<void>;
   getAll() : Promise<any[]>;
@@ -15,43 +17,21 @@ export interface AccessRuleDataSource {
 export class AccessRuleDataSourceImpl implements AccessRuleDataSource {
   constructor(private db: mongoose.Connection) {}
 
-  async create(shift: ShiftModel): Promise<any> {
+  async create(accessRule: AccessRuleModel): Promise<any> {
 
-    const overlappingShift = await Shift.findOne({
-      daysToRepeatThisShift: shift.daysToRepeatThisShift, // Check for the same day
-      $or: [
-        {
-          $and: [
-            { firstSeating: { $lte: shift.firstSeating } }, // New shift starts before or at the same time
-            { lastSeating: { $gte: shift.firstSeating } }, // New shift ends after or at the same time
-          ],
-        },
-        {
-          $and: [
-            { firstSeating: { $lte: shift.lastSeating } }, // New shift starts before or at the same time
-            { lastSeating: { $gte: shift.lastSeating } }, // New shift ends after or at the same time
-          ],
-        },
-      ],
-    });
-
-    if (overlappingShift) {
-      throw ApiError.overlappingShift();
-    }
-
-    const shiftData = new Shift(shift);
-    const savedShift: mongoose.Document = await shiftData.save();
-    return savedShift.toObject();
+    const accessRuleData = new AccessRule(accessRule);
+    const savedAccessRule: mongoose.Document = await accessRuleData.save();
+    return savedAccessRule.toObject();
   }
 
 
 
-  async update(id: string, shiftData: ShiftModel): Promise<any> {
+  async update(id: string, accessRuleData: AccessRuleModel): Promise<any> {
     try {
-      const updatedAdmin = await Shift.findByIdAndUpdate(id, shiftData, {
+      const updatedAccessRule = await AccessRule.findByIdAndUpdate(id, accessRuleData, {
         new: true,
       }); // No need for conversion here
-      return updatedAdmin ? updatedAdmin.toObject() : null; // Convert to plain JavaScript object before returning
+      return updatedAccessRule ? updatedAccessRule.toObject() : null; // Convert to plain JavaScript object before returning
     } catch (error) {
       throw ApiError.badRequest();
     }
@@ -59,24 +39,24 @@ export class AccessRuleDataSourceImpl implements AccessRuleDataSource {
 
   async read(id: string): Promise<any> {
     try {
-      const shift = await Shift.findById(id);
-      if (!shift) {
+      const accessRule = await AccessRule.findById(id);
+      if (!accessRule) {
         throw ApiError.notFound();
       }
-      return shift && shift.toObject(); // Convert to plain JavaScript object before returning
+      return accessRule && accessRule.toObject(); // Convert to plain JavaScript object before returning
     } catch (error) {
       throw ApiError.badRequest();
     }
   }
 
   async delete(id: string): Promise<void> {
-    await Shift.findByIdAndDelete(id);
+    await AccessRule.findByIdAndDelete(id);
   }
 
   async getAll(): Promise<any[]> {
     try {
-      const shifts = await Shift.find();
-      return shifts.map((shift) => shift.toObject()); // Convert to plain JavaScript objects before returning
+      const accessRules = await AccessRule.find();
+      return accessRules.map((accessRule) => accessRule.toObject()); // Convert to plain JavaScript objects before returning
     } catch (error) {
       throw ApiError.notFound();
     }
