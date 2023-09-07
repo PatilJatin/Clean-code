@@ -56,11 +56,15 @@ const seatingAreaValidator = function (
             "Seating Area name should not contain leading or trailing spaces",
           "any.required": "Seating Area name is required",
         }),
-    listOrder: Joi.number().required().messages({
-      "number.base": "List order must be a number",
-      "number.empty": "List order is required",
-      "any.required": "List order is required",
-    }),
+    listOrder: isUpdate
+      ? Joi.number().messages({
+          "number.base": "List order must be a number",
+        })
+      : Joi.number().required().messages({
+          "number.base": "List order must be a number",
+          "number.empty": "List order is required",
+          "any.required": "List order is required",
+        }),
   });
 
   const { error, value } = seatingAreaSchema.validate(input, {
@@ -89,7 +93,6 @@ export const validateSeatingAreaInputMiddleware = (
     try {
       // Extract the request body
       const { body } = req;
-
       // Validate the SeatingArea input using the seatingAreaValidator
       const validatedInput: SeatingAreaInput = seatingAreaValidator(
         body,

@@ -70,7 +70,7 @@ export class RoomService {
     // Call the GetAllOutletsUsecase to get all outlets
     const rooms: Either<ErrorClass, RoomEntity[]> =
       await this.getAllRoomsUsecase.execute();
-    console.log(rooms);
+
     rooms.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),

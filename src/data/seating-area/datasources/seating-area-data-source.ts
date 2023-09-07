@@ -50,7 +50,7 @@ export class SeatingAreaDataSourceImpl implements SeatingAreaDataSource {
     );
     return updatedSeatingArea ? updatedSeatingArea.toObject() : null;
   }
-
+ 
   async delete(id: string): Promise<void> {
     await SeatingArea.findByIdAndDelete(id);
   }
