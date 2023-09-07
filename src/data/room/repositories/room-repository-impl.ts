@@ -34,6 +34,7 @@ export class RoomRepositoryImpl implements RoomRepository {
       return Left<ErrorClass, RoomEntity>(ApiError.internalError());
     }
   }
+  
   async getRooms(): Promise<Either<ErrorClass, RoomEntity[]>> {
     try {
       const response = await this.dataSource.getAllRooms();
