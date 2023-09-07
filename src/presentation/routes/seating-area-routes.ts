@@ -42,7 +42,7 @@ export const seatingAreaRouter = Router();
 // Route handling for creating a new Room
 seatingAreaRouter.post(
   "/create",
-  // validateSeatingAreaInputMiddleware,
+  validateSeatingAreaInputMiddleware(false),
   seatingAreaService.createSeatingArea.bind(seatingAreaService)
 );
 
@@ -60,7 +60,7 @@ seatingAreaRouter.get(
 
 seatingAreaRouter.put(
   "/updateSeatingArea/:seatingAreaId",
-  validateSeatingAreaInputMiddleware,
+  validateSeatingAreaInputMiddleware(true),
   seatingAreaService.updateSeatingArea.bind(seatingAreaService)
 );
 
