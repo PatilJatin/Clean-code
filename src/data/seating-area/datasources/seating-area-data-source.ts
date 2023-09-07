@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
-import { SeatingAreaModel } from "@domain/seating-area/entities/seatingArea";
-import { SeatingArea } from "../models/seatingArea-model";
+import { SeatingAreaModel } from "@domain/seating-area/entities/seating-area";
+import { SeatingArea } from "../models/seating-area-model";
 
 export interface SeatingAreaDataSource {
   create(seatingArea: SeatingAreaModel): Promise<any>;
@@ -15,21 +15,18 @@ export class SeatingAreaDataSourceImpl implements SeatingAreaDataSource {
   constructor(private db: mongoose.Connection) {}
 
   async create(seatingArea: SeatingAreaModel): Promise<any> {
-    console.log("=====>s1", "dataSource", seatingArea.seatingAreaName);
     const existingSeatingArea = await SeatingArea.findOne({
       seatingAreaName: seatingArea.seatingAreaName,
     });
-
-    console.log("=====>s2", "dataSource", existingSeatingArea);
+    
     if (existingSeatingArea) {
       throw ApiError.emailExist();
     }
 
     const seatingAreaData = new SeatingArea(seatingArea);
-    console.log("=====>s3", "dataSource", seatingAreaData);
+    
     const createdSeatingArea = await seatingAreaData.save();
 
-    console.log("=====>s4", "dataSource", createdSeatingArea);
     return createdSeatingArea.toObject();
   }
 
@@ -53,7 +50,7 @@ export class SeatingAreaDataSourceImpl implements SeatingAreaDataSource {
     );
     return updatedSeatingArea ? updatedSeatingArea.toObject() : null;
   }
-
+ 
   async delete(id: string): Promise<void> {
     await SeatingArea.findByIdAndDelete(id);
   }

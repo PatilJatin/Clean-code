@@ -9,6 +9,7 @@ import { GetTableById } from "@domain/table/usecases/get-table-by-id";
 import { GetAllTables } from "@domain/table/usecases/get-tables";
 import { DeleteTable } from "@domain/table/usecases/delete-table";
 import { UpdateTable } from "@domain/table/usecases/update-table";
+import { validateTableInputMiddleware } from "@presentation/middlewares/table/table-validation";
 
 const mongooseConnection = mongoose.connection;
 // Create an instance of the TableDataSourceImpl and pass the mongoose connection
@@ -37,7 +38,11 @@ const tableService = new TableService(
 export const tableRouter = Router();
 
 // Route handling for creating a new Room
-tableRouter.post("/create", tableService.createTable.bind(tableService));
+tableRouter.post(
+  "/create",
+  validateTableInputMiddleware(false),
+  tableService.createTable.bind(tableService)
+);
 
 //Route handling for getTableById
 tableRouter.get(
@@ -50,6 +55,7 @@ tableRouter.get("/getAllTables", tableService.getAllTables.bind(tableService));
 
 tableRouter.put(
   "/updateTable/:tableId",
+  validateTableInputMiddleware(true),
   tableService.updateTable.bind(tableService)
 );
 

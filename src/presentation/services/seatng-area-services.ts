@@ -11,9 +11,10 @@ import {
   SeatingAreaEntity,
   SeatingAreaMapper,
   SeatingAreaModel,
-} from "@domain/seating-area/entities/seatingArea";
+} from "@domain/seating-area/entities/seating-area";
 
 export class SeatingAreaService {
+  // private readonly createSeatingAreaUsecase: CreateSeatingAreaUsecase;
   private readonly createSeatingAreaUsecase: CreateSeatingAreaUsecase;
   private readonly getSeatingAreaByIdUsecase: GetSeatingAreaByIdUsecase;
   private readonly getAllSeatingAreasUsecase: GetAllSeatingAreasUsecase;
@@ -21,6 +22,7 @@ export class SeatingAreaService {
   private readonly deleteSeatingAreaUsecase: DeleteSeatingAreaUsecase;
 
   constructor(
+    // createSeatingAreaUsecase: CreateSeatingAreaUsecase,
     createSeatingAreaUsecase: CreateSeatingAreaUsecase,
     getSeatingAreaByIdUsecase: GetSeatingAreaByIdUsecase,
     getAllSeatingAreasUsecase: GetAllSeatingAreasUsecase,
@@ -38,12 +40,10 @@ export class SeatingAreaService {
     const seatingAreaData: SeatingAreaModel = SeatingAreaMapper.toModel(
       req.body
     );
-    console.log("=====>S1", "service", seatingAreaData);
-    
+
     const newSeatingArea: Either<ErrorClass, SeatingAreaEntity> =
       await this.createSeatingAreaUsecase.execute(seatingAreaData);
 
-    console.log("=====>S2", "service", newSeatingArea);
     newSeatingArea.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),

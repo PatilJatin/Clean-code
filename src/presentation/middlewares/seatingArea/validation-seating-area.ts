@@ -1,9 +1,8 @@
 import Joi, { ValidationErrorItem } from "joi";
 import ApiError from "@presentation/error-handling/api-error";
 import { Request, Response, NextFunction } from "express";
-import { Console } from "console";
 
-// Define the input interface for Room
+// Define the input interface for SeatingArea
 interface SeatingAreaInput {
   abbreviation: string;
   seatingAreaName: string;
@@ -11,30 +10,61 @@ interface SeatingAreaInput {
 }
 
 const seatingAreaValidator = function (
-  input: SeatingAreaInput
+  input: SeatingAreaInput,
+  isUpdate: boolean = false
 ): SeatingAreaInput {
   const seatingAreaSchema = Joi.object<SeatingAreaInput>({
-    abbreviation: Joi.string().required().max(30).trim().uppercase().messages({
-      "string.base": "Abbreviation must be a string",
-      "string.empty": "Abbreviation is required",
-      "string.max": "Abbreviation should be under 30 characters",
-      "string.trim":
-        "Abbreviation should not contain leading or trailing spaces",
-      "any.required": "Abbreviation is required",
-    }),
-    seatingAreaName: Joi.string().required().max(30).trim().messages({
-      "string.base": "Seating Area name must be a string",
-      "string.empty": "Seating Area name is required",
-      "string.max": "Seating Area name should be under 30 characters",
-      "string.trim":
-        "Seating Area name should not contain leading or trailing spaces",
-      "any.required": "Seating Area name is required",
-    }),
-    listOrder: Joi.number().required().messages({
-      "number.base": "List order must be a number",
-      "number.empty": "List order is required",
-      "any.required": "List order is required",
-    }),
+    abbreviation: isUpdate
+      ? Joi.string()
+          .regex(/^[A-Z]+$/)
+          .max(30)
+          .trim()
+          .optional()
+          .messages({
+            "string.pattern.base":
+              "Abbreviation should contain only uppercase letters",
+            "string.max": "Abbreviation should be under 30 characters",
+            "string.trim":
+              "Abbreviation should not contain leading or trailing spaces",
+          })
+      : Joi.string()
+          .regex(/^[A-Z]+$/)
+          .required()
+          .max(30)
+          .trim()
+          .messages({
+            "string.pattern.base":
+              "Abbreviation should contain only uppercase letters",
+            "string.base": "Abbreviation must be a string",
+            "string.empty": "Abbreviation is required",
+            "string.max": "Abbreviation should be under 30 characters",
+            "string.trim":
+              "Abbreviation should not contain leading or trailing spaces",
+            "any.required": "Abbreviation is required",
+          }),
+    seatingAreaName: isUpdate
+      ? Joi.string().max(30).trim().optional().messages({
+          "string.max": "Seating Area name should be under 30 characters",
+          "string.trim":
+            "Seating Area name should not contain leading or trailing spaces",
+        })
+      : Joi.string().required().max(30).trim().messages({
+          "string.base": "Seating Area name must be a string",
+          "string.empty": "Seating Area name is required",
+          "string.max": "Seating Area name should be under 30 characters",
+          "string.trim":
+            "Seating Area name should not contain leading or trailing spaces",
+          "any.required": "Seating Area name is required",
+        }),
+    listOrder: isUpdate
+      ? Joi.number().messages({
+          "number.base": "List order must be a number",
+        })
+      : Joi.number().required().messages({
+          "number.base": "List order must be a number",
+          "number.empty": "List order is required",
+          "any.required": "List order is required",
+        }),
   });
 
   const { error, value } = seatingAreaSchema.validate(input, {
@@ -57,31 +87,30 @@ const seatingAreaValidator = function (
 };
 
 export const validateSeatingAreaInputMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
+  isUpdate: boolean = false
 ) => {
-  try {
-    // Extract the request body
-    const { body } = req;
-    console.log(body,"bidy is this");
-    
+  return (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // Extract the request body
+      const { body } = req;
+      // Validate the SeatingArea input using the seatingAreaValidator
+      const validatedInput: SeatingAreaInput = seatingAreaValidator(
+        body,
+        isUpdate
+      );
 
-    // Validate the room input using the roomValidator
-    const validatedInput: SeatingAreaInput = seatingAreaValidator(body);
+      // Continue to the next middleware or route handler
+      next();
+    } catch (error) {
+      if (error instanceof ApiError) {
+        return res.status(error.status).json(error.message);
+      }
 
-    // Continue to the next middleware or route handler
-    next();
-  } catch (error) {
-    if (error instanceof ApiError) {
-      return res.status(error.status).json(error.message);
+      // Respond with the custom error
+      const err = ApiError.badRequest();
+      return res.status(err.status).json(err.message);
     }
-     console.log("eror in catch",error);
-     
-    // Respond with the custom error
-    const err = ApiError.badRequest();
-    return res.status(err.status).json(err.message);
-  }
+  };
 };
 
 export default validateSeatingAreaInputMiddleware;

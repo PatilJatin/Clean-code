@@ -1,7 +1,7 @@
 import { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either } from "monet";
-import { SeatingAreaEntity } from "../entities/seatingArea";
-import { SeatingAreaRepository } from "../repositories/seatingArea-repository";
+import { SeatingAreaEntity } from "../entities/seating-area";
+import { SeatingAreaRepository } from "../repositories/seating-area-repository";
 
 export interface GetSeatingAreaByIdUsecase {
   execute: (
