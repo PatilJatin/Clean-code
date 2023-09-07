@@ -1,11 +1,11 @@
-import { SeatingAreaRepository } from "@domain/seating-area/repositories/seatingArea-repository";
+import { SeatingAreaRepository } from "@domain/seating-area/repositories/seating-area-repository";
 import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either, Left, Right } from "monet";
 import { SeatingAreaDataSource } from "../datasources/seating-area-data-source";
 import {
   SeatingAreaEntity,
   SeatingAreaModel,
-} from "@domain/seating-area/entities/seatingArea";
+} from "@domain/seating-area/entities/seating-area";
 
 export class SeatingAreaRepositoryImpl implements SeatingAreaRepository {
   private readonly dataSource: SeatingAreaDataSource;
@@ -18,14 +18,16 @@ export class SeatingAreaRepositoryImpl implements SeatingAreaRepository {
     seatingArea: SeatingAreaModel
   ): Promise<Either<ErrorClass, SeatingAreaEntity>> {
     try {
-      console.log("===>s1", "repoImpl", seatingArea);
+
       let i = await this.dataSource.create(seatingArea);
-      console.log("===>s2", "repoImpl", i);
+      
       return Right<ErrorClass, SeatingAreaEntity>(i);
     } catch (e) {
+
       if (typeof ApiError.emailExist) {
         return Left<ErrorClass, SeatingAreaEntity>(ApiError.emailExist());
       }
+
       return Left<ErrorClass, SeatingAreaEntity>(ApiError.badRequest());
     }
   }
@@ -43,6 +45,7 @@ export class SeatingAreaRepositoryImpl implements SeatingAreaRepository {
       return Left<ErrorClass, SeatingAreaEntity>(ApiError.internalError());
     }
   }
+
   async getSeatingAreas(): Promise<Either<ErrorClass, SeatingAreaEntity[]>> {
     try {
       const response = await this.dataSource.getAllSeatingAreas();
@@ -69,6 +72,7 @@ export class SeatingAreaRepositoryImpl implements SeatingAreaRepository {
       return Left<ErrorClass, SeatingAreaEntity>(ApiError.internalError());
     }
   }
+
   async deleteSeatingArea(id: string): Promise<Either<ErrorClass, void>> {
     try {
       const i = await this.dataSource.delete(id);

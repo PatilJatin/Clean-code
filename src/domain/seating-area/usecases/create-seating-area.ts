@@ -1,7 +1,7 @@
 import { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either } from "monet";
-import { SeatingAreaEntity, SeatingAreaModel } from "../entities/seatingArea";
-import { SeatingAreaRepository } from "../repositories/seatingArea-repository";
+import { SeatingAreaEntity, SeatingAreaModel } from "../entities/seating-area";
+import { SeatingAreaRepository } from "../repositories/seating-area-repository";
 
 export interface CreateSeatingAreaUsecase {
   execute: (
@@ -19,6 +19,9 @@ export class CreateSeatingArea implements CreateSeatingAreaUsecase {
   async execute(
     seatingAreaData: SeatingAreaModel
   ): Promise<Either<ErrorClass, SeatingAreaEntity>> {
-    return await this.seatingAreaRepository.createSeatingArea(seatingAreaData);
+    const res = await this.seatingAreaRepository.createSeatingArea(
+      seatingAreaData
+    );
+    return res;
   }
 }

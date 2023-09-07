@@ -1,6 +1,6 @@
 import { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either } from "monet";
-import { SeatingAreaRepository } from "../repositories/seatingArea-repository";
+import { SeatingAreaRepository } from "../repositories/seating-area-repository";
 
 export interface DeleteSeatingAreaUsecase {
   execute: (seatingAreaId: string) => Promise<Either<ErrorClass, void>>;
