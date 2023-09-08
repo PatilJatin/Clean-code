@@ -72,9 +72,15 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     default: [],
   },
   howFarInAdvanceCanReservationsBeBookedInternally: {
-    type: String,
-    enum: ['Indefinitely', 'HoursInAdvance', 'DaysInAdvance', 'WeeksInAdvance', 'MonthsInAdvance'],
-    default: 'Indefinitely',
+      type: {
+        value: { type: Number },
+        unit: {
+          type: String,
+          enum: ['Indefinitely', 'HoursInAdvance', 'DaysInAdvance', 'WeeksInAdvance', 'MonthsInAdvance'],
+          default: 'Indefinitely',
+        },
+        reservationTime: String
+      },
   },
   partySizeMin: {
     type: Number,
@@ -98,8 +104,7 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     required: true,
   },
   setMaximumTotalCoversForShift: {
-    type: Boolean,
-    default: true,
+    type: String,
   },
   allowDoubleBookingOnSameTables: {
     type: Boolean,
@@ -111,8 +116,15 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     default: 'At Any Time',
   },
   timeBeforeCutOff: {
-    type: Number,
-    default: 60,
+    type: {
+      value: { type: Number },
+      unit: {
+        type: String,
+        enum: ['Indefinitely', 'HoursInAdvance', 'DaysInAdvance', 'WeeksInAdvance', 'MonthsInAdvance'],
+        default: 'Indefinitely',
+      },
+      reservationTime: String
+    },
   },
   bookingPolicy: {
     type: String,

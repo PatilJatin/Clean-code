@@ -1,32 +1,42 @@
 import { IShift } from "types/availibility/schema-type";
 
 export class ShiftModel implements IShift {
-    constructor(
-      public shiftName: string = "",
-      public shiftCategory: 'breakfast' | 'brunch' | 'lunch' | 'day' | 'dinner' | 'night' = 'breakfast',
-      public startDate: Date = new Date(),
-      public endDate: Date | null = null,
-      public daysToRepeatThisShift: string[] = [],
-      public firstSeating: Date = new Date(),
-      public lastSeating: Date = new Date(),
-      public timeInterval: 15 | 30 | 60 = 15,
-      public floorPlanLayout: string = "default",
-      public seatingAreasAvailable: ('Restaurant' | 'Bar' | 'SushiBar' | 'Prive' | 'PriveBar')[] = [],
-      public howFarInAdvanceCanReservationsBeBookedInternally: 'Indefinitely' = 'Indefinitely',
-      public partySizeMin: number = 1,
-      public partySizeMax: number = 30,
-      public enforceForUsersWithoutPartySizeOverbookingPermission: boolean = false,
-      public durationAverageTurnTimeBasedOnPartySize: { partySize: number; duration: number }[] = [],
-      public pacing: number = 0,
-      public setMaximumTotalCoversForShift: boolean = true,
-      public allowDoubleBookingOnSameTables: boolean = false,
-      public modifyBookingNotification: 'At Any Time' = 'At Any Time',
-      public timeBeforeCutOff: number = 60,
-      public bookingPolicy: 'Default Booking Policy' | 'Custom Policy' = 'Default Booking Policy',
-      public policyDescription: string = '',
-      public addSelectableUpgrades: boolean = false,
-    ) {}
-  }
+  constructor(
+    public shiftName: string = "",
+    public shiftCategory: 'breakfast' | 'brunch' | 'lunch' | 'day' | 'dinner' | 'night' = 'breakfast',
+    public startDate: Date = new Date(),
+    public endDate: Date | null = null,
+    public daysToRepeatThisShift: string[] = [],
+    public firstSeating: Date = new Date(),
+    public lastSeating: Date = new Date(),
+    public timeInterval: 15 | 30 | 60 = 15,
+    public floorPlanLayout: string = "default",
+    public seatingAreasAvailable: ('Restaurant' | 'Bar' | 'SushiBar' | 'Prive' | 'PriveBar')[] = [],
+    public howFarInAdvanceCanReservationsBeBookedInternally:
+      | { value?: number; unit: 'Indefinitely'; reservationTime?: string }
+      | { value?: number; unit: 'HoursInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'DaysInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'WeeksInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'MonthsInAdvance'; reservationTime?: string } = { unit: 'Indefinitely' },
+    public partySizeMin: number = 1,
+    public partySizeMax: number = 30,
+    public enforceForUsersWithoutPartySizeOverbookingPermission: boolean = false,
+    public durationAverageTurnTimeBasedOnPartySize: { partySize: number; duration: number }[] = [],
+    public pacing: number = 0,
+    public setMaximumTotalCoversForShift: string | undefined = undefined,
+    public allowDoubleBookingOnSameTables: boolean = false,
+    public modifyBookingNotification: 'At Any Time' = 'At Any Time',
+    public timeBeforeCutOff:
+      | { value?: number; unit: 'Indefinitely'; reservationTime?: string }
+      | { value?: number; unit: 'HoursInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'DaysInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'WeeksInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'MonthsInAdvance'; reservationTime?: string },
+    public bookingPolicy: 'Default Booking Policy' | 'Custom Policy' = 'Default Booking Policy',
+    public policyDescription: string | undefined = undefined,
+    public addSelectableUpgrades: boolean = false,
+  ) {}
+}
 
   export class ShiftEntity {
     constructor(
@@ -41,16 +51,26 @@ export class ShiftModel implements IShift {
       public timeInterval: 15 | 30 | 60,
       public floorPlanLayout: string,
       public seatingAreasAvailable: ('Restaurant' | 'Bar' | 'SushiBar' | 'Prive' | 'PriveBar')[],
-      public howFarInAdvanceCanReservationsBeBookedInternally: 'Indefinitely' | 'HoursInAdvance' | 'DaysInAdvance' | 'WeeksInAdvance' | 'MonthsInAdvance' = 'Indefinitely',
+      public howFarInAdvanceCanReservationsBeBookedInternally:
+      | { value?: number; unit: 'Indefinitely'; reservationTime?: string }
+      | { value?: number; unit: 'HoursInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'DaysInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'WeeksInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'MonthsInAdvance'; reservationTime?: string } =  { unit: 'Indefinitely' },
       public partySizeMin: number,
       public partySizeMax: number,
       public enforceForUsersWithoutPartySizeOverbookingPermission: boolean,
       public durationAverageTurnTimeBasedOnPartySize: { partySize: number; duration: number }[],
       public pacing: number,
-      public setMaximumTotalCoversForShift: boolean,
+      public setMaximumTotalCoversForShift: string,
       public allowDoubleBookingOnSameTables: boolean,
       public modifyBookingNotification: 'At Any Time' | 'Never' | 'Up Until Cut-off Time' = 'At Any Time',
-      public timeBeforeCutOff: number,
+      public timeBeforeCutOff:
+      | { value?: number; unit: 'Indefinitely'; reservationTime?: string }
+      | { value?: number; unit: 'HoursInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'DaysInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'WeeksInAdvance'; reservationTime?: string }
+      | { value?: number; unit: 'MonthsInAdvance'; reservationTime?: string },
       public bookingPolicy: 'Default Booking Policy' | 'Custom Policy',
       public policyDescription: string ,
       public addSelectableUpgrades: boolean,
@@ -209,7 +229,7 @@ export class ShiftMapper {
       timeInterval: shift.timeInterval,
       floorPlanLayout: shift.floorPlanLayout,
       seatingAreasAvailable: shift.seatingAreasAvailable,
-      howFarInAdvanceCanReservationsBeBookedInternally: shift.howFarInAdvanceCanReservationsBeBookedInternally as 'Indefinitely',
+      howFarInAdvanceCanReservationsBeBookedInternally: shift.howFarInAdvanceCanReservationsBeBookedInternally ,
       partySizeMin: shift.partySizeMin,
       partySizeMax: shift.partySizeMax,
       enforceForUsersWithoutPartySizeOverbookingPermission: shift.enforceForUsersWithoutPartySizeOverbookingPermission,
@@ -217,7 +237,7 @@ export class ShiftMapper {
       pacing: shift.pacing,
       setMaximumTotalCoversForShift: shift.setMaximumTotalCoversForShift,
       allowDoubleBookingOnSameTables: shift.allowDoubleBookingOnSameTables,
-      modifyBookingNotification: shift.modifyBookingNotification as 'At Any Time',
+      modifyBookingNotification: shift.modifyBookingNotification as "At Any Time",
       timeBeforeCutOff: shift.timeBeforeCutOff,
       bookingPolicy: shift.bookingPolicy,
       policyDescription: shift.bookingPolicy,
