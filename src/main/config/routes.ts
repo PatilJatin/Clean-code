@@ -8,8 +8,11 @@ import { clientRouter } from "@presentation/routes/client-route";
 import { clientTagCategoryRouter } from "@presentation/routes/client-tag-category-route";
 import { reservationTagCategoryRouter } from "@presentation/routes/reservation-tag-category-route";
 import { clientTagRouter } from "@presentation/routes/client-tag-route";
+import { reservationTagRouter } from "@presentation/routes/reservation-tag-route";
+
 import { type Express, Router } from "express";
 import { serverNameRouter } from "@presentation/routes/server-name-routes";
+
 
 export default (app: Express): void => {
   const router = Router();
@@ -30,5 +33,6 @@ export default (app: Express): void => {
   app.use("/api/v1/clienttagcategory", clientTagCategoryRouter);
   app.use("/api/v1/reservationtagcategory", reservationTagCategoryRouter);
   app.use("/api/v1/clienttag", clientTagRouter);
+  app.use("/api/v1/reservationtag", reservationTagRouter);
   app.use(router);
 };
