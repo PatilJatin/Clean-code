@@ -9,7 +9,7 @@ import { superAdminRouter } from "@presentation/routes/super-admin-routes";
 import { tableRouter } from "@presentation/routes/table-routes";
 import { guestRouter } from "@presentation/routes/guest-route";
 import { clientRouter } from "@presentation/routes/client-route";
-import { tagCategoryRouter } from "@presentation/routes/tag-category-route";
+import { clientTagCategoryRouter } from "@presentation/routes/client-tag-category-route";
 
 
 import { type Express, Router } from "express";
@@ -34,7 +34,7 @@ export default (app: Express): void => {
   app.use("/api/v1/superadmin", superAdminRouter);
   app.use("/api/v1/guests", guestRouter);
   app.use("/api/v1/clients", clientRouter);
-  app.use("/api/v1/tagcategory", tagCategoryRouter);
+  app.use("/api/v1/clienttagcategory", clientTagCategoryRouter);
   app.use(router);
 };
 
