@@ -23,6 +23,7 @@ export class ShiftModel implements IShift {
       public modifyBookingNotification: 'At Any Time' = 'At Any Time',
       public timeBeforeCutOff: number = 60,
       public bookingPolicy: 'Default Booking Policy' | 'Custom Policy' = 'Default Booking Policy',
+      public policyDescription: string = '',
       public addSelectableUpgrades: boolean = false,
     ) {}
   }
@@ -51,6 +52,7 @@ export class ShiftModel implements IShift {
       public modifyBookingNotification: 'At Any Time' | 'Never' | 'Up Until Cut-off Time' = 'At Any Time',
       public timeBeforeCutOff: number,
       public bookingPolicy: 'Default Booking Policy' | 'Custom Policy',
+      public policyDescription: string ,
       public addSelectableUpgrades: boolean,
     ) {}
   }
@@ -151,6 +153,10 @@ export class ShiftMapper {
           shiftData.bookingPolicy !== undefined
             ? shiftData.bookingPolicy
             : existingShift.bookingPolicy,
+        policyDescription: 
+        shiftData.policyDescription !== undefined
+            ? shiftData.policyDescription
+            : existingShift.policyDescription,
         addSelectableUpgrades:
           shiftData.addSelectableUpgrades !== undefined
             ? shiftData.addSelectableUpgrades
@@ -184,6 +190,7 @@ export class ShiftMapper {
         modifyBookingNotification: shiftData.modifyBookingNotification,
         timeBeforeCutOff: shiftData.timeBeforeCutOff,
         bookingPolicy: shiftData.bookingPolicy,
+        policyDescription: shiftData.bookingPolicy,
         addSelectableUpgrades: shiftData.addSelectableUpgrades,
       };
       return shiftEntity;
@@ -213,6 +220,7 @@ export class ShiftMapper {
       modifyBookingNotification: shift.modifyBookingNotification as 'At Any Time',
       timeBeforeCutOff: shift.timeBeforeCutOff,
       bookingPolicy: shift.bookingPolicy,
+      policyDescription: shift.bookingPolicy,
       addSelectableUpgrades: shift.addSelectableUpgrades,
     };
   }

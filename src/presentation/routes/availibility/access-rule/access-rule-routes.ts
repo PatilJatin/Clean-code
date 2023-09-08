@@ -37,19 +37,19 @@ const accessRuleService = new AccessRuleService(
 );
 
 // Create an Express router
-export const shiftRouter = Router();
+export const accessRuleRouter = Router();
 
 // Route handling for creating a new admin
-shiftRouter.post("/create",  accessRuleService.createAccessRule.bind(accessRuleService));
+accessRuleRouter.post("/create",  accessRuleService.createAccessRule.bind(accessRuleService));
 
 // Route handling for updating an shift by ID
-shiftRouter.put("/update/:accessId",accessRuleService.updateAccessRule.bind(accessRuleService));
+accessRuleRouter.put("/update/:accessId",accessRuleService.updateAccessRule.bind(accessRuleService));
 
 // Route handling for getting an shift by ID
-shiftRouter.get("/getbyid/:accessId",accessRuleService.getAccessRuleById.bind(accessRuleService));
+accessRuleRouter.get("/getbyid/:accessId",accessRuleService.getAccessRuleById.bind(accessRuleService));
 
 // Route handling for deleting an admin by ID
-shiftRouter.delete("/delete/:accessId", accessRuleService.deleteAccessRule.bind(accessRuleService));
+accessRuleRouter.delete("/delete/:accessId", accessRuleService.deleteAccessRule.bind(accessRuleService));
 
 // Route handling for getting all shifts
-shiftRouter.get("/getAll", accessRuleService.getAllAccessRule.bind(accessRuleService));
+accessRuleRouter.get("/getAll", accessRuleService.getAllAccessRule.bind(accessRuleService));

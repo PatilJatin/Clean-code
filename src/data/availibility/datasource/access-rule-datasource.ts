@@ -1,8 +1,6 @@
 
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
-import { ShiftModel } from "@domain/availibility/entities/shift-entity";
-import Shift from "../models/shift-model";
 import AccessRule from "../models/access-rule-model";
 import { AccessRuleModel } from "@domain/availibility/entities/access-rule-entity";
 
