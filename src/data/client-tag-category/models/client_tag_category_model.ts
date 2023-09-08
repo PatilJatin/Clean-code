@@ -2,7 +2,7 @@ import { strict } from "assert";
 import { array, boolean, object, string } from "joi";
 import mongoose from "mongoose";
 
-const tagCategorySchema = new mongoose.Schema({
+const clientTagCategorySchema = new mongoose.Schema({
     name: {
         type: String,
         minlength: [3, "Name should have at least 3 characters"],
@@ -32,11 +32,10 @@ const tagCategorySchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-    }
+    },
 });
 
-export const TagCategory = mongoose.model('TagCategory', tagCategorySchema);
-
+export const ClientTagCategory = mongoose.model('ClientTagCategory', clientTagCategorySchema);
 
 
 
