@@ -18,7 +18,7 @@ export class ReservationStatusEntity {
     public iconInitials: string,
     public color: string,
     public classification: string,
-    public active: boolean,
+    public active: boolean ,
     public durationHolds: number | undefined
   ) {}
 }

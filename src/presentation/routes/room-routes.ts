@@ -40,7 +40,7 @@ export const roomRouter = Router();
 // Route handling for creating a new Room
 roomRouter.post(
   "/create",
-  validateRoomInputMiddleware,
+  validateRoomInputMiddleware(false),
   roomService.createRoom.bind(roomService)
 );
 
@@ -52,7 +52,7 @@ roomRouter.get("/getAllRooms", roomService.getAllRooms.bind(roomService));
 
 roomRouter.put(
   "/updateRoom/:roomId",
-  validateRoomInputMiddleware,
+  validateRoomInputMiddleware(true),
   roomService.updateRoom.bind(roomService)
 );
 
