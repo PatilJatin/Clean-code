@@ -7,6 +7,7 @@ export class ReservationTagCategoryModel {
     public vip: boolean = false,
     public display: object = {},
     public followers: string[] = [],
+    public tags: string[] = [],
     public createdAt: Date
   ) { }
 }
@@ -21,6 +22,7 @@ export class ReservationTagCategoryEntity {
     public vip: boolean = false,
     public display: object = {},
     public followers: string[] = [],
+    public tags: string[] = [],
     public createdAt: Date
   ) { }
 }
@@ -41,6 +43,7 @@ export class ReservationTagCategoryMapper {
         vip: reservationTagCategoryData.vip !== undefined ? reservationTagCategoryData.vip : existingReservationTagCategory.vip,
         display: reservationTagCategoryData.display !== undefined ? reservationTagCategoryData.display : existingReservationTagCategory.display,
         followers: reservationTagCategoryData.followers !== undefined ? reservationTagCategoryData.followers : existingReservationTagCategory.followers,
+        tags: reservationTagCategoryData.tags !== undefined ? reservationTagCategoryData.tags : existingReservationTagCategory.tags,
         createdAt: reservationTagCategoryData.createdAt !== undefined ? reservationTagCategoryData.createdAt : existingReservationTagCategory.createdAt,
       };
     } else {
@@ -52,6 +55,7 @@ export class ReservationTagCategoryMapper {
         vip: reservationTagCategoryData.vip,
         display: reservationTagCategoryData.display,
         followers: reservationTagCategoryData.followers,
+        tags: reservationTagCategoryData.tags,
         createdAt: reservationTagCategoryData.createdAt,
       };
       return reservationTagCategoryData;
@@ -66,6 +70,7 @@ export class ReservationTagCategoryMapper {
       vip: reservationTagCategory.vip,
       display: reservationTagCategory.display,
       followers: reservationTagCategory.followers,
+      tags: reservationTagCategory.tags,
       createdAt: reservationTagCategory.createdAt,
     };
   }
