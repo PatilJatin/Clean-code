@@ -20,7 +20,9 @@ export class CreateAccessLevel implements CreateAccessLevelUsecase {
   }
 
   async execute(accessLevelData: AccessLevelModel): Promise<Either<ErrorClass, AccessLevelEntity>> {
+
     return await this.accessLevelRepository.createAccessLevel(accessLevelData);
+
   }
 }
 

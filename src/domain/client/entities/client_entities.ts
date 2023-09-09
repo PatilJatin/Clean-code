@@ -20,6 +20,7 @@ export class ClientModel {
     public pincode: number = 0,
     public contactInfoVisibilityOnlytoSuperUser: boolean,
     public birthDate: Date,
+    public anniversaryDate: Date,
     public gender: string,
     public createdAt: Date
   ) { }
@@ -48,6 +49,7 @@ export class ClientEntity {
     public pincode: number = 0,
     public contactInfoVisibilityOnlytoSuperUser: boolean,
     public birthDate: Date,
+    public anniversaryDate: Date,
     public gender: string,
     public createdAt: Date
   ) { }
@@ -84,6 +86,7 @@ export class ClientMapper {
           ? clientData.contactInfoVisibilityOnlytoSuperUser
           : existingClient.contactInfoVisibilityOnlytoSuperUser,
         birthDate: clientData.birthDate !== undefined ? clientData.birthDate : existingClient.birthDate,
+        anniversaryDate: clientData.anniversaryDate !== undefined ? clientData.anniversaryDate : existingClient.anniversaryDate,
         gender: clientData.gender !== undefined ? clientData.gender : existingClient.gender,
         createdAt: clientData.createdAt !== undefined ? clientData.createdAt : existingClient.createdAt,
       };
@@ -109,6 +112,7 @@ export class ClientMapper {
         pincode: clientData.pincode,
         contactInfoVisibilityOnlytoSuperUser: clientData.contactInfoVisibilityOnlytoSuperUser,
         birthDate: clientData.birthDate,
+        anniversaryDate: clientData.anniversaryDate,
         gender: clientData.gender,
         createdAt: clientData.createdAt,
       };
@@ -137,6 +141,7 @@ export class ClientMapper {
       pincode: client.pincode,
       contactInfoVisibilityOnlytoSuperUser: client.contactInfoVisibilityOnlytoSuperUser,
       birthDate: client.birthDate,
+      anniversaryDate: client.anniversaryDate,
       gender: client.gender,
       createdAt: client.createdAt,
     };

@@ -45,14 +45,18 @@ const guestSchema = new mongoose.Schema({
     },
     bookedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
-        // required: [true, "Please enter user_id"],
+        ref: "UserAccount",
+        required: [true, "Please enter user_id"],
     },
     aditionalGuest: {
         type: [String],
     },
     reservationTags: {
         type: [String],
+    },
+    status: {
+        type: String,
+        enum: ["checkedIn", "checkedOut"],
     },
     notes: {
         type: String,

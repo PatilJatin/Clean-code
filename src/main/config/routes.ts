@@ -20,7 +20,6 @@ import { reservationTagCategoryRouter } from "@presentation/routes/reservation-t
 import { clientTagRouter } from "@presentation/routes/client-tag-route";
 import { reservationTagRouter } from "@presentation/routes/reservation-tag-route";
 import { type Express, Router } from "express";
-import { serverNameRouter } from "@presentation/routes/server-name-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -34,7 +33,9 @@ export default (app: Express): void => {
   app.use("/api/v1/outlet/media", mediaRoutes);
 
   app.use("/api/v1/people/user",userRouter)
+
   app.use("/api/v1/people/accessLevel",accessLevelRouter)
+
 
   app.use("/api/v1/people/bookedByName", bookedByNameRouter);
   app.use("/api/v1/people/serverName", serverNameRouter);
@@ -47,10 +48,10 @@ export default (app: Express): void => {
   app.use("/api/v1/superadmin", superAdminRouter);
   app.use("/api/v1/guests", guestRouter);
   app.use("/api/v1/clients", clientRouter);
-  app.use("/api/v1/clienttagcategory", clientTagCategoryRouter);
-  app.use("/api/v1/reservationtagcategory", reservationTagCategoryRouter);
-  app.use("/api/v1/clienttag", clientTagRouter);
-  app.use("/api/v1/reservationtag", reservationTagRouter);
+  app.use("/api/v1/clients/tag/category", clientTagCategoryRouter);
+  app.use("/api/v1/reservation/tag/category", reservationTagCategoryRouter);
+  app.use("/api/v1/clients/tag", clientTagRouter);
+  app.use("/api/v1/reservation/tag", reservationTagRouter);
   app.use(router);
 
 };
