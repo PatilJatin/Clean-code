@@ -42,7 +42,8 @@ bookedByNameRouter.post(
 )
 bookedByNameRouter.get(
   "/getName",bookedByNameService.getAllBookedByName.bind(bookedByNameService)
-    )
+)
+
  bookedByNameRouter.patch(
      "/update/:nameId",bookedByNameService.updateName.bind(bookedByNameService)
       )
