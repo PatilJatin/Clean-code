@@ -118,6 +118,9 @@ class ApiError extends ErrorClass {
   static brandLogoDeletionError(): ApiError {
     return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.BRAND_LOGO_DELETION_ERROR, "brandLogoDeletionError");
   }
+  static roleExist(): ApiError {
+    return new ApiError(HttpStatus.ROLECONFLICT, ErrorMessage.ROLE_CONFLICT, "conflictWithRole");
+  }
 }
 
 export default ApiError;
