@@ -12,7 +12,7 @@ export interface CreateAccessLevelUsecase {
     accessLevelData: AccessLevelModel ) => Promise<Either<ErrorClass, AccessLevelEntity>>;
 }
 
-export class CreateA implements CreateAccessLevelUsecase {
+export class CreateAccessLevel implements CreateAccessLevelUsecase {
   private readonly accessLevelRepository: AccessLevelRepository;
 
   constructor(accessLevelRepository: AccessLevelRepository) {
@@ -20,7 +20,9 @@ export class CreateA implements CreateAccessLevelUsecase {
   }
 
   async execute(accessLevelData: AccessLevelModel): Promise<Either<ErrorClass, AccessLevelEntity>> {
-    return await this.accessLevelRepository.create(outletData);
+
+    return await this.accessLevelRepository.createAccessLevel(accessLevelData);
+
   }
 }
 
