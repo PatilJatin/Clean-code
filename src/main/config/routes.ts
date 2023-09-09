@@ -14,10 +14,7 @@ import { reservationTagCategoryRouter } from "@presentation/routes/reservation-t
 import { clientTagRouter } from "@presentation/routes/client-tag-route";
 import { reservationTagRouter } from "@presentation/routes/reservation-tag-route";
 import { serverNameRouter } from "@presentation/routes/server-name-routes";
-
 import { type Express, Router } from "express";
-
-
 
 export default (app: Express): void => {
   const router = Router();
