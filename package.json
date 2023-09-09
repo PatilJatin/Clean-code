@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/main/server.js",
   "scripts": {
-    "build": "yarn tsc -p tsconfig-build.json",
+    "build": "yarn; yarn tsc -p tsconfig-build.json",
     "build:watch": "tsc -p tsconfig-build.json --watch",
     "start": "node dist/main/server.js",
     "dev": "yarn run build && nodemon -L --watch ./dist ./dist/main/server.js",
