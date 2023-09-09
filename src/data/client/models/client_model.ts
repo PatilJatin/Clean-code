@@ -3,11 +3,19 @@ import { array, boolean, string } from "joi";
 import mongoose from "mongoose";
 
 const clientSchema = new mongoose.Schema({
-    name: {
+    firstName: {
         type: String,
         maxlength: [30, "firstName name should have less than 30 charcters"],
         minLength: [3, "firstName name should have more than 3 character"],
         required: [true, "please enter first Name"],
+        // unique: true,
+        trim: true,
+    },
+    lastName: {
+        type: String,
+        maxlength: [30, "lastName name should have less than 30 charcters"],
+        minLength: [3, "lastName name should have more than 3 character"],
+        required: [true, "please enter last Name"],
         // unique: true,
         trim: true,
     },
