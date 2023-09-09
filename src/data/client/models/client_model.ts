@@ -110,6 +110,14 @@ const clientSchema = new mongoose.Schema({
     anniversaryDate: {
         type: Date,
     },
+    visits: {
+        type: Number,
+        default: 0,
+    },
+    spends:{
+        type: Number,
+        default: 0
+    },
     gender: {
         type: String,
         enum: ["Male", "Female", "Other"],
@@ -119,7 +127,6 @@ const clientSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
     }
-    
 });
 
 export const Client = mongoose.model("Client", clientSchema);
