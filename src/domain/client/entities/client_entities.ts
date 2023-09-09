@@ -1,7 +1,8 @@
 // Express API request populate the Client Model
 export class ClientModel {
   constructor(
-    public name: string = "",
+    public firstName: string = "",
+    public lastName: string = "",
     public salution: string = "",
     public jobTitle: string = "",
     public company: string = "",
@@ -28,7 +29,8 @@ export class ClientModel {
 export class ClientEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
-    public name: string = "",
+    public firstName: string = "",
+    public lastName: string = "",
     public salution: string = "",
     public jobTitle: string = "",
     public company: string = "",
@@ -61,7 +63,8 @@ export class ClientMapper {
     if (existingClient != null) {
       return {
         ...existingClient,
-        name: clientData.name !== undefined ? clientData.name : existingClient.name,
+        firstName: clientData.firstName !== undefined ? clientData.name : existingClient.firstName,
+        lastName: clientData.firstName !== undefined ? clientData.name : existingClient.firstName,
         salution: clientData.salution !== undefined ? clientData.salution : existingClient.salution,
         jobTitle: clientData.jobTitle !== undefined ? clientData.jobTitle : existingClient.jobTitle,
         company: clientData.company !== undefined ? clientData.company : existingClient.company,
@@ -87,7 +90,8 @@ export class ClientMapper {
     } else {
       const clientEntity: ClientEntity = {
         id: includeId ? (clientData._id ? clientData._id.toString() : undefined) : clientData._id.toString(),
-        name: clientData.name,
+        firstName: clientData.firstName,
+        lastName: clientData.lastName,
         salution: clientData.salution,
         jobTitle: clientData.jobTitle,
         company: clientData.company,
@@ -114,7 +118,8 @@ export class ClientMapper {
 
   static toModel(client: ClientEntity): any {
     return {
-      name: client.name,
+      firstName: client.firstName,
+      lastName: client.lastName,
       salution: client.salution,
       jobTitle: client.jobTitle,
       company: client.company,
