@@ -10,7 +10,7 @@ import { userRouter } from "@presentation/routes/user-route";
 import { reservationStatusRouter } from "@presentation/routes/reservation-status-routes";
 import { roomRouter } from "@presentation/routes/room-routes";
 import { seatingAreaRouter } from "@presentation/routes/seating-area-routes";
-
+import { serverNameRouter } from "@presentation/routes/server-name-routes";
 import { bookedByNameRouter } from "@presentation/routes/booked-by-name-routes";
 import { tableRouter } from "@presentation/routes/table-routes";
 import { guestRouter } from "@presentation/routes/guest-route";
