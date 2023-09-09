@@ -127,7 +127,6 @@ const clientSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
     }
-
 });
 
 export const Client = mongoose.model("Client", clientSchema);
