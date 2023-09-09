@@ -88,6 +88,13 @@ class ApiError extends ErrorClass {
   static emailExist(): ApiError {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CONFLICT, "conflict");
   }
+  static nameExist(): ApiError {
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.NAME_EXIST,
+      "nameExist"
+    );
+  }
 
   static internalError(): ApiError {
     return new ApiError(
