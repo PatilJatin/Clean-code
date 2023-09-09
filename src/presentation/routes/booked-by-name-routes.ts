@@ -38,10 +38,10 @@ export const bookedByNameRouter=Router()
 
 
 bookedByNameRouter.post(
-    "/addBookedByName",bookedByNameService.createBookedByName.bind(bookedByNameService)
+    "/addName",bookedByNameService.createBookedByName.bind(bookedByNameService)
 )
 bookedByNameRouter.get(
-  "/bookedByName",bookedByNameService.getAllBookedByName.bind(bookedByNameService)
+  "/getName",bookedByNameService.getAllBookedByName.bind(bookedByNameService)
     )
  bookedByNameRouter.patch(
      "/update/:nameId",bookedByNameService.updateName.bind(bookedByNameService)
