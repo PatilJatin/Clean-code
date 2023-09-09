@@ -122,6 +122,10 @@ class ApiError extends ErrorClass {
   static overlappingShift(): ApiError {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.OVERLAPPING_SHIFT, "Overlapping");
   }
+
+  static overlappingBlackoutDate(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.OVERLAPPING_DATE , "dateoverlap");
+  }
 }
 
 export default ApiError;

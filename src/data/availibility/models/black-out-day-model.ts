@@ -1,11 +1,21 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, { Schema, Model } from 'mongoose';
 import { IBlackoutDay } from 'types/availibility/black-out-type';
 
-
+const blackoutTypeSchema = new mongoose.Schema({
+  reservation: {
+    type: Boolean,
+    default: false,
+  },
+  guestList: {
+    type: Boolean,
+    default: false,
+    
+  },
+}, { _id: false }); 
 
 const blackoutSchema: Schema<IBlackoutDay> = new Schema<IBlackoutDay>({
   date: {
-    type: Date,
+    type: String,
     required: true,
     unique: true,
   },
@@ -18,15 +28,8 @@ const blackoutSchema: Schema<IBlackoutDay> = new Schema<IBlackoutDay>({
     required: true,
   },
   blackout: {
-    reservation: {
-      type: Boolean,
-      default: false,
-    },
-    guestList: {
-      type: Boolean,
-      default: false,
-      
-    },
+   type: blackoutTypeSchema,
+   required: false
   },
 });
 

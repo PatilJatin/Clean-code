@@ -32,4 +32,6 @@ export const BRAND_LOGO_DELETION_ERROR = "unable to delete brand logo";
 
 export const OVERLAPPING_SHIFT = "Overlapping shift already exists";
 
+export const OVERLAPPING_DATE = "You have already added that date";
+
 

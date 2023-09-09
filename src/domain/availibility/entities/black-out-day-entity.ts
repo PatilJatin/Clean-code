@@ -2,7 +2,7 @@
 
 export class BlackoutDayModel {
     constructor(
-      public date: Date = new Date(),
+      public date: string = "",
       public day: string = "",
       public description: string = "",
       public blackout: {
@@ -18,7 +18,7 @@ export class BlackoutDayModel {
   export class BlackoutDayEntity {
     constructor(
       public id: string | undefined = undefined,
-      public date: Date,
+      public date: string,
       public day: string,
       public description: string,
       public blackout: {
@@ -39,8 +39,8 @@ export class BlackoutDayModel {
         return {
           ...existingBlackoutDay,
           date:
-            blackoutData.Date !== undefined
-              ? new Date(blackoutData.date)
+            blackoutData.date !== undefined
+              ? blackoutData.date
               : existingBlackoutDay.date,
           day:
             blackoutData.day !== undefined ? blackoutData.day : existingBlackoutDay.day,
@@ -66,7 +66,7 @@ export class BlackoutDayModel {
               ? blackoutData._id.toString()
               : undefined
             : undefined,
-          date: new Date(blackoutData.date),
+          date: blackoutData.date,
           day: blackoutData.day,
           description: blackoutData.description,
           blackout: {

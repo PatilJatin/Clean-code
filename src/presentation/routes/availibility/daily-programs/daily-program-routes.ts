@@ -40,7 +40,7 @@ const programScheduleService = new ProgramScheduleService(
 export const programScheduleRouter = Router();
 
 // Route handling for creating a new admin
-programScheduleRouter.post("/create", validateShiftInputMiddleware, programScheduleService.createProgramSchedule.bind(programScheduleService));
+programScheduleRouter.post("/create", programScheduleService.createProgramSchedule.bind(programScheduleService));
 
 // Route handling for updating an shift by ID
 programScheduleRouter.put("/update/:programId",programScheduleService.updateProgramSchedule.bind(programScheduleService));

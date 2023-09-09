@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 
  
  export interface IBlackoutDay extends Document {
-    date: Date;
+    date: string;
     day: string;
     description: string;
     blackout: {

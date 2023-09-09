@@ -50,47 +50,103 @@ export class ShiftService {
 
   async updateShift(req: Request, res: Response): Promise<void> {
     const shiftId: string = req.params.shiftId;
-    const shiftData: ShiftModel = req.body;
+    const action: string = req.params.action;
+    const shiftData = req.body;
 
+    
     // Get the existing shift by ID
-    const existingShift: Either<ErrorClass, ShiftEntity> =
-      await this.getShiftByIdUsecase.execute(shiftId);
 
-     
 
+      let query = {};
+
+      if (action === 'override') {
+        // For "override just this day"
+        query = { _id: shiftId /* Add a date filter as needed */ };
+
+        const specificDate: Date = new Date(shiftData.startDate);
+
+        const existingShift: Either<ErrorClass, ShiftEntity> =
+        await this.getShiftByIdUsecase.execute(shiftId);
+
+         
       existingShift.cata(
-      (error: ErrorClass) => {
-        res.status(error.status).json({ error: error.message });
-      },
-      async (result: ShiftEntity) => {
-        const resData = ShiftMapper.toEntity(result, true);
-        const updatedShiftEntity: ShiftEntity = ShiftMapper.toEntity(
-          shiftData,
-          true,
-          resData
-        );
+        (error: ErrorClass) => {
+          res.status(error.status).json({ error: error.message });
+        },
+        async (result: ShiftEntity) => {
 
-        res.json(updatedShiftEntity);
-       
+          const startDate: Date = new Date(result.startDate);
 
-        // Call the UpdateAdminUsecase to update the admin
-        // const updatedShift: Either<ErrorClass, ShiftEntity> =
-        //   await this.updateShiftUsecase.execute(shiftId, updatedShiftEntity);
+          const endDate: Date | null = result.endDate ? new Date(result.endDate) : null;
+          if (!endDate || (specificDate >= startDate && specificDate <= endDate)) {
+            // Calculate the day of the week for the specific date
+            const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const specificDayOfWeek: string = daysOfWeek[specificDate.getDay()];
 
-        // updatedShift.cata(
-        //   (error: ErrorClass) => {
-        //     res.status(error.status).json({ error: error.message });
-        //   },
-        //   (response: ShiftEntity) => {
-        //     // Convert updatedShift from AdminEntity to plain JSON object using AdminMapper
-        //     const responseData = ShiftMapper.toModel(response);
+    
+            // Check if the specific day matches the expected day for the override
+            if (result.daysToRepeatThisShift.includes(specificDayOfWeek)) {
+              // Update the shift for the specific date
+              const updatedShiftEntity: any = {
+                ...result,
+                ...shiftData
+              };
 
-        //     // Send the updated admin as a JSON response
-        //     res.json(responseData);
-        //   }
-        // );
+              const responseData = ShiftMapper.toModel(updatedShiftEntity);
+    
+              // Save the updated shift
+              // const updatedShift: any = await this.updateShiftUsecase.execute(shiftId, responseData);
+              // console.log(updatedShift);
+
+              // Send the updated shift as a JSON response
+              res.json(responseData);
+              return;
+            }
+            res.status(400).json({ error: 'Invalid date or day for override' });
+            return;
+          }
+          // const resData = ShiftMapper.toEntity(result, true);
+          // const updatedShiftEntity: any = ShiftMapper.toEntity(
+          //   shiftData,
+          //   true,
+          //   resData
+          // );
+  
+          // res.json(updatedShiftEntity);
+         
+          // const updatedShift: Either<ErrorClass, ShiftEntity> =
+          //   await this.updateShiftUsecase.execute(shiftId, updatedShiftEntity);
+  
+          // updatedShift.cata(
+          //   (error: ErrorClass) => {
+          //     res.status(error.status).json({ error: error.message });
+          //   },
+          //   (response: ShiftEntity) => {
+          //     // Convert updatedShift from AdminEntity to plain JSON object using AdminMapper
+          //     const responseData = ShiftMapper.toModel(response);
+  
+          //     // Send the updated admin as a JSON response
+          //     res.json(responseData);
+          //   }
+          // );
+        }
+      );
+
+
+      } else if (action === 'edit-following') {
+        // For "edit following days"
+        query = { 
+          _id: shiftId,
+          startDate: { $gte: new Date() } // Filter for future dates
+        };
+      } else if (action === 'edit-all') {
+        // For "edit all days"
+        query = { _id: shiftId };
+      } else {
+         res.status(400).json({ error: 'Invalid action' });
       }
-    );
+  
+
   }
 
 

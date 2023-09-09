@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 
 import { ErrorClass } from "@presentation/error-handling/api-error";
 import { Either } from "monet";
-import { ProgramScheduleEntity, ProgramScheduleMapper, ProgramScheduleModel } from "@domain/availibility/entities/daily-program-entity";
 import { CreateBlackouDayUsecase } from "@domain/availibility/usecases/black-out-day/create-usecase";
 import { UpdateBlackouDayUsecase } from "@domain/availibility/usecases/black-out-day/update-usecase";
 import { DeleteBlackouDayUsecase } from "@domain/availibility/usecases/black-out-day/delete-usecase";

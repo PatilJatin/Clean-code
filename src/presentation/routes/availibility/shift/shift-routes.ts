@@ -40,10 +40,10 @@ const shiftService = new ShiftService(
 export const shiftRouter = Router();
 
 // Route handling for creating a new admin
-shiftRouter.post("/create", validateShiftInputMiddleware, shiftService.createShift.bind(shiftService));
+shiftRouter.post("/create", shiftService.createShift.bind(shiftService));
 
 // Route handling for updating an shift by ID
-shiftRouter.put("/update/:shiftId",shiftService.updateShift.bind(shiftService));
+shiftRouter.put("/update/:shiftId/:action", shiftService.updateShift.bind(shiftService));
 
 // Route handling for getting an shift by ID
 shiftRouter.get("/getbyid/:shiftId",shiftService.getShiftById.bind(shiftService));

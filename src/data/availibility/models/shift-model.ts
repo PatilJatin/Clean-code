@@ -16,7 +16,26 @@ const durationAverageTurnTimeSchema = new mongoose.Schema({
   },
 }, { _id: false }); 
 
+const timeCutOffSchema = new mongoose.Schema({
+      value: { type: Number },
+      unit: {
+        type: String,
+        enum: ['Indefinitely', 'HoursInAdvance', 'DaysInAdvance', 'WeeksInAdvance', 'MonthsInAdvance'],
+        default: 'Indefinitely',
+      },
+      reservationTime: String
+  
+}, { _id: false }); 
 
+const howFarInAdvanceCanReservationsBeBookedInternallySchema = new mongoose.Schema({
+    value: { type: Number },
+    unit: {
+      type: String,
+      enum: ['Indefinitely', 'HoursInAdvance', 'DaysInAdvance', 'WeeksInAdvance', 'MonthsInAdvance'],
+      default: 'Indefinitely',
+    },
+    reservationTime: String
+}, { _id: false }); 
 
 // Define the schema
 const shiftPropertySchema = new Schema<IShiftProperty>({
@@ -31,11 +50,11 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     required: true,
   },
   startDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   endDate: {
-    type: Date,
+    type: String,
     default: null, // Use null as a default value for indefinite end date
   },
   daysToRepeatThisShift: {
@@ -44,11 +63,11 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     default: [],
   },  
   firstSeating: {
-    type: Date,
+    type: String,
     required: true,
   },
   lastSeating: {
-    type: Date,
+    type: String,
     required: true,
   },
   timeInterval: {
@@ -72,15 +91,7 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     default: [],
   },
   howFarInAdvanceCanReservationsBeBookedInternally: {
-      type: {
-        value: { type: Number },
-        unit: {
-          type: String,
-          enum: ['Indefinitely', 'HoursInAdvance', 'DaysInAdvance', 'WeeksInAdvance', 'MonthsInAdvance'],
-          default: 'Indefinitely',
-        },
-        reservationTime: String
-      },
+      type: howFarInAdvanceCanReservationsBeBookedInternallySchema
   },
   partySizeMin: {
     type: Number,
@@ -115,17 +126,11 @@ const shiftPropertySchema = new Schema<IShiftProperty>({
     enum: ['At Any Time', 'Never', 'Up Until Cut-off Time'],
     default: 'At Any Time',
   },
+
   timeBeforeCutOff: {
-    type: {
-      value: { type: Number },
-      unit: {
-        type: String,
-        enum: ['Indefinitely', 'HoursInAdvance', 'DaysInAdvance', 'WeeksInAdvance', 'MonthsInAdvance'],
-        default: 'Indefinitely',
-      },
-      reservationTime: String
-    },
-  },
+    type: timeCutOffSchema,
+  }, 
+
   bookingPolicy: {
     type: String,
     enum: ['Default Booking Policy', 'Custom Policy'],

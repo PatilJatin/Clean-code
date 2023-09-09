@@ -23,7 +23,7 @@ export class BlackoutDayRepositoryImpl implements BlackoutDayRepository {
       return Right<ErrorClass, BlackoutDayEntity>(newBlackoutDay);
     } catch (error) {
       if (error instanceof ApiError && error.status === 409) {
-        return Left<ErrorClass, BlackoutDayEntity>(ApiError.overlappingShift());
+        return Left<ErrorClass, BlackoutDayEntity>(ApiError.overlappingBlackoutDate());
       }
       return Left<ErrorClass, BlackoutDayEntity>(ApiError.badRequest());
     }

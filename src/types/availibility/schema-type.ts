@@ -5,11 +5,11 @@ import { Document } from 'mongoose';
 export interface IShiftProperty extends Document {
   shiftName: string;
   shiftCategory: 'breakfast' | 'brunch' | 'lunch' | 'day' | 'dinner' | 'night';
-  startDate: Date;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string | null;
   daysToRepeatThisShift: string[];
-  firstSeating: Date;
-  lastSeating: Date;
+  firstSeating: string;
+  lastSeating: string;
   timeInterval: 15 | 30 | 60;
   floorPlanLayout: string;
   seatingAreasAvailable: ('Restaurant' | 'Bar' | 'SushiBar' | 'Prive' | 'PriveBar')[];
@@ -42,11 +42,11 @@ export interface IShiftProperty extends Document {
 export interface IShift {
   shiftName: string;
   shiftCategory: 'breakfast' | 'brunch' | 'lunch' | 'day' | 'dinner' | 'night';
-  startDate: Date;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string | null;
   daysToRepeatThisShift: string[];
-  firstSeating: Date;
-  lastSeating: Date;
+  firstSeating: string;
+  lastSeating: string;
   timeInterval: 15 | 30 | 60;
   floorPlanLayout: string;
   seatingAreasAvailable: ('Restaurant' | 'Bar' | 'SushiBar' | 'Prive' | 'PriveBar')[];
