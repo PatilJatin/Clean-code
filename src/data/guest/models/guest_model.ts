@@ -45,8 +45,8 @@ const guestSchema = new mongoose.Schema({
     },
     bookedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
-        // required: [true, "Please enter user_id"],
+        // ref: "UsersAccount",
+        required: [true, "Please enter user_id"],
     },
     aditionalGuest: {
         type: [String],
