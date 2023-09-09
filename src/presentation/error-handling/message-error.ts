@@ -32,4 +32,6 @@ export const BRAND_LOGO_DELETION_ERROR = "unable to delete brand logo";
 
 export const ROLE_CONFLICT="role is already exist"
 
+export const NAME_EXIST="name already exists";
+
 
