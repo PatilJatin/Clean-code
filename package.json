@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/main/server.js",
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "build": "tsc -p tsconfig-build.json",
     "build:watch": "tsc -p tsconfig-build.json --watch",
     "start": "node dist/main/server.js",
     "dev": "yarn run build && nodemon -L --watch ./dist ./dist/main/server.js",
@@ -16,7 +16,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=18.17"
+    "node": ">=18.16"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
