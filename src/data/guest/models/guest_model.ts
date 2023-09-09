@@ -45,7 +45,7 @@ const guestSchema = new mongoose.Schema({
     },
     bookedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        // ref: "UsersAccount",
+        ref: "UserAccount",
         required: [true, "Please enter user_id"],
     },
     aditionalGuest: {
@@ -53,6 +53,10 @@ const guestSchema = new mongoose.Schema({
     },
     reservationTags: {
         type: [String],
+    },
+    status: {
+        type: String,
+        enum: ["checkedIn", "checkedOut"],
     },
     notes: {
         type: String,

@@ -74,7 +74,7 @@ const clientSchema = new mongoose.Schema({
             "Phone Number should have 13 charcters included country code",
         ],
         minLength: [
-            13,
+            10,
             "Phone Number should have 13 charcters included country code",
         ],
         // required: [true, "please enter  Phone Number"],
@@ -105,6 +105,9 @@ const clientSchema = new mongoose.Schema({
         default: false,
     },
     birthDate: {
+        type: Date,
+    },
+    anniversaryDate: {
         type: Date,
     },
     gender: {
