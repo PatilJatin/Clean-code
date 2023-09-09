@@ -1,3 +1,4 @@
+import { accessLevelRouter } from "@presentation/routes/access-level-route";
 import { adminRouter } from "@presentation/routes/admin-routes";
 import { mediaRoutes } from "@presentation/routes/outlet-mediasource-routes";
 import { outletRouter } from "@presentation/routes/outlet-routes";
@@ -20,4 +21,5 @@ export default (app: Express): void => {
   app.use("/api/v1/superadmin", superAdminRouter);
 
   app.use("/api/v1/people/user",userRouter)
+  app.use("/api/v1/people/accessLevel",accessLevelRouter)
 };
