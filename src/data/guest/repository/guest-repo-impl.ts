@@ -62,6 +62,7 @@ export class GuestRepositoryImpl implements GuestRepository {
         }
       }
     
+      
       async getGuestbyId(id: string): Promise<Either<ErrorClass, GuestEntity>> {
         // return await this.dataSource.read(id);
         try {

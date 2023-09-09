@@ -21,7 +21,6 @@ import { clientTagRouter } from "@presentation/routes/client-tag-route";
 import { reservationTagRouter } from "@presentation/routes/reservation-tag-route";
 import { serverNameRouter } from "@presentation/routes/server-name-routes";
 import { type Express, Router } from "express";
-import { serverNameRouter } from "@presentation/routes/server-name-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -47,9 +46,9 @@ export default (app: Express): void => {
   app.use("/api/v1/superadmin", superAdminRouter);
   app.use("/api/v1/guests", guestRouter);
   app.use("/api/v1/clients", clientRouter);
-  app.use("/api/v1/clienttagcategory", clientTagCategoryRouter);
-  app.use("/api/v1/reservationtagcategory", reservationTagCategoryRouter);
-  app.use("/api/v1/clienttag", clientTagRouter);
-  app.use("/api/v1/reservationtag", reservationTagRouter);
+  app.use("/api/v1/clients/tag/category", clientTagCategoryRouter);
+  app.use("/api/v1/reservation/tag/category", reservationTagCategoryRouter);
+  app.use("/api/v1/clients/tag", clientTagRouter);
+  app.use("/api/v1/reservation/tag", reservationTagRouter);
   app.use(router);
 };
