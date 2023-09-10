@@ -6,6 +6,7 @@ import ApiError from "@presentation/error-handling/api-error";
 
 export interface AccessLevelDataSource {
     create(accessLevel: AccessLevelModel): Promise<any>;
+    getAll():Promise<any[]>
 }
 
 export class AccessLevelSourceImpl implements AccessLevelDataSource {
@@ -25,6 +26,16 @@ export class AccessLevelSourceImpl implements AccessLevelDataSource {
 
       return createdAccessLevel.toObject();
   
-     
+    }
+    async getAll():Promise<any[]>{
+         try{
+          const accessLevel=await AccessLevel.find()
+          return accessLevel.map((accessLevel)=>accessLevel.toObject())
+
+         }
+         catch(err){
+          throw ApiError.notFound()
+         }
+
     }
 }

@@ -24,4 +24,14 @@ export class AccessLevelRepositoryImpl implements AccessLevelRepository {
         return Left<ErrorClass, AccessLevelEntity>(ApiError.badRequest());
       }
     }
+    async getAccessLevel():Promise<Either<ErrorClass,AccessLevelEntity[]>>{
+      try{
+        const response = await this.accesseLevelDataSource.getAll();
+        return Right<ErrorClass, AccessLevelEntity[]>(response);
+      }
+      catch(error){
+        return Left<ErrorClass, AccessLevelEntity[]>(ApiError.badRequest());
+      
+      }
+    }
 }
