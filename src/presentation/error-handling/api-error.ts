@@ -95,6 +95,14 @@ class ApiError extends ErrorClass {
       "nameExist"
     );
   }
+  static taxTypeExist(): ApiError {
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.TAX_TYPE_EXIST,
+      "taxTypeExist"
+    );
+  }
+
 
   static internalError(): ApiError {
     return new ApiError(

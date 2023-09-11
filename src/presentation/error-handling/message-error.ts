@@ -34,4 +34,4 @@ export const ROLE_CONFLICT="role is already exist"
 
 export const NAME_EXIST="name already exists";
 
-
+export const TAX_TYPE_EXIST="tax type already exists";
