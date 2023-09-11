@@ -128,6 +128,15 @@ class ApiError extends ErrorClass {
   static roleExist(): ApiError {
     return new ApiError(HttpStatus.ROLECONFLICT, ErrorMessage.ROLE_CONFLICT, "conflictWithRole");
   }
+  static clientExist(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CONFLICT, "conflict");
+  }
+  static clienttagExist(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CONFLICT, "conflict");
+  }
+  static guestExist(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CONFLICT, "conflict");
+  }
 }
 
 export default ApiError;
