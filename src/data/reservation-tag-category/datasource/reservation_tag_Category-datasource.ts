@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
-import { ReservationTagCategoryModel } from "@domain/reservation-tag-category/entities/reservation_tag_category_entities"; // Import the TagCategoryModel
+import { ReservationTagCategoryModel } from "@domain/reservation-tag-category/entities/reservation_tag_category_entities";
 import { ReservationTagCategory } from "../models/reservation_tag_category_model";
 import ApiError from "@presentation/error-handling/api-error";
 
-// Create reservationTagCategoryDataSource Interface
 export interface ReservationTagCategoryDataSource {
     create(reservationTagCategory: ReservationTagCategoryModel): Promise<any>;
     update(id: string, reservationTagCategory: ReservationTagCategoryModel): Promise<any>;
@@ -12,38 +11,57 @@ export interface ReservationTagCategoryDataSource {
     getAll(): Promise<any[]>;
 }
 
-// reservationTagCategory Data Source communicates with the database
 export class ReservationTagCategoryDataSourceImpl implements ReservationTagCategoryDataSource {
     constructor(private db: mongoose.Connection) { }
 
     async create(reservationTagCategory: ReservationTagCategoryModel): Promise<any> {
-        const existingReservationTagCategory = await ReservationTagCategory.findOne({ name: reservationTagCategory.name });
-        if (existingReservationTagCategory) {
-            throw ApiError.emailExist();
+        try {
+            const existingReservationTagCategory = await ReservationTagCategory.findOne({ name: reservationTagCategory.name });
+            if (existingReservationTagCategory) {
+                throw ApiError.emailExist();
+            }
+            const reservationTagCategoryData = new ReservationTagCategory(reservationTagCategory);
+            const createdReservationTagCategory = await reservationTagCategoryData.save();
+            return createdReservationTagCategory.toObject();
+        } catch (error) {
+            throw ApiError.badRequest();
         }
-        const reservationTagCategoryData = new ReservationTagCategory(reservationTagCategory);
-        const createdReservationTagCategory = await reservationTagCategoryData.save();
-        return createdReservationTagCategory.toObject();
     }
 
     async delete(id: string): Promise<void> {
-        await ReservationTagCategory.findByIdAndDelete(id);
+        try {
+            await ReservationTagCategory.findByIdAndDelete(id);
+        } catch (error) {
+            throw ApiError.badRequest();
+        }
     }
 
     async read(id: string): Promise<any | null> {
-        const reservationTagCategory = await ReservationTagCategory.findById(id);
-        return reservationTagCategory ? reservationTagCategory.toObject() : null; // Convert to a plain JavaScript object before returning
+        try {
+            const reservationTagCategory = await ReservationTagCategory.findById(id);
+            return reservationTagCategory ? reservationTagCategory.toObject() : null;
+        } catch (error) {
+            throw ApiError.badRequest();
+        }
     }
 
     async getAll(): Promise<any[]> {
-        const reservationTagCategories = await ReservationTagCategory.find();
-        return reservationTagCategories.map((reservationTagCategory) => reservationTagCategory.toObject()); // Convert to plain JavaScript objects before returning
+        try {
+            const reservationTagCategories = await ReservationTagCategory.find();
+            return reservationTagCategories.map((reservationTagCategory) => reservationTagCategory.toObject());
+        } catch (error) {
+            throw ApiError.badRequest();
+        }
     }
 
     async update(id: string, reservationTagCategory: ReservationTagCategoryModel): Promise<any> {
-        const updatedReservationTagCategory = await ReservationTagCategory.findByIdAndUpdate(id, reservationTagCategory, {
-            new: true,
-        }); // No need for conversion here
-        return updatedReservationTagCategory ? updatedReservationTagCategory.toObject() : null; // Convert to a plain JavaScript object before returning
+        try {
+            const updatedReservationTagCategory = await ReservationTagCategory.findByIdAndUpdate(id, reservationTagCategory, {
+                new: true,
+            });
+            return updatedReservationTagCategory ? updatedReservationTagCategory.toObject() : null;
+        } catch (error) {
+            throw ApiError.badRequest();
+        }
     }
 }
